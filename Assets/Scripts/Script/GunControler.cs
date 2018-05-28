@@ -8,38 +8,38 @@ public class GunControler : MonoBehaviour
     public float timeBetweenShots;
     private float shotCounter;
     private PhotonView myView;
-    private RotatePlayer rp;
+    private Animator anim;
     public Transform firepoint;
 
+    #region Unity.MonoBehaviour Callbacks
     private void Start()
     {
+        anim = GetComponent<Animator>();
         myView = GetComponent<PhotonView>();
-        rp = GetComponent<RotatePlayer>();
     }
 
     private void Update()
     {
+        shotCounter -= Time.deltaTime;
         if (Input.GetMouseButton(0) && myView.isMine)
         {
-            shotCounter -= Time.deltaTime;
             if (shotCounter <= 0f)
             {
+                Debug.Log(shotCounter);
                 shotCounter = timeBetweenShots;
-                Vector3 lookAkRotation = new Vector3(rp.PointToLook.x, firepoint.position.y, rp.PointToLook.z);
-                myView.RPC("Fire", PhotonTargets.AllViaServer, firepoint.position, Quaternion.LookRotation(lookAkRotation, Vector3.forward));
+                // myView.RPC("Fire", PhotonTargets.AllViaServer, firepoint.position, transform.rotation);
             }
         }
-        else
-        {
-            shotCounter = 0f;
-        }
     }
+    #endregion
 
+    #region PunRPC
     [PunRPC]
     public void Fire(Vector3 pos, Quaternion dir)
     {
+        anim.SetTrigger("shoot");
         GameObject newBullet = Instantiate(Resources.Load("Bullet"), pos, dir) as GameObject;
-        // newBullet.transform.Rotate(dir.eulerAngles, Space.World);
-        newBullet.GetComponent<Rigidbody>().velocity = newBullet.transform.forward * 12f;
+        newBullet.GetComponent<Rigidbody>().velocity = newBullet.transform.forward * bulletSpeed;
     }
+    #endregion
 }

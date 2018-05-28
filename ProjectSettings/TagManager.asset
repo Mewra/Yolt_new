@@ -10,6 +10,8 @@ TagManager:
   - Support
   - Assassin
   - Tank
+  - Door
+  - Choose
   layers:
   - Default
   - TransparentFX

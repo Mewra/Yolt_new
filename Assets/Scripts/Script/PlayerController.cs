@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour {
 
     private GameObject GameManager;
 
-    public Camera cam;
+    private Camera cam;
     private static float _lùth;
     private float _maxlùth;
     private bool lùthfinito;
@@ -49,35 +49,45 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        state = CLASSES.player;
-        actual = player;
+        if(GetComponent<PhotonView>().isMine)
+        {
+            cam = Camera.main;
+            state = CLASSES.player;
+            actual = player;
+            transfPanel = GameObject.FindGameObjectWithTag("Choose");
+            _asbtn = transfPanel.transform.GetChild(0).GetComponent<Button>();
+            _tankbtn = transfPanel.transform.GetChild(1).GetComponent<Button>();
+            _supbtn = transfPanel.transform.GetChild(2).GetComponent<Button>();
+            transfPanel.SetActive(false);
 
-        transfPanel.SetActive(false);
 
-        clickingPlayer = false;
-        alive = true;
-        //transformable = false;
-        transformable = true;
-        resurrection = false;
 
-        lùthfinito = false;
+            clickingPlayer = false;
+            alive = true;
+            //transformable = false;
+            transformable = true;
+            resurrection = false;
 
-        _lùth = 0;
-        _maxlùth = 100;
+            lùthfinito = false;
 
-        //_gameManager = GameManager.GetComponent<GameManager>();
+            _lùth = 0;
+            _maxlùth = 100;
 
-        
+            //_gameManager = GameManager.GetComponent<GameManager>();
 
-        //0 è libero, 1 è occupato. x = Assassin, y = Support, z = Tank;
-        //new Vector3(0,0,0)
-        //
-        _Slots = new bool[3];
 
-        for (int i = 0; i < 3; i++)
-            _Slots[i] = true;
 
-        _playerHealth = GetComponent<Health>();
+            //0 è libero, 1 è occupato. x = Assassin, y = Support, z = Tank;
+            //new Vector3(0,0,0)
+            //
+            _Slots = new bool[3];
+
+            for (int i = 0; i < 3; i++)
+                _Slots[i] = true;
+
+            _playerHealth = GetComponent<Health>();
+        }
+
         
 		
 	}
@@ -85,158 +95,167 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        Ray pos = cam.ScreenPointToRay(Input.mousePosition);
-        Debug.DrawRay(pos.origin, pos.direction * 30, Color.yellow, 1);
-        RaycastHit hit;
-
-        if (Physics.Raycast(pos, out hit))
+        if (GetComponent<PhotonView>().isMine)
         {
-            /*bas = hit.collider.bounds.center;
-            bas.y = 0;*/
+            Ray pos = cam.ScreenPointToRay(Input.mousePosition);
+            Debug.DrawRay(pos.origin, pos.direction * 30, Color.yellow, 1);
+            RaycastHit hit;
 
-            if (hit.collider.gameObject.tag == "Player")
+            if (Physics.Raycast(pos, out hit))
             {
-                other = hit.collider.gameObject;
-                clickingPlayer = true;
+                /*bas = hit.collider.bounds.center;
+                bas.y = 0;*/
+
+                if (hit.collider.gameObject.tag == "Player")
+                {
+                    Debug.Log("sono sul player, dio cammello berbero");
+                    other = hit.collider.gameObject;
+                    clickingPlayer = true;
+                }
+                else
+                {
+                    clickingPlayer = false;
+                }
+
+
+
             }
-            else {
-                clickingPlayer = false;
-            }
-
-            
-
-        }
 
 
-        switch ((int)state) {
-
-            case 0:{
-                    Debug.Log("Sono un player");
-                    actual.SetActive(false);
-                    player.SetActive(true);
-
-
-                    //UI DEL PLAYER
-
-
-
-
-                    /*player.SetActive(true);
-                    ghost.SetActive(false);
-                    assassin.SetActive(false);
-                    tank.SetActive(false);
-                    support.SetActive(false);*/
-
-                    break;
-                }
-            case 1: {
-                    Debug.Log("Sono un ghost");
-                    actual.SetActive(false);
-                    ghost.SetActive(true);
-
-                    
-
-                    //UI DEL GHOST
-
-
-                    /*player.SetActive(false);
-                    ghost.SetActive(true);
-                    assassin.SetActive(false);
-                    tank.SetActive(false);
-                    support.SetActive(false);*/
-
-                    break;
-                }
-
-            case 2:
-                {
-                    actual.SetActive(false);
-                    assassin.SetActive(true);
-                    Debug.Log("Sono un assassino");
-
-
-                    //UI DELLA CLASSE
-
-
-
-                    /*player.SetActive(false);
-                    ghost.SetActive(false);
-                    assassin.SetActive(true);
-                    tank.SetActive(false);
-                    support.SetActive(false);*/
-
-                    break;
-                }
-            case 3:
-                {
-                    actual.SetActive(false);
-                    tank.SetActive(true);
-                    Debug.Log("Sono un tank");
-                    /*player.SetActive(false);
-                    ghost.SetActive(false);
-                    assassin.SetActive(false);
-                    tank.SetActive(true);
-                    support.SetActive(false);*/
-
-                    break;
-                }
-            case 4:
-                {
-                    actual.SetActive(false);
-                    support.SetActive(true);
-                    Debug.Log("Sono un support");
-                    /*player.SetActive(false);
-                    ghost.SetActive(true);
-                    assassin.SetActive(false);
-                    tank.SetActive(false);
-                    support.SetActive(false);*/
-
-                    break;
-                }
-
-        }
-
-
-
-        
-
-        if (_playerHealth._health == 0)
-        {
-            tag = "Ghost";
-            alive = false;
-            state = CLASSES.ghost;
-            //change the model in the ghost
-
-        }
-
-        if (_lùth != _maxlùth) {
-            //transformable = false;
-            transformable = true;
-        }
-
-
-        if (resurrection) {
-
-            _playerHealth._health = 100; //maxhealth
-            tag = "Player";
-            alive = true;
-            resurrection = false;
-            //change the model in the player
-
-        }
-
-
-
-        if (transformable && clickingPlayer) {
-            
-            if (Input.GetMouseButtonDown(0))
+            switch ((int)state)
             {
-                _asbtn.interactable = _Slots[0];
-                _tankbtn.interactable = _Slots[1];
-                _supbtn.interactable = _Slots[2];
 
-                transfPanel.SetActive(true);
+                case 0:
+                    {
+                        actual.SetActive(false);
+                        player.SetActive(true);
+
+
+                        //UI DEL PLAYER
+
+
+
+
+                        /*player.SetActive(true);
+                        ghost.SetActive(false);
+                        assassin.SetActive(false);
+                        tank.SetActive(false);
+                        support.SetActive(false);*/
+
+                        break;
+                    }
+                case 1:
+                    {
+                        Debug.Log("Sono un ghost");
+                        actual.SetActive(false);
+                        ghost.SetActive(true);
+
+
+
+                        //UI DEL GHOST
+
+
+                        /*player.SetActive(false);
+                        ghost.SetActive(true);
+                        assassin.SetActive(false);
+                        tank.SetActive(false);
+                        support.SetActive(false);*/
+
+                        break;
+                    }
+
+                case 2:
+                    {
+                        actual.SetActive(false);
+                        assassin.SetActive(true);
+                        Debug.Log("Sono un assassino");
+
+
+                        //UI DELLA CLASSE
+
+
+
+                        /*player.SetActive(false);
+                        ghost.SetActive(false);
+                        assassin.SetActive(true);
+                        tank.SetActive(false);
+                        support.SetActive(false);*/
+
+                        break;
+                    }
+                case 3:
+                    {
+                        actual.SetActive(false);
+                        tank.SetActive(true);
+                        Debug.Log("Sono un tank");
+                        /*player.SetActive(false);
+                        ghost.SetActive(false);
+                        assassin.SetActive(false);
+                        tank.SetActive(true);
+                        support.SetActive(false);*/
+
+                        break;
+                    }
+                case 4:
+                    {
+                        actual.SetActive(false);
+                        support.SetActive(true);
+                        Debug.Log("Sono un support");
+                        /*player.SetActive(false);
+                        ghost.SetActive(true);
+                        assassin.SetActive(false);
+                        tank.SetActive(false);
+                        support.SetActive(false);*/
+
+                        break;
+                    }
+
             }
+
+
+
+
+
+            if (_playerHealth._health == 0 && GetComponent<PhotonView>().isMine)
+            {
+                tag = "Ghost";
+                alive = false;
+                state = CLASSES.ghost;
+                //change the model in the ghost
+
+            }
+
+            if (_lùth != _maxlùth)
+            {
+                //transformable = false;
+                transformable = true;
+            }
+
+
+            if (resurrection)
+            {
+
+                _playerHealth._health = 100; //maxhealth
+                tag = "Player";
+                alive = true;
+                resurrection = false;
+                //change the model in the player
+
+            }
+
+
+
+            if (transformable && clickingPlayer)
+            {
+
+                if (Input.GetMouseButtonDown(0))
+                {
+                    _asbtn.interactable = _Slots[0];
+                    _tankbtn.interactable = _Slots[1];
+                    _supbtn.interactable = _Slots[2];
+
+                    transfPanel.SetActive(true);
+                }
 
                 //canvas con i bottoni
 
@@ -254,7 +273,9 @@ public class PlayerController : MonoBehaviour {
                  * 
                  * 
                 */
+            }
         }
+       
 		
 	}
 

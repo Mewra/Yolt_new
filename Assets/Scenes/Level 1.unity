@@ -140,6 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9aa675c0dad77745a71ef5ae90d9342, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefab: {fileID: 1357809608692244, guid: 9be1b60611349cd42910ba4b71e39c86, type: 2}
 --- !u!4 &675786141
 Transform:
   m_ObjectHideFlags: 0
@@ -185,7 +186,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 6c87ab6b0740bce4a89a7f02ae73f6df, type: 2}
+  - {fileID: 2100000, guid: c97996ffe1fce544080c6a385486469a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
