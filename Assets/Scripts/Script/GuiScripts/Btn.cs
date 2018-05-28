@@ -6,14 +6,16 @@ using UnityEngine.UI;
 public class Btn : MonoBehaviour {
 
 
-    public GameObject _GOpc;
-    private PlayerController _pc;
+    //public GameObject _GOpc;
+    public PlayerController _pcPlayer;
+    public PlayerController _pcTarget;
 
     private string name;
+
 	// Use this for initialization
 	void Start () {
 
-        _pc = _GOpc.GetComponent<PlayerController>();
+        //_pc = _GOpc.GetComponent<PlayerController>();
         name = GetComponent<Button>().name;
 	}
 	
@@ -23,16 +25,21 @@ public class Btn : MonoBehaviour {
 	}
 
     public void changeState() {
+        
+
         if (name.Equals("asBtn")){
-            _pc.state = PlayerController.CLASSES.assassin;
+            _pcPlayer.state = PlayerController.CLASSES.assassin;
+            _pcTarget._Slots[0] = false;
         }
 
         if (name.Equals("tankBtn")) {
-            _pc.state = PlayerController.CLASSES.tank;
+            _pcPlayer.state = PlayerController.CLASSES.tank;
+            _pcTarget._Slots[1] = false;
         }
 
         if (name.Equals("supBtn")) {
-            _pc.state = PlayerController.CLASSES.support;
+            _pcPlayer.state = PlayerController.CLASSES.support;
+            _pcTarget._Slots[2] = false;
         }
         
     }

@@ -20,8 +20,10 @@ public class Lùth : MonoBehaviour {
     {
 
         if (coll.gameObject.tag == "Ghost")
-        {
-            coll.gameObject.GetComponent<PlayerController>().IncreaseLùth(_lùth);
+        {   
+
+            ////////////////RPC/////////////////
+            coll.gameObject.GetComponentInParent<PlayerController>().IncreaseLùth(_lùth);
 
             Destroy(gameObject);
         }

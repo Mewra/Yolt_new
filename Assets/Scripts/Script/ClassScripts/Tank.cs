@@ -5,7 +5,7 @@ using UnityEngine;
 public class Tank : MonoBehaviour {
 
 
-    public Camera cam;
+    private Camera cam;
     private IEnumerator coroutineQ;
     private IEnumerator coroutineW;
     private IEnumerator coroutineR;
@@ -18,7 +18,7 @@ public class Tank : MonoBehaviour {
     public GameObject _cono;
     public GameObject _pull;
 
-    public GameObject _GOpc;
+    //public GameObject _GOpc;
     private PlayerController _pc;
 
 
@@ -53,6 +53,7 @@ public class Tank : MonoBehaviour {
     void Start()
     {
         bas = new Vector3(0, 0, 0);
+        cam = Camera.main;
 
         Qcost = 20;
         Wcost = 20;
@@ -60,7 +61,9 @@ public class Tank : MonoBehaviour {
 
         enoughluth = true;
 
-        _pc = _GOpc.GetComponent<PlayerController>();
+
+        
+        _pc = GetComponentInParent<PlayerController>();
 
         _shieldMesh = _shield.GetComponent<MeshRenderer>();
         _conoMesh = _cono.GetComponent<MeshRenderer>();
@@ -132,7 +135,8 @@ public class Tank : MonoBehaviour {
 
                 usableQ = false;
 
-                GetComponent<PlayerController>().DecreaseLùth(Qcost);
+                ////////////////RPC///////////////////////
+                GetComponentInParent<PlayerController>().DecreaseLùth(Qcost);
 
                 _materialShield.material = _SpellMaterialShield;
 
@@ -162,7 +166,8 @@ public class Tank : MonoBehaviour {
             {
                 usableW = false;
 
-                GetComponent<PlayerController>().DecreaseLùth(Wcost);
+                ////////////////////////RPC//////////////////////
+                GetComponentInParent<PlayerController>().DecreaseLùth(Wcost);
                 //quando il mouse viene alzato disabilita la mesh renderer e abilita il collider
                 _conoMesh.enabled = false;
 
@@ -188,7 +193,9 @@ public class Tank : MonoBehaviour {
 
             {
 
-                GetComponent<PlayerController>().DecreaseLùth(maxluth);
+
+                //////////////////RPC////////////////////
+                GetComponentInParent<PlayerController>().DecreaseLùth(maxluth);
                 _pullMesh.enabled = false;
 
                 _pullColl.enabled = true;

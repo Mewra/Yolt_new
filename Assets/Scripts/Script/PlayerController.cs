@@ -64,8 +64,8 @@ public class PlayerController : MonoBehaviour {
 
             clickingPlayer = false;
             alive = true;
-            //transformable = false;
-            transformable = true;
+            transformable = false;
+            //transformable = true;
             resurrection = false;
 
             lùthfinito = false;
@@ -75,13 +75,9 @@ public class PlayerController : MonoBehaviour {
 
             //_gameManager = GameManager.GetComponent<GameManager>();
 
-
-
-            //0 è libero, 1 è occupato. x = Assassin, y = Support, z = Tank;
-            //new Vector3(0,0,0)
-            //
             _Slots = new bool[3];
 
+            //true = libero, false = occupato
             for (int i = 0; i < 3; i++)
                 _Slots[i] = true;
 
@@ -127,12 +123,24 @@ public class PlayerController : MonoBehaviour {
 
                 case 0:
                     {
-                        actual.SetActive(false);
-                        player.SetActive(true);
+                        //player
+                        if (actual != player) { 
+                            actual.SetActive(false);
+                            player.SetActive(true);
+                        }
 
 
                         //UI DEL PLAYER
+                        if (_playerHealth._health == 0 && GetComponent<PhotonView>().isMine)
+                        {
+                            //tag = "Ghost";
+                            alive = false;
+                            state = CLASSES.ghost;
+                            //DEVE NOTIFICARE A TUTTI QUELLI CHE SONO ATTACCATI CHE DEVONO DIVENTARE GHOST ANCHE LORO
 
+                            //HO USATO IF OTHER.GETACTIVE == FALSE diventano ghost anche loro
+
+                        }
 
 
 
@@ -147,11 +155,55 @@ public class PlayerController : MonoBehaviour {
                 case 1:
                     {
                         Debug.Log("Sono un ghost");
-                        actual.SetActive(false);
-                        ghost.SetActive(true);
+
+                        
+
+                        if (actual != ghost)
+                        {
+                            actual.SetActive(false);
+                            ghost.SetActive(true);
+                            FreeTheSlots();
+                        }
+
+                        if (resurrection)
+                        {
+                            state = CLASSES.player;
+                            _playerHealth._health = 100; //maxhealth
+                            alive = true;
+                            resurrection = false;
+
+                        }
+
+                        lùthfinito = false;
+                        if (_lùth != _maxlùth)
+                        {
+                            //transformable = false;
+                            transformable = false;
+                        }
+                        else transformable = true;
 
 
+                        if (transformable && clickingPlayer)
+                        {
 
+                            if (Input.GetMouseButtonDown(0))
+                            {
+                                _asbtn.interactable = other.GetComponentInParent<PlayerController>()._Slots[0];
+                                _tankbtn.interactable = other.GetComponentInParent<PlayerController>()._Slots[1];
+                                _supbtn.interactable = other.GetComponentInParent<PlayerController>()._Slots[2];
+                                
+                                _asbtn.GetComponent<Btn>()._pcTarget = other.GetComponentInParent<PlayerController>();
+                                _tankbtn.GetComponent<Btn>()._pcTarget = other.GetComponentInParent<PlayerController>();
+                                _supbtn.GetComponent<Btn>()._pcTarget = other.GetComponentInParent<PlayerController>();
+
+                                _asbtn.GetComponent<Btn>()._pcPlayer = this;
+                                _tankbtn.GetComponent<Btn>()._pcPlayer = this;
+                                _supbtn.GetComponent<Btn>()._pcPlayer = this;
+
+                                transfPanel.SetActive(true);
+
+                            }
+                        }
                         //UI DEL GHOST
 
 
@@ -166,14 +218,26 @@ public class PlayerController : MonoBehaviour {
 
                 case 2:
                     {
-                        actual.SetActive(false);
-                        assassin.SetActive(true);
+                        if (actual != assassin)
+                        {
+                            actual.SetActive(false);
+                            assassin.SetActive(true);
+                        }
                         Debug.Log("Sono un assassino");
 
+                        assassin.GetComponent<CircleMov>()._player = other; //oppure other.GetComponentInParent<Transform>()
+
+                        if (lùthfinito)
+                        {
+                            state = CLASSES.ghost;
+                        }
+
+                        if(other.GetActive() == false)
+                        {
+                            state = CLASSES.ghost;
+                        }
 
                         //UI DELLA CLASSE
-
-
 
                         /*player.SetActive(false);
                         ghost.SetActive(false);
@@ -185,9 +249,25 @@ public class PlayerController : MonoBehaviour {
                     }
                 case 3:
                     {
-                        actual.SetActive(false);
-                        tank.SetActive(true);
+                        if (actual != tank)
+                        {
+                            actual.SetActive(false);
+                            tank.SetActive(true);
+                        }
                         Debug.Log("Sono un tank");
+
+                        tank.GetComponent<CircleMov>()._player = other;
+
+                        if (lùthfinito)
+                        {
+                            state = CLASSES.ghost;
+                        }
+
+                        if (other.GetActive() == false)
+                        {
+                            state = CLASSES.ghost;
+                        }
+
                         /*player.SetActive(false);
                         ghost.SetActive(false);
                         assassin.SetActive(false);
@@ -198,9 +278,23 @@ public class PlayerController : MonoBehaviour {
                     }
                 case 4:
                     {
-                        actual.SetActive(false);
-                        support.SetActive(true);
+                        if (actual != support) { 
+                            actual.SetActive(false);
+                            support.SetActive(true);
+                        }
                         Debug.Log("Sono un support");
+
+                        support.GetComponent<CircleMov>()._player = other;
+
+                        if (lùthfinito)
+                        {
+                            state = CLASSES.ghost;
+                        }
+
+                        if (other.GetActive() == false)
+                        {
+                            state = CLASSES.ghost;
+                        }
                         /*player.SetActive(false);
                         ghost.SetActive(true);
                         assassin.SetActive(false);
@@ -213,67 +307,9 @@ public class PlayerController : MonoBehaviour {
             }
 
 
-
-
-
-            if (_playerHealth._health == 0 && GetComponent<PhotonView>().isMine)
-            {
-                tag = "Ghost";
-                alive = false;
-                state = CLASSES.ghost;
-                //change the model in the ghost
-
-            }
-
-            if (_lùth != _maxlùth)
-            {
-                //transformable = false;
-                transformable = true;
-            }
-
-
-            if (resurrection)
-            {
-
-                _playerHealth._health = 100; //maxhealth
-                tag = "Player";
-                alive = true;
-                resurrection = false;
-                //change the model in the player
-
-            }
-
-
-
-            if (transformable && clickingPlayer)
-            {
-
-                if (Input.GetMouseButtonDown(0))
-                {
-                    _asbtn.interactable = _Slots[0];
-                    _tankbtn.interactable = _Slots[1];
-                    _supbtn.interactable = _Slots[2];
-
-                    transfPanel.SetActive(true);
-                }
-
-                //canvas con i bottoni
-
-                /* Questo è un GameObject -> _gameManager.playersConnected[i]
-                 * 
-                 * for each (GameObject player in _gameManager.playersConnected) {
-                 * 
-                 *      for(int i = 0; i<3;i++){
-                 *          if(player._Slots[i]){
-                 *              button1 = cliccabile;
-                 *          }
-                 *      }
-                 *      
-                 * }
-                 * 
-                 * 
-                */
-            }
+            
+            
+            
         }
        
 		
@@ -290,26 +326,32 @@ public class PlayerController : MonoBehaviour {
 
         Debug.Log(_lùth);
 
-        if (_lùth == _maxlùth)
+        if (state == CLASSES.ghost)
         {
-            transformable = true;
-            //cambia tag in class che scegli
-            //cambia mesh renderer in class che scegli
-        }
-        else {
-            _lùth += i;
+            if (transformable != true)
+            {
+                _lùth += i;
+                if (_lùth == _maxlùth)
+                {
+                    transformable = true;
+                }
+            }
         }
 
     }
 
     public void DecreaseLùth(float i) {
 
-        _lùth -= i;
+        if (state == CLASSES.assassin || state == CLASSES.support || state == CLASSES.tank)
+        {
+            _lùth -= i;
 
-        if (_lùth < 0) {
-            _lùth = 0;
+            if (_lùth < 0)
+            {
+                _lùth = 0;
 
-            lùthfinito = true;
+                lùthfinito = true;
+            }
         }
 
     }

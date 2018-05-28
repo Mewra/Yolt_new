@@ -5,7 +5,7 @@ using UnityEngine;
 public class Assassin : MonoBehaviour
 {
 
-    public Camera cam;
+    private Camera cam;
     private IEnumerator coroutineQ;
     private IEnumerator coroutineW;
     private IEnumerator coroutineR;
@@ -18,7 +18,7 @@ public class Assassin : MonoBehaviour
     public GameObject _cono;
     public GameObject _laserone;
 
-    public GameObject _GOpc;
+    //public GameObject _GOpc;
     private PlayerController _pc;
     
     private ParticleSystem _psQ;
@@ -52,13 +52,13 @@ public class Assassin : MonoBehaviour
     void Start()
     {
         bas = new Vector3(0, 0, 0);
-
+        cam = Camera.main;
         Qcost = 20;
         Wcost = 20;
         maxluth = 100;
 
         enoughluth = true;
-        _pc = _GOpc.GetComponent<PlayerController>();
+        _pc = GetComponentInParent<PlayerController>();
 
 
         _sferaMesh = _sfera.GetComponent<MeshRenderer>();
@@ -141,7 +141,8 @@ public class Assassin : MonoBehaviour
                 _psQ.Simulate(0.0f, true, true);
                 _psQ.Play();
 
-                GetComponent<PlayerController>().DecreaseLùth(Qcost);
+                ///////////////////////////RPC/////////////////////////
+                GetComponentInParent<PlayerController>().DecreaseLùth(Qcost);
 
 
                 usableQ = false;
@@ -177,7 +178,10 @@ public class Assassin : MonoBehaviour
                 usableW = false;
                 _conoColl.enabled = true;
 
-                GetComponent<PlayerController>().DecreaseLùth(Wcost);
+
+
+                ////////////////////////////////////////////RPC/////////////////
+                GetComponentInParent<PlayerController>().DecreaseLùth(Wcost);
 
                 coroutineW = FieldDamageDuration();
                 StartCoroutine(coroutineW);
@@ -202,13 +206,14 @@ public class Assassin : MonoBehaviour
             if (usableR)
             {
 
-                GetComponent<PlayerController>().DecreaseLùth(maxluth);
+                //////////////////////////////RPC///////////////////////
+                GetComponentInParent<PlayerController>().DecreaseLùth(maxluth);
 
                 _laseroneColl.enabled = true;
 
                 coroutineR = InstantDamage(_laseroneColl);
                 StartCoroutine(coroutineR);
-
+                
                
             }
         }

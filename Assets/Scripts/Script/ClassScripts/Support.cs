@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Support : MonoBehaviour
 {
-    public Camera cam;
+    private Camera cam;
     private IEnumerator coroutineQ;
     private IEnumerator coroutineW;
     private IEnumerator coroutineR;
@@ -19,7 +19,7 @@ public class Support : MonoBehaviour
     public GameObject _redemption;
     public GameObject _taric;
 
-    public GameObject _GOpc;
+    //public GameObject _GOpc;
     private PlayerController _pc;
 
     public GameObject _TransformPsW;
@@ -55,12 +55,13 @@ public class Support : MonoBehaviour
     {
         bas = new Vector3(0, 0, 0);
 
+        cam = Camera.main;
         Qcost = 20;
         Wcost = 20;
         maxluth = 100;
         enoughluth = true;
 
-        _pc = _GOpc.GetComponent<PlayerController>();
+        _pc = GetComponentInParent<PlayerController>();
 
         _slowMesh = _slow.GetComponent<MeshRenderer>();
         _redemptionMesh = _redemption.GetComponent<MeshRenderer>();
@@ -122,7 +123,8 @@ public class Support : MonoBehaviour
             {
                 usableQ = false;
 
-                GetComponent<PlayerController>().DecreaseLùth(Qcost);
+                //////////////////////////RPC////////////////////
+                GetComponentInParent<PlayerController>().DecreaseLùth(Qcost);
 
                 _slowColl.enabled = true;
 
@@ -150,7 +152,8 @@ public class Support : MonoBehaviour
             {
                 usableW = false;
 
-                GetComponent<PlayerController>().DecreaseLùth(Wcost);
+                /////////////////RPC//////////////////
+                GetComponentInParent<PlayerController>().DecreaseLùth(Wcost);
 
                 _TransformPsW.transform.position = new Vector3(_redemption.transform.position.x, 0.5f, _redemption.transform.position.z);
                 _psW.Clear();
@@ -183,7 +186,8 @@ public class Support : MonoBehaviour
 
             if (Input.GetKeyUp(KeyCode.R))
             {
-                GetComponent<PlayerController>().DecreaseLùth(maxluth);
+                ////////////////////RPC///////////////////////
+                GetComponentInParent<PlayerController>().DecreaseLùth(maxluth);
                 _taricMesh.enabled = false;
 
                 _taricColl.enabled = true;
