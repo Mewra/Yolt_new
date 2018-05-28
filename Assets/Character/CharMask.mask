@@ -1,0 +1,142 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: CharMask
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Armature
+    m_Weight: 0
+  - m_Path: Armature/Root
+    m_Weight: 0
+  - m_Path: Armature/Root/Foot_IK_L
+    m_Weight: 0
+  - m_Path: Armature/Root/Foot_IK_L/Foot_IK_L_end
+    m_Weight: 0
+  - m_Path: Armature/Root/Foot_IK_R
+    m_Weight: 0
+  - m_Path: Armature/Root/Foot_IK_R/Foot_IK_R_end
+    m_Weight: 0
+  - m_Path: Armature/Root/Gun.Back
+    m_Weight: 1
+  - m_Path: Armature/Root/Gun.Back/Cube.002
+    m_Weight: 1
+  - m_Path: Armature/Root/Gun.Back/Gun.Front
+    m_Weight: 1
+  - m_Path: Armature/Root/Gun.Back/Gun.Front/Gun.Front_end
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip
+    m_Weight: 0
+  - m_Path: Armature/Root/Hip/Hip_L
+    m_Weight: 0
+  - m_Path: Armature/Root/Hip/Hip_L/Leg1_L
+    m_Weight: 0
+  - m_Path: Armature/Root/Hip/Hip_L/Leg1_L/Leg2_L
+    m_Weight: 0
+  - m_Path: Armature/Root/Hip/Hip_L/Leg1_L/Leg2_L/Foot1_L
+    m_Weight: 0
+  - m_Path: Armature/Root/Hip/Hip_L/Leg1_L/Leg2_L/Foot1_L/Foot2_L
+    m_Weight: 0
+  - m_Path: Armature/Root/Hip/Hip_L/Leg1_L/Leg2_L/Foot1_L/Foot2_L/Foot2_L_end
+    m_Weight: 0
+  - m_Path: Armature/Root/Hip/Hip_R
+    m_Weight: 0
+  - m_Path: Armature/Root/Hip/Hip_R/Leg1_R
+    m_Weight: 0
+  - m_Path: Armature/Root/Hip/Hip_R/Leg1_R/Leg2_R
+    m_Weight: 0
+  - m_Path: Armature/Root/Hip/Hip_R/Leg1_R/Leg2_R/Foot1_R
+    m_Weight: 0
+  - m_Path: Armature/Root/Hip/Hip_R/Leg1_R/Leg2_R/Foot1_R/Foot2_R
+    m_Weight: 0
+  - m_Path: Armature/Root/Hip/Hip_R/Leg1_R/Leg2_R/Foot1_R/Foot2_R/Foot2_R_end
+    m_Weight: 0
+  - m_Path: Armature/Root/Hip/Spine1
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Arm1_L
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Arm1_L/Arm2_L
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Arm1_L/Arm2_L/Arm2_L.001
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Arm1_L/Arm2_L/Arm2_L.001/Hand1_L
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Arm1_L/Arm2_L/Arm2_L.001/Hand1_L/Hand2_L
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Arm1_L/Arm2_L/Arm2_L.001/Hand1_L/Hand2_L/Hand3_L
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Arm1_L/Arm2_L/Arm2_L.001/Hand1_L/Hand2_L/Hand3_L/Hand3_L_end
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Arm1_L/Arm2_L/Arm2_L.001/Thumb1_L
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Arm1_L/Arm2_L/Arm2_L.001/Thumb1_L/Thumb2_L
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Arm1_L/Arm2_L/Arm2_L.001/Thumb1_L/Thumb2_L/Thumb2_L_end
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Arm1_R
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Arm1_R/Arm2_R
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Arm1_R/Arm2_R/Arm2_R.001
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Arm1_R/Arm2_R/Arm2_R.001/Hand1_R
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Arm1_R/Arm2_R/Arm2_R.001/Hand1_R/Hand2_R
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Arm1_R/Arm2_R/Arm2_R.001/Hand1_R/Hand2_R/Hand3_R
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Arm1_R/Arm2_R/Arm2_R.001/Hand1_R/Hand2_R/Hand3_R/Hand3_R_end
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Arm1_R/Arm2_R/Arm2_R.001/Thumb1_R
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Arm1_R/Arm2_R/Arm2_R.001/Thumb1_R/Thumb2_R
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Arm1_R/Arm2_R/Arm2_R.001/Thumb1_R/Thumb2_R/Thumb2_R_end
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Arm_IK_L
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Arm_IK_L/Arm_IK_L_end
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Arm_IK_R
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Arm_IK_R/Arm_IK_R_end
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Hand_IK_L
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Hand_IK_L/Hand_IK_L_end
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Hand_IK_R
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Hand_IK_R/Hand_IK_R_end
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Spine6
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Spine6/Head
+    m_Weight: 1
+  - m_Path: Armature/Root/Hip/Spine1/Spine2/Spine3/Spine5/Spine6/Head/Head_end
+    m_Weight: 1
+  - m_Path: Armature/Root/Knee_Target_L
+    m_Weight: 0
+  - m_Path: Armature/Root/Knee_Target_L/Knee_Target_L_end
+    m_Weight: 0
+  - m_Path: Armature/Root/Knee_Target_R
+    m_Weight: 0
+  - m_Path: Armature/Root/Knee_Target_R/Knee_Target_R_end
+    m_Weight: 0
+  - m_Path: Cube
+    m_Weight: 1
+  - m_Path: Cube.001
+    m_Weight: 1
+  - m_Path: Cube.003
+    m_Weight: 1
