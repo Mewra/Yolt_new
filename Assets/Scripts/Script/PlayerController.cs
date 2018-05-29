@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour {
     private GameObject GameManager;
 
     private Camera cam;
-    private static float _lùth;
+    public float _lùth;
     private float _maxlùth;
     private bool lùthfinito;
 
@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour {
     private GameObject other;
 
     //public Vector3 _Slots;
-    public bool[] _Slots;
+    public bool[] _Slots = new bool[3];
 
     //player = 0, ghost = 1, assassin = 2; tank = 3; support = 4;
     public enum CLASSES {player, ghost, assassin, tank, support};
@@ -46,8 +46,14 @@ public class PlayerController : MonoBehaviour {
     
     public CLASSES state;
 
-	// Use this for initialization
-	void Start () {
+    private void Awake()
+    {
+        _Slots = new bool[3];
+        for (int i = 0; i < 3; i++)
+            _Slots[i] = true;
+    }
+    // Use this for initialization
+    void Start () {
 
         if(GetComponent<PhotonView>().isMine)
         {
@@ -59,7 +65,6 @@ public class PlayerController : MonoBehaviour {
             _tankbtn = transfPanel.transform.GetChild(1).GetComponent<Button>();
             _supbtn = transfPanel.transform.GetChild(2).GetComponent<Button>();
             transfPanel.SetActive(false);
-
 
 
             clickingPlayer = false;
@@ -75,17 +80,9 @@ public class PlayerController : MonoBehaviour {
 
             //_gameManager = GameManager.GetComponent<GameManager>();
 
-            _Slots = new bool[3];
-
-            //true = libero, false = occupato
-            for (int i = 0; i < 3; i++)
-                _Slots[i] = true;
-
+            
             _playerHealth = GetComponent<Health>();
         }
-
-        
-		
 	}
 	
 	// Update is called once per frame
@@ -127,6 +124,7 @@ public class PlayerController : MonoBehaviour {
                         if (actual != player) { 
                             actual.SetActive(false);
                             player.SetActive(true);
+                            actual = player;
                         }
 
 
@@ -162,6 +160,7 @@ public class PlayerController : MonoBehaviour {
                         {
                             actual.SetActive(false);
                             ghost.SetActive(true);
+                            actual = ghost;
                             FreeTheSlots();
                         }
 
@@ -222,6 +221,7 @@ public class PlayerController : MonoBehaviour {
                         {
                             actual.SetActive(false);
                             assassin.SetActive(true);
+                            actual = assassin;
                         }
                         Debug.Log("Sono un assassino");
 
@@ -253,6 +253,7 @@ public class PlayerController : MonoBehaviour {
                         {
                             actual.SetActive(false);
                             tank.SetActive(true);
+                            actual = tank;
                         }
                         Debug.Log("Sono un tank");
 
@@ -281,6 +282,7 @@ public class PlayerController : MonoBehaviour {
                         if (actual != support) { 
                             actual.SetActive(false);
                             support.SetActive(true);
+                            actual = support;
                         }
                         Debug.Log("Sono un support");
 
@@ -303,16 +305,8 @@ public class PlayerController : MonoBehaviour {
 
                         break;
                     }
-
-            }
-
-
-            
-            
-            
-        }
-       
-		
+            }  
+        }	
 	}
 
     public void FreeTheSlots() {

@@ -31,13 +31,8 @@ public class UIManager : MonoBehaviour
     {
         foreach (EnumPanel panel in Panels)
         {
-            SetActive(panel.gameObject, (panel.myActivePanel == panelType.myActivePanel) ? true : false);
+            panel.gameObject.SetActive((panel.myActivePanel == panelType.myActivePanel) ? true : false);
         }
-    }
-
-    public void SetActive(GameObject panel, bool b)
-    {
-        panel.SetActive(b);
     }
     #endregion
 }

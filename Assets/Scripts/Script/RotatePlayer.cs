@@ -9,12 +9,12 @@ public class RotatePlayer : MonoBehaviour
     public float rayLength;
     public Vector3 PointToLook { get; set; }
     private Plane groundPlane;
+    public Transform parent;
 
     #region MonoBehaviour Callbakcs
     private void Start()
     {
         myCamera = Camera.main;
-        // a way to found the groundPlane in the scene
     }
 
     private void Update()
@@ -26,9 +26,8 @@ public class RotatePlayer : MonoBehaviour
         {
             PointToLook = cameraRay.GetPoint(rayLength);
             Debug.DrawLine(cameraRay.origin, PointToLook, Color.red);
-            transform.LookAt(new Vector3(PointToLook.x, transform.position.y, PointToLook.z));
+            parent.LookAt(new Vector3(PointToLook.x, transform.position.y, PointToLook.z));
         }
     }
     #endregion
-
 }

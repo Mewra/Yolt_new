@@ -27,7 +27,7 @@ public class GunControler : MonoBehaviour
             {
                 Debug.Log(shotCounter);
                 shotCounter = timeBetweenShots;
-                // myView.RPC("Fire", PhotonTargets.AllViaServer, firepoint.position, transform.rotation);
+                myView.RPC("Fire", PhotonTargets.AllViaServer, firepoint.position, transform.rotation);
             }
         }
     }

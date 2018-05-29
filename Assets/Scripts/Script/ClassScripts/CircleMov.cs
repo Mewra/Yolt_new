@@ -8,7 +8,7 @@ public class CircleMov : MonoBehaviour {
     private Transform _playerTransform;
 
     public GameObject _player;
-    public float speed;
+    private float speed;
     private Ray cameraRay;
     private Plane groundPlane;
     private float rayLength;
@@ -17,6 +17,7 @@ public class CircleMov : MonoBehaviour {
 
 	private void Start ()
     {
+        speed = 5f;
         _playerTransform = _player.GetComponent<Transform>();
 	}
 	
