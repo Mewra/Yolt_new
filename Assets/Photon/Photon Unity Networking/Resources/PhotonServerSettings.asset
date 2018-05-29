@@ -8,17 +8,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f3758f8f58fdef43803eb9be1df0608, type: 3}
+  m_Script: {fileID: 11500000, guid: f99381eb73b7b2744b134aab537aefa9, type: 3}
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
-  AppID: 65f593ea-68ec-421e-a8d6-9a6f116a07ea
+  AppID: 
   VoiceAppID: 
   ChatAppID: 
-  HostType: 2
+  HostType: 0
   PreferredRegion: 0
   EnabledRegions: -1
   Protocol: 0
-  ServerAddress: 127.0.0.1
+  ServerAddress: 
   ServerPort: 5055
   VoiceServerPort: 5055
   JoinLobby: 0
@@ -31,7 +31,9 @@ MonoBehaviour:
   - ColorRpc
   - DestroyRpc
   - DoJump
+  - Fire
   - Flash
+  - GetReady
   - InstantiateRpc
   - Marco
   - PickupItemInit
@@ -42,6 +44,4 @@ MonoBehaviour:
   - RequestForPickupItems
   - RequestForPickupTimes
   - TaggedPlayer
-  - GetReady
-  - Fire
   DisableAutoOpenWizard: 1
