@@ -7,7 +7,7 @@ public class GunControler : MonoBehaviour
     public float bulletSpeed;
     public float timeBetweenShots;
     private float shotCounter;
-    private PhotonView myView;
+    public PhotonView myView;
     private Animator anim;
     public Transform firepoint;
 
@@ -15,7 +15,7 @@ public class GunControler : MonoBehaviour
     private void Start()
     {
         anim = GetComponent<Animator>();
-        myView = GetComponent<PhotonView>();
+        myView = GetComponentInParent<PhotonView>();
     }
 
     private void Update()
@@ -25,21 +25,10 @@ public class GunControler : MonoBehaviour
         {
             if (shotCounter <= 0f)
             {
-                Debug.Log(shotCounter);
                 shotCounter = timeBetweenShots;
-                myView.RPC("Fire", PhotonTargets.AllViaServer, firepoint.position, transform.rotation);
+                myView.RPC("Fire", PhotonTargets.AllViaServer, firepoint.position, transform.rotation, bulletSpeed);
             }
         }
-    }
-    #endregion
-
-    #region PunRPC
-    [PunRPC]
-    public void Fire(Vector3 pos, Quaternion dir)
-    {
-        anim.SetTrigger("shoot");
-        GameObject newBullet = Instantiate(Resources.Load("Bullet"), pos, dir) as GameObject;
-        newBullet.GetComponent<Rigidbody>().velocity = newBullet.transform.forward * bulletSpeed;
     }
     #endregion
 }

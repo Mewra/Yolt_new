@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AnimatorManager : MonoBehaviour
 {
-    private void Start()
+    private void Awake()
     {
         GetComponent<PhotonView>().ObservedComponents.Add(GetComponentInChildren<PhotonAnimatorView>());
     }

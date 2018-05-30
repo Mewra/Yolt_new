@@ -21,7 +21,7 @@ using UnityEngine;
 /// Triggers are raised true during one frame only.
 /// </remarks>
 [RequireComponent(typeof(Animator))]
-[RequireComponent(typeof(PhotonView))]
+// [RequireComponent(typeof(PhotonView))]
 [AddComponentMenu("Photon Networking/Photon Animator View")]
 public class PhotonAnimatorView : MonoBehaviour, IPunObservable
 {
@@ -110,7 +110,7 @@ public class PhotonAnimatorView : MonoBehaviour, IPunObservable
 
     private void Awake()
     {
-        this.m_PhotonView = GetComponent<PhotonView>();
+        this.m_PhotonView = GetComponentInParent<PhotonView>();
         this.m_StreamQueue = new PhotonStreamQueue(120);
 
         this.m_Animator = GetComponent<Animator>();
@@ -253,11 +253,29 @@ public class PhotonAnimatorView : MonoBehaviour, IPunObservable
 
         if (index == -1)
         {
-            this.m_SynchronizeLayers.Add(new SynchronizedLayer { LayerIndex = layerIndex, SynchronizeType = synchronizeType });
+            this.m_SynchronizeLayers.Add(new SynchronizedLayer { LayerIndex = layerIndex, SynchronizeType = synchronizeType });// synchronizeType });
         }
         else
         {
             this.m_SynchronizeLayers[index].SynchronizeType = synchronizeType;
+        }
+    }
+
+    // made by me
+    public void SetAllLayerSyncronized(SynchronizeType synchronizeType)
+    {
+        Debug.Log(this.m_SynchronizeLayers.Count);
+        for(int i = 0; i < this.m_SynchronizeLayers.Count; i++)
+        {
+            this.m_SynchronizeLayers[i].SynchronizeType = synchronizeType;
+        }
+    }
+
+    public void SetAllParameterSyncronized(SynchronizeType synchronizeType)
+    {
+        for(int i = 0; i < this.m_SynchronizeParameters.Count; i++)
+        {
+            this.m_SynchronizeParameters[i].SynchronizeType = synchronizeType;
         }
     }
 

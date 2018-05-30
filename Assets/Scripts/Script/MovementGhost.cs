@@ -14,6 +14,7 @@ public class MovementGhost : MonoBehaviour
 
     private void Start()
     {
+        anim = GetComponentInParent<Animator>();
         rt = GetComponent<RotatePlayer>();
     }
 
