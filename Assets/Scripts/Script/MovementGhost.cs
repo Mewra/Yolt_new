@@ -8,11 +8,14 @@ public class MovementGhost : MonoBehaviour
     private float smoothedSpeed;
     private float m_horizontal, m_vertical;
     private PhotonView myPhotonView;
-    private Animator anim;
+    public Animator anim;
+    public Transform parent;
+    private RotatePlayer rt;
 
     private void Start()
     {
-        anim = GetComponent<Animator>();
+        // anim = GetComponentInParent<Animator>();
+        // rt = GetComponent<RotatePlayer>();
     }
 
 
@@ -22,13 +25,13 @@ public class MovementGhost : MonoBehaviour
         m_vertical = Input.GetAxis("Vertical");
         if(m_horizontal == 0 && m_vertical == 0)
         {
-            anim.SetFloat("speed_y", 0f);
-            anim.SetFloat("speed_x", 0f);
+            // anim.SetFloat("speed_y", 0f);
+            // anim.SetFloat("speed_x", 0f);
         }
         else
         {
-            anim.SetFloat("speed_y", m_vertical);
-            anim.SetFloat("speed_x", m_horizontal);
+            // anim.SetFloat("speed_y", m_vertical * (rt.PointToLook - transform.position).normalized.z);
+            // anim.SetFloat("speed_x", m_horizontal * (rt.PointToLook - transform.position).normalized.x);
         }
 
         if (m_vertical != 0)
@@ -38,7 +41,7 @@ public class MovementGhost : MonoBehaviour
             {
                 smoothedSpeed = speed * 0.7f;
             }
-            transform.position = Vector3.Lerp(transform.position, transform.position + new Vector3(m_vertical, 0f, m_vertical), smoothedSpeed * Time.deltaTime);
+            parent.position = Vector3.Lerp(transform.position, transform.position + new Vector3(m_vertical, 0f, m_vertical), smoothedSpeed * Time.deltaTime);
 
         }
         if (m_horizontal != 0)
@@ -48,7 +51,7 @@ public class MovementGhost : MonoBehaviour
             {
                 smoothedSpeed = speed * 0.7f;
             }
-            transform.position = Vector3.Lerp(transform.position, transform.position + new Vector3(m_horizontal, 0f, -m_horizontal), smoothedSpeed * Time.deltaTime);
+            parent.position = Vector3.Lerp(transform.position, transform.position + new Vector3(m_horizontal, 0f, -m_horizontal), smoothedSpeed * Time.deltaTime);
         }
     }
 }

@@ -44,4 +44,8 @@ MonoBehaviour:
   - RequestForPickupItems
   - RequestForPickupTimes
   - TaggedPlayer
+  - GetReady
+  - Fire
+  - ChangeState
+  - FreeTheSlots
   DisableAutoOpenWizard: 1
