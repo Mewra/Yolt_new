@@ -762,6 +762,7 @@ GameObject:
   - component: {fileID: 136821238770419678}
   - component: {fileID: 95290393745210660}
   - component: {fileID: 114448333935963968}
+  - component: {fileID: 114624338193746060}
   m_Layer: 0
   m_Name: Player Model
   m_TagString: Player
@@ -1115,6 +1116,9 @@ GameObject:
   - component: {fileID: 23540623943348598}
   - component: {fileID: 114770384999856626}
   - component: {fileID: 54988281643895556}
+  - component: {fileID: 95214009995932858}
+  - component: {fileID: 114168884690729586}
+  - component: {fileID: 114314488352699104}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Ghost
@@ -5053,10 +5057,10 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
 --- !u!64 &64016483437459810
 MeshCollider:
@@ -5148,6 +5152,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &95214009995932858
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1456176526401910}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 87bc2297af71900469f7f67bbbed1594, type: 3}
+  m_Controller: {fileID: 9100000, guid: 915cfb58142159b41bbd1b4f0e9425f9, type: 2}
+  m_CullingMode: 1
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!95 &95290393745210660
 Animator:
   serializedVersion: 3
@@ -5194,6 +5215,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 100
+--- !u!114 &114168884690729586
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1456176526401910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 1
+    SynchronizeType: 2
+    Name: speed_x
+  - Type: 1
+    SynchronizeType: 2
+    Name: speed_y
+  - Type: 1
+    SynchronizeType: 0
+    Name: speed_multiplier
+  - Type: 9
+    SynchronizeType: 2
+    Name: shoot
+  m_SynchronizeLayers:
+  - SynchronizeType: 2
+    LayerIndex: 0
+  - SynchronizeType: 2
+    LayerIndex: 1
 --- !u!114 &114232965036590860
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5238,7 +5290,6 @@ MonoBehaviour:
   ownershipTransfer: 0
   ObservedComponents:
   - {fileID: 114800869611543812}
-  - {fileID: 0}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
@@ -5255,6 +5306,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce7b8f524dcafdb4884c8b1abb92f46a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  child:
+  - {fileID: 1265533615056158}
+  - {fileID: 1456176526401910}
+  - {fileID: 1277208251803828}
+  - {fileID: 1565470285170940}
+  - {fileID: 1075245319568044}
+--- !u!114 &114314488352699104
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1456176526401910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6d9fef24f0af3240840e8592e3abbe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rayLength: 0
+  parent: {fileID: 4599929146909036}
 --- !u!114 &114377065329469352
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5365,6 +5435,17 @@ MonoBehaviour:
   timeBetweenShots: 0.5
   myView: {fileID: 0}
   firepoint: {fileID: 4122395627765812}
+--- !u!114 &114624338193746060
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1265533615056158}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 197e13acf3c1c204ab61ec76e631b328, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114637149067583614
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5436,13 +5517,13 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1456176526401910}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 882e701fb9789254cac7bbf95f315f54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  anim: {fileID: 95290393745210660}
+  anim: {fileID: 0}
   parent: {fileID: 4599929146909036}
 --- !u!114 &114800869611543812
 MonoBehaviour:

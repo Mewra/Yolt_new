@@ -14,8 +14,8 @@ public class MovementGhost : MonoBehaviour
 
     private void Start()
     {
-        anim = GetComponentInParent<Animator>();
-        rt = GetComponent<RotatePlayer>();
+        // anim = GetComponentInParent<Animator>();
+        // rt = GetComponent<RotatePlayer>();
     }
 
 
@@ -25,13 +25,13 @@ public class MovementGhost : MonoBehaviour
         m_vertical = Input.GetAxis("Vertical");
         if(m_horizontal == 0 && m_vertical == 0)
         {
-            anim.SetFloat("speed_y", 0f);
-            anim.SetFloat("speed_x", 0f);
+            // anim.SetFloat("speed_y", 0f);
+            // anim.SetFloat("speed_x", 0f);
         }
         else
         {
-            anim.SetFloat("speed_y", m_vertical * (rt.PointToLook - transform.position).normalized.z);
-            anim.SetFloat("speed_x", m_horizontal * (rt.PointToLook - transform.position).normalized.x);
+            // anim.SetFloat("speed_y", m_vertical * (rt.PointToLook - transform.position).normalized.z);
+            // anim.SetFloat("speed_x", m_horizontal * (rt.PointToLook - transform.position).normalized.x);
         }
 
         if (m_vertical != 0)

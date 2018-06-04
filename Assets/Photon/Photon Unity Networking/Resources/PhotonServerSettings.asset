@@ -44,4 +44,6 @@ MonoBehaviour:
   - TaggedPlayer
   - GetReady
   - Fire
+  - ChangeState
+  - FreeTheSlots
   DisableAutoOpenWizard: 1

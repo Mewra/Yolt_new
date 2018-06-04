@@ -14,6 +14,7 @@ public class SpawnPlayer : MonoBehaviour
             go.GetComponentInChildren<MovementGhost>().enabled = true;
             go.GetComponentInChildren<RotatePlayer>().enabled = true;
             go.GetComponentInChildren<GunControler>().enabled = true;
+            go.GetComponentInChildren<PlayerAnimation>().enabled = true;
             Camera.main.GetComponent<IsometricCamera>().SetTarget(go.transform);
         }
     }

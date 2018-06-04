@@ -4,8 +4,18 @@ using UnityEngine;
 
 public class AnimatorManager : MonoBehaviour
 {
-    private void Awake()
+    private PhotonView myPV;
+    public GameObject[] child;
+
+    private void Start()
     {
-        GetComponent<PhotonView>().ObservedComponents.Add(GetComponentInChildren<PhotonAnimatorView>());
+        myPV = GetComponent<PhotonView>();
+        myPV.ObservedComponents.Add(child[0].GetComponent<PhotonAnimatorView>());
+    }
+
+    public void RestoreAnimatorView(int index)
+    {
+        myPV.ObservedComponents.RemoveAt(1);
+        myPV.ObservedComponents.Add(child[index].GetComponent<PhotonAnimatorView>());
     }
 }
