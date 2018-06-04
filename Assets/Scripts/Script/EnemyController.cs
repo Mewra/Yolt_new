@@ -9,26 +9,31 @@ public class EnemyController : MonoBehaviour
     private Transform TargetPlayer = null;
     public NavMeshAgent nav;
     private DecisionTree dt;
+    private DecisionTree dtAttack;
     public Vector3 Target;
+    private Animator animator;
 
     void Start()
     {
+        animator = GetComponent<Animator>();
         DTDecision d1 = new DTDecision(Nearest);
+        DTDecision d2 = new DTDecision(AttackDecision);
         DTAction azione1 = new DTAction(FollowNearest);
         DTAction azione2 = new DTAction(WalkRandomly);
+        DTAction attack = new DTAction(AttackAction);
         d1.AddLink(true, azione1);
         d1.AddLink(false, azione2);
-
+        d2.AddLink(true, attack);
         dt = new DecisionTree(d1);
+        dtAttack = new DecisionTree(d2);
         nav = gameObject.GetComponent<NavMeshAgent>();
         StartCoroutine(Patrol());
-       
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        animator.SetFloat("speed" , nav.velocity.magnitude);
     }
 
     public object Nearest(object o)
@@ -73,6 +78,32 @@ public class EnemyController : MonoBehaviour
         Debug.Log("Follow");
         yield return null;
     }
+    IEnumerator Attack()
+    {
+
+        while(nav.remainingDistance <= 1)
+        {
+            Debug.Log("I'm attacking");
+            yield return new WaitForSeconds(1f);
+
+        }
+        
+    }
+    object AttackDecision(object o)
+    {
+        if (nav.remainingDistance <= 1)
+        {
+             return true;
+        }
+        return false;
+    }
+
+    object AttackAction(object o)
+    {
+        StartCoroutine(Attack());
+        return null;
+    }
+
     object WalkRandomly(object o)
     {
         float myX = gameObject.transform.position.x;
@@ -90,6 +121,14 @@ public class EnemyController : MonoBehaviour
         while (true)
         {
             dt.walk();
+            yield return new WaitForSeconds(0.3f);
+        }
+    }
+    public IEnumerator AttackControl()
+    {
+        while (true)
+        {
+            dtAttack.walk();
             yield return new WaitForSeconds(0.3f);
         }
     }
