@@ -1986,7 +1986,7 @@ Animator:
   m_GameObject: {fileID: 1777541828843248}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 87bc2297af71900469f7f67bbbed1594, type: 3}
-  m_Controller: {fileID: 9100000, guid: 915cfb58142159b41bbd1b4f0e9425f9, type: 2}
+  m_Controller: {fileID: 9100000, guid: 3146e114018fa7742b1cef3370ab9876, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2034,6 +2034,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletSpeed: 12
   timeBetweenShots: 0.2
+  myView: {fileID: 0}
   firepoint: {fileID: 4472142423846500}
 --- !u!114 &114372842611208368
 MonoBehaviour:
@@ -2047,6 +2048,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rayLength: 0
+  parent: {fileID: 0}
 --- !u!114 &114428293972254398
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2155,6 +2157,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  anim: {fileID: 0}
+  parent: {fileID: 0}
 --- !u!137 &137130293089395638
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

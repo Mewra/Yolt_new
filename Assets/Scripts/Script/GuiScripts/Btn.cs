@@ -26,19 +26,21 @@ public class Btn : MonoBehaviour {
 
     public void changeState() {
         
-
         if (name.Equals("asBtn")){
-            _pcPlayer.state = PlayerController.CLASSES.assassin;
+            // _pcPlayer.state = PlayerController.CLASSES.assassin;
+            _pcPlayer.GetComponent<PhotonView>().RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)PlayerController.CLASSES.assassin);
             _pcTarget._Slots[0] = false;
         }
 
         if (name.Equals("tankBtn")) {
-            _pcPlayer.state = PlayerController.CLASSES.tank;
+            _pcPlayer.GetComponent<PhotonView>().RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)PlayerController.CLASSES.tank);
+            // _pcPlayer.state = PlayerController.CLASSES.tank;
             _pcTarget._Slots[1] = false;
         }
 
         if (name.Equals("supBtn")) {
-            _pcPlayer.state = PlayerController.CLASSES.support;
+            _pcPlayer.GetComponent<PhotonView>().RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)PlayerController.CLASSES.support);
+            // _pcPlayer.state = PlayerController.CLASSES.support;
             _pcTarget._Slots[2] = false;
         }
         

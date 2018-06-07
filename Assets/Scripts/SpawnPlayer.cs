@@ -11,6 +11,7 @@ public class SpawnPlayer : MonoBehaviour
         GameObject go = PhotonNetwork.Instantiate(prefab.name, Vector3.zero, Quaternion.identity, 0);
         if(go.GetComponent<PhotonView>().isMine)
         {
+            // TODO : find all the components in the other childs
             go.GetComponentInChildren<MovementGhost>().enabled = true;
             go.GetComponentInChildren<RotatePlayer>().enabled = true;
             go.GetComponentInChildren<GunControler>().enabled = true;

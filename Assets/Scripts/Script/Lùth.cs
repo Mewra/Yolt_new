@@ -24,6 +24,7 @@ public class Lùth : MonoBehaviour {
 
             ////////////////RPC/////////////////
             coll.gameObject.GetComponentInParent<PlayerController>().IncreaseLùth(_lùth);
+            // coll.GetComponentInParent<PhotonView>().RPC("IncreaseLùth", )
 
             Destroy(gameObject);
         }

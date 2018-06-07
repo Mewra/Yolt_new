@@ -14,7 +14,7 @@ MonoBehaviour:
   AppID: 65f593ea-68ec-421e-a8d6-9a6f116a07ea
   VoiceAppID: 
   ChatAppID: 
-  HostType: 2
+  HostType: 1
   PreferredRegion: 0
   EnabledRegions: -1
   Protocol: 0
@@ -27,11 +27,15 @@ MonoBehaviour:
   NetworkLogging: 1
   RunInBackground: 1
   RpcList:
+  - ChangeState
   - Chat
   - ColorRpc
   - DestroyRpc
   - DoJump
+  - Fire
   - Flash
+  - FreeTheSlots
+  - GetReady
   - InstantiateRpc
   - Marco
   - PickupItemInit
@@ -42,8 +46,6 @@ MonoBehaviour:
   - RequestForPickupItems
   - RequestForPickupTimes
   - TaggedPlayer
-  - GetReady
-  - Fire
-  - ChangeState
-  - FreeTheSlots
+  - "IncreaseL\xF9th"
+  - SetParentOnCircleMove
   DisableAutoOpenWizard: 1

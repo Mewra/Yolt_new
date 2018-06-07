@@ -18,7 +18,7 @@ public class CircleMov : MonoBehaviour {
 	private void Start ()
     {
         speed = 5f;
-        _playerTransform = _player.GetComponent<Transform>();
+        // _playerTransform = _player.GetComponent<Transform>();
 	}
 	
 	private void Update ()
@@ -32,5 +32,10 @@ public class CircleMov : MonoBehaviour {
         transform.LookAt(new Vector3(PointToLook.x, transform.position.y, PointToLook.z));
         destination = _playerTransform.position + (new Vector3(PointToLook.x, 0f, PointToLook.z) - _playerTransform.position).normalized;
         transform.position = Vector3.Lerp(transform.position, destination, speed * Time.deltaTime);
+    }
+
+    public void SetTargetTransform(GameObject player)
+    {
+        _playerTransform = player.GetComponent<Transform>();
     }
 }
