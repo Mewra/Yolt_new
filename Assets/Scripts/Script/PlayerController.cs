@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
 
     private Health _playerHealth;
     private GameManager _gameManager;
-
+    private float atk;//messa da Alfio
     public CLASSES state;
 
     private void Awake()
@@ -53,6 +53,7 @@ public class PlayerController : MonoBehaviour
         resurrection = false;
         lùthfinito = false;
         _lùth = 0;
+        atk = 3;
         _maxlùth = 100;
         _playerHealth = GetComponent<Health>();
         myAniManager = GetComponent<AnimatorManager>();
@@ -224,6 +225,14 @@ public class PlayerController : MonoBehaviour
     public float getLuth()
     {
         return _lùth;
+    }
+    //metodo fatto da Alfio
+    public float raiseAtk(float a)
+    {
+        atk = atk + a;
+        Debug.Log("Ho alzato l'attacco di"+ a);
+        Debug.Log("Il mio attacco è:"+ atk);
+        return atk;
     }
 
 

@@ -12,6 +12,7 @@ TagManager:
   - Tank
   - Door
   - Choose
+  - Canvas
   layers:
   - Default
   - TransparentFX
