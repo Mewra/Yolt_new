@@ -24,7 +24,7 @@ public class Merchant : MonoBehaviour {
     
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("sono qui, dio cane");
+        
         if (other.gameObject.CompareTag("Player"))
         {
             player = other.gameObject;
@@ -69,9 +69,9 @@ public class Merchant : MonoBehaviour {
 
     public void RaiseAtk10()
     {
-        if (player.GetComponent<CoinSystem>().returnCoin() >= 100)
+        if (player.transform.parent.GetComponent<CoinSystem>().returnCoin() >= 50)
         {
-            player.GetComponent<PlayerController>().raiseAtk(10f);
+            player.transform.parent.GetComponent<PlayerController>().raiseAtk(10f);
             player.transform.parent.GetComponent<CoinSystem>().raiseAtk10();
         }
         else
