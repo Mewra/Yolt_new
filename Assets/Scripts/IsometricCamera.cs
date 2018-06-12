@@ -5,7 +5,7 @@ using UnityEngine;
 public class IsometricCamera : MonoBehaviour
 {
 
-    private Transform playerTransform;
+    public Transform playerTransform;
     public float distance = 10f;
     public float height = 8f;
 

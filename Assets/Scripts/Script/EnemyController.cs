@@ -68,34 +68,33 @@ public class EnemyController : MonoBehaviour
             {
                 GetFound = true;
                 TargetPlayer = playerTarget.transform;
-                yield return new WaitForSeconds(0.3f);
+                //yield return new WaitForSeconds(0.3f);
 
             }
             else
             {
                 TargetPlayer = null;
-                yield return new WaitForSeconds(0.3f);
+                //yield return new WaitForSeconds(0.3f);
             }
             yield return new WaitForSeconds(0.3f);
         }
     }
     object  FollowNearest(object o)
-    {
-        
-            StopCoroutine("UpdateNearest");
-            StartCoroutine("UpdateNearest");
-            StartCoroutine("Follow");
-        
-
-        return null; 
+    {        
+    StopCoroutine("UpdateNearest");
+    StartCoroutine("UpdateNearest");
+    StartCoroutine("Follow");
+    return null; 
     }
 
     IEnumerator Follow()
     {
         while (true)
         {
-            if(TargetPlayer!=null)
+            if (TargetPlayer != null)
+            {
                 nav.SetDestination(TargetPlayer.transform.position);
+            }
             yield return new WaitForSeconds(0.3f);
         }
     }

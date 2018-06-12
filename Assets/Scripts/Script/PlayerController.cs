@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private float _maxlùth;
     private bool lùthfinito;
     private AnimatorManager myAniManager;
+    public float hp;
 
     public Button _asbtn, _tankbtn, _supbtn;
     private bool alive, resurrection, transformable, clickingPlayer;
@@ -29,7 +30,7 @@ public class PlayerController : MonoBehaviour
 
     private Health _playerHealth;
     private GameManager _gameManager;
-
+    private float atk;//messa da Alfio
     public CLASSES state;
 
     private void Awake()
@@ -53,7 +54,9 @@ public class PlayerController : MonoBehaviour
         resurrection = false;
         lùthfinito = false;
         _lùth = 0;
+        atk = 3;
         _maxlùth = 100;
+        hp = 100;
         _playerHealth = GetComponent<Health>();
         myAniManager = GetComponent<AnimatorManager>();
         if (myPV.isMine)
@@ -225,6 +228,14 @@ public class PlayerController : MonoBehaviour
     {
         return _lùth;
     }
+    //metodo fatto da Alfio
+    public float raiseAtk(float a)
+    {
+        atk = atk + a;
+        Debug.Log("Ho alzato l'attacco di"+ a);
+        Debug.Log("Il mio attacco è:"+ atk);
+        return atk;
+    }
 
 
     public void DecreaseLùth(float i)
@@ -339,5 +350,10 @@ public class PlayerController : MonoBehaviour
             this.other = view.gameObject;
             actual.GetComponent<CircleMov>().SetTargetTransform(other);
         }
+    }
+    public float returnHp()
+    {
+        return hp;
+
     }
 }
