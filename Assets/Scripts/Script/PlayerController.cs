@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private float _maxlùth;
     private bool lùthfinito;
     private AnimatorManager myAniManager;
+    public float hp;
 
     public Button _asbtn, _tankbtn, _supbtn;
     private bool alive, resurrection, transformable, clickingPlayer;
@@ -55,6 +56,7 @@ public class PlayerController : MonoBehaviour
         _lùth = 0;
         atk = 3;
         _maxlùth = 100;
+        hp = 100;
         _playerHealth = GetComponent<Health>();
         myAniManager = GetComponent<AnimatorManager>();
         if (myPV.isMine)
@@ -348,5 +350,10 @@ public class PlayerController : MonoBehaviour
             this.other = view.gameObject;
             actual.GetComponent<CircleMov>().SetTargetTransform(other);
         }
+    }
+    public float returnHp()
+    {
+        return hp;
+
     }
 }

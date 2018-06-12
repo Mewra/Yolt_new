@@ -68,13 +68,13 @@ public class EnemyController : MonoBehaviour
             {
                 GetFound = true;
                 TargetPlayer = playerTarget.transform;
-                yield return new WaitForSeconds(0.3f);
+                //yield return new WaitForSeconds(0.3f);
 
             }
             else
             {
                 TargetPlayer = null;
-                yield return new WaitForSeconds(0.3f);
+                //yield return new WaitForSeconds(0.3f);
             }
             yield return new WaitForSeconds(0.3f);
         }
