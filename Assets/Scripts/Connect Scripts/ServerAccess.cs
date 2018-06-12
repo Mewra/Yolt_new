@@ -11,6 +11,12 @@ public class ServerAccess : Photon.PunBehaviour
     #region Unity.MonoBehaviour Callbacks
     void Awake()
     {
+       
+    }
+    #endregion
+
+    public void EnterLobby()
+    {
         connectPanel.text = "Trying to connect to the server";
         PhotonNetwork.automaticallySyncScene = true;
         if (PhotonNetwork.connectionStateDetailed == ClientState.PeerCreated)
@@ -22,7 +28,11 @@ public class ServerAccess : Photon.PunBehaviour
             PhotonNetwork.playerName = "Guest#" + Random.Range(1, 9999);
         }
     }
-    #endregion
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
 
     #region Photon.PunBehavoiur Callbacks
     public override void OnConnectedToMaster()
@@ -36,6 +46,7 @@ public class ServerAccess : Photon.PunBehaviour
     {
         base.OnFailedToConnectToPhoton(cause);
         connectPanel.text = "Connection failed: " + cause;
+        // open message with error
     }
     #endregion
 }
