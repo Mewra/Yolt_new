@@ -31,7 +31,7 @@ public class UnlockDoorsWithCoins : MonoBehaviour {
         {  
             if (Input.GetKey(KeyCode.Z) && !Paid)
             {
-                if (other.GetComponent<CoinSystem>().returnCoin() >= 100)
+                if (other.GetComponent<CoinSystem>().ReturnCoin() >= 100)
                 {
                     DoorDown.SetTrigger("paid");
                     other.GetComponent<CoinSystem>().unlockDoor();

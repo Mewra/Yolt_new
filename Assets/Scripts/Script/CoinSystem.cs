@@ -10,7 +10,6 @@ public class CoinSystem : MonoBehaviour
     void Start()
     {
         Coin = 100;
-
     }
 
     // Update is called once per frame
@@ -22,19 +21,27 @@ public class CoinSystem : MonoBehaviour
     {
         Coin -= 100;
     }
-    public void raiseAtk5()
+    public void RaiseAtk()
     {
-        Coin -= 50;
+        Coin -= 600;
         Debug.Log("I miei soldi sono:" + Coin);
     }
 
-    public void raiseAtk10()
+    public void RaiseSpeed()
     {
-        Coin -= 100;
+        Coin -= 600;
         Debug.Log("I miei soldi sono:" + Coin);
     }
+    public void RaiseHealth()
+    {
+        Coin -= 600;
+    }
+    public void Revive()
+    {
+        Coin -= 300;
+    }
 
-    public int returnCoin()
+    public int ReturnCoin()
     {
         return Coin;
 

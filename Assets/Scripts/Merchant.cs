@@ -50,14 +50,14 @@ public class Merchant : MonoBehaviour {
         shopText.gameObject.SetActive(false);
     }
 
-    public void RaiseAtk5()
+    public void RaiseAtk()
     {
 
-        if (player.transform.parent.GetComponent<CoinSystem>().returnCoin() >= 50)
+        if (player.transform.parent.GetComponent<CoinSystem>().ReturnCoin() >= 600)
         {
-            player.transform.parent.GetComponent<PlayerController>().raiseAtk(5f);
-            player.transform.parent.GetComponent<CoinSystem>().raiseAtk5();
-            //transform.parent.gameObject.SetActive(false);
+            player.transform.parent.GetComponent<PlayerController>().raiseAtk(10f);
+            player.transform.parent.GetComponent<CoinSystem>().RaiseAtk();
+            gameObject.SetActive(false);
         }
         else
         {
@@ -67,12 +67,42 @@ public class Merchant : MonoBehaviour {
         }
     }
 
-    public void RaiseAtk10()
+    public void RaiseSpeed()
     {
-        if (player.transform.parent.GetComponent<CoinSystem>().returnCoin() >= 50)
+        if (player.transform.parent.GetComponent<CoinSystem>().ReturnCoin() >= 600)
         {
-            player.transform.parent.GetComponent<PlayerController>().raiseAtk(10f);
-            player.transform.parent.GetComponent<CoinSystem>().raiseAtk10();
+            player.transform.parent.GetComponent<PlayerController>().raiseSpeed(5f);
+            player.transform.parent.GetComponent<CoinSystem>().RaiseSpeed();
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            transform.GetChild(0).gameObject.SetActive(false);
+            noMoneyText.gameObject.SetActive(true);
+            StartCoroutine("DisappearText");
+        }
+    }
+    public void RaiseHealth()
+    {
+        if (player.transform.parent.GetComponent<CoinSystem>().ReturnCoin() >= 600)
+        {
+            player.transform.parent.GetComponent<PlayerController>().raiseHealth(100f);
+            player.transform.parent.GetComponent<CoinSystem>().RaiseHealth();
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            transform.GetChild(0).gameObject.SetActive(false);
+            noMoneyText.gameObject.SetActive(true);
+            StartCoroutine("DisappearText");
+        }
+    }
+    public void Revive()
+    {
+        if (player.transform.parent.GetComponent<CoinSystem>().ReturnCoin() >= 300)
+        {
+            player.transform.parent.GetComponent<PlayerController>().Revive();
+            player.transform.parent.GetComponent<CoinSystem>().Revive();
         }
         else
         {

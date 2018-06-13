@@ -14,6 +14,8 @@ public class EnemyController : MonoBehaviour
     private Animator animator;
     private bool GetFound=false;
     public GameObject playerTarget;
+    public bool targetInRange = false;
+    //public AnimationClip clip;
    
 
     void Start()
@@ -30,15 +32,27 @@ public class EnemyController : MonoBehaviour
         dt = new DecisionTree(d1);
         dtAttack = new DecisionTree(d2);
         nav = gameObject.GetComponent<NavMeshAgent>();
+        //AnimationEvent animationEvent = new AnimationEvent();
+        //animationEvent.functionName = "DoDamage";
+        //Debug.Log(clip.length*0.66);
+        
+        //animationEvent.time = (clip.length * 0.66f);
+        //clip.AddEvent(animationEvent);
+
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        animator.SetFloat("speed" , nav.velocity.magnitude);
-        animator.SetFloat("Distance", nav.remainingDistance);
-        //nav.SetDestination(TargetPlayer.transform.position);
+        if(nav.remainingDistance<=nav.stoppingDistance && GetFound)
+        {
+            animator.SetBool("TargetInRange", true);
+        }
+        else
+        {
+            animator.SetBool("TargetInRange", false);
+        }
     }
 
     public object Nearest(object o)
@@ -85,7 +99,7 @@ public class EnemyController : MonoBehaviour
     StartCoroutine("Follow");
     return null; 
     }
-
+   
     IEnumerator Follow()
     {
         while (true)
@@ -108,10 +122,12 @@ public class EnemyController : MonoBehaviour
 
     object AttackDecision(object o)
     {
-        if (nav.remainingDistance <= 1)
+        if (nav.remainingDistance <= 4)
         {
-             return true;
+            animator.SetBool("TargetInRange", true);
+            return true;
         }
+        animator.SetBool("TargetInRange", false);
         return false;
     }
 
@@ -148,12 +164,25 @@ public class EnemyController : MonoBehaviour
         while (true)
         {
             dtAttack.walk();
-            if (PhotonNetwork.isMasterClient)
+            yield return new WaitForSeconds(0.3f); 
+            /*if (PhotonNetwork.isMasterClient || true)
             {
-                Debug.Log(playerTarget.name);
+                Debug.Log(animator.GetCurrentAnimatorStateInfo(0).length);
                 playerTarget.GetComponentInParent<PhotonView>().RPC("TakeDamageOnPlayer", PhotonTargets.AllViaServer, 10f);
-            }
-            yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length * 3f);
+                Debug.Log(playerTarget);
+                playerTarget.GetComponentInParent<HealthPlayer>().TakeDamageOnPlayer(10f);
+            }*/
+            
+        }
+    }
+
+    public void DoDamage()
+    {
+        if (PhotonNetwork.isMasterClient || true)
+        {
+            Debug.Log(animator.GetCurrentAnimatorStateInfo(0).length);
+            playerTarget.GetComponentInParent<PhotonView>().RPC("TakeDamageOnPlayer", PhotonTargets.AllViaServer, 10f);
+            playerTarget.GetComponentInParent<HealthPlayer>().TakeDamageOnPlayer(10f);
         }
     }
 
