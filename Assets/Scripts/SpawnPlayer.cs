@@ -27,7 +27,7 @@ public class SpawnPlayer : MonoBehaviour
             go.GetComponentInChildren<MovementGhost>().enabled = true;
             // TODO : find all the components in the other childs
             for (int j = 1; j < go.transform.childCount; j++)
-           {
+            {
                 if(!go.transform.GetChild(j).gameObject.GetActive())
                 {
                     go.transform.GetChild(j).gameObject.SetActive(true);
@@ -41,7 +41,7 @@ public class SpawnPlayer : MonoBehaviour
                     }
                     go.transform.GetChild(j).gameObject.SetActive(false);
                 }
-           }
+            }
            go.GetComponentInChildren<RotatePlayer>().enabled = true;
            go.GetComponentInChildren<GunControler>().enabled = true;
            go.GetComponentInChildren<PlayerAnimation>().enabled = true;
