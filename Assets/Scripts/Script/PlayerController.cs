@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     private Camera cam;
     public float _lùth;
     private float _maxlùth;
-    private bool lùthfinito;
+    public bool lùthfinito;
     private AnimatorManager myAniManager;
     public float hp, speed, atk;
     
@@ -100,11 +100,13 @@ public class PlayerController : MonoBehaviour
                 case 0:
                     {
                         myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.player);
-                        myAniManager.RestoreAnimatorView(0);
+                        myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)(0f));
+                        // myAniManager.RestoreAnimatorView(0);
                         if (_playerHealth._health <= 0 && myPV.isMine)
                         {
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
-                            myAniManager.RestoreAnimatorView(1);
+                            myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
+                            // myAniManager.RestoreAnimatorView(1);
                             // state = CLASSES.ghost;
                         }
                         break;
@@ -115,8 +117,10 @@ public class PlayerController : MonoBehaviour
                         if (resurrection)
                         {
                             // state = CLASSES.player;
+                            gameObject.GetComponent<MovementGhost>().enabled = true;
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.player);
-                            myAniManager.RestoreAnimatorView(0);
+                            myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)0f);
+                            // myAniManager.RestoreAnimatorView(0);
                             _playerHealth._health = 100; //maxhealth
                             resurrection = false;
                         }
@@ -171,14 +175,16 @@ public class PlayerController : MonoBehaviour
                         if (lùthfinito)
                         {
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
-                            myAniManager.RestoreAnimatorView(1);
+                            myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
+                            // myAniManager.RestoreAnimatorView(1);
                             // state = CLASSES.ghost;
                         }
 
                         if(other.GetActive() == false)
                         {
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
-                            myAniManager.RestoreAnimatorView(1);
+                            myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
+                            // myAniManager.RestoreAnimatorView(1);
                             // state = CLASSES.ghost;
                         }
                         break;
@@ -192,14 +198,16 @@ public class PlayerController : MonoBehaviour
                         if (lùthfinito)
                         {
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
-                            myAniManager.RestoreAnimatorView(1);
+                            myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
+                            // myAniManager.RestoreAnimatorView(1);
                             // state = CLASSES.ghost;
                         }
 
                         if (other.GetActive() == false)
                         {
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
-                            myAniManager.RestoreAnimatorView(1);
+                            myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
+                            // myAniManager.RestoreAnimatorView(1);
                             // state = CLASSES.ghost;
                         }
                         break;
@@ -213,14 +221,16 @@ public class PlayerController : MonoBehaviour
                         {
                             // state = CLASSES.ghost;
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
-                            myAniManager.RestoreAnimatorView(1);
+                            myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
+                            // myAniManager.RestoreAnimatorView(1);
                         }
 
                         if (other.GetActive() == false)
                         {
                             // state = CLASSES.ghost;
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
-                            myAniManager.RestoreAnimatorView(1);
+                            myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
+                            // myAniManager.RestoreAnimatorView(1);
                         }
                         break;
                     }
@@ -258,21 +268,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
-    public void DecreaseLùth(float i)
-    {
-        if (state == CLASSES.assassin || state == CLASSES.support || state == CLASSES.tank)
-        {
-            _lùth -= i;
-
-            if (_lùth < 0)
-            {
-                _lùth = 0;
-
-                lùthfinito = true;
-            }
-        }
-    }
+    
 
     [PunRPC]
     public void ChangeState(int _state)
@@ -358,6 +354,22 @@ public class PlayerController : MonoBehaviour
                 {
                     transformable = true;
                 }
+            }
+        }
+    }
+
+    [PunRPC]
+    public void DecreaseLùth(float i)
+    {
+        if (state == CLASSES.assassin || state == CLASSES.support || state == CLASSES.tank)
+        {
+            _lùth -= i;
+
+            if (_lùth < 0)
+            {
+                _lùth = 0;
+
+                lùthfinito = true;
             }
         }
     }

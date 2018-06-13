@@ -23,8 +23,11 @@ public class Stun : MonoBehaviour
     {
         if (other.gameObject.tag == "Enemy")
         {
-            other.GetComponent<Health>().TakeDamage(_damage);
-            other.gameObject.GetComponent<EnemyManager>().Stun();
+            //other.GetComponent<Health>().TakeDamage(_damage);
+            other.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, _damage);
+
+            //other.gameObject.GetComponent<EnemyManager>().Stun();
+            other.gameObject.GetComponent<PhotonView>().RPC("Stun", PhotonTargets.AllViaServer);
         }
     }
 }

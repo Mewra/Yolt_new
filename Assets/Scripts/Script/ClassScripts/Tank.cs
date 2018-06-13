@@ -136,7 +136,8 @@ public class Tank : MonoBehaviour {
                 usableQ = false;
 
                 ////////////////RPC///////////////////////
-                GetComponentInParent<PlayerController>().DecreaseLùth(Qcost);
+                //GetComponentInParent<PlayerController>().DecreaseLùth(Qcost);
+                gameObject.GetComponentInParent<PhotonView>().RPC("DecreaseLùth", PhotonTargets.AllViaServer, Qcost);
 
                 _materialShield.material = _SpellMaterialShield;
 
@@ -167,7 +168,9 @@ public class Tank : MonoBehaviour {
                 usableW = false;
 
                 ////////////////////////RPC//////////////////////
-                GetComponentInParent<PlayerController>().DecreaseLùth(Wcost);
+                //GetComponentInParent<PlayerController>().DecreaseLùth(Wcost);
+                gameObject.GetComponentInParent<PhotonView>().RPC("DecreaseLùth", PhotonTargets.AllViaServer, Wcost);
+
                 //quando il mouse viene alzato disabilita la mesh renderer e abilita il collider
                 _conoMesh.enabled = false;
 
@@ -195,7 +198,9 @@ public class Tank : MonoBehaviour {
 
 
                 //////////////////RPC////////////////////
-                GetComponentInParent<PlayerController>().DecreaseLùth(maxluth);
+                //GetComponentInParent<PlayerController>().DecreaseLùth(maxluth);
+                gameObject.GetComponentInParent<PhotonView>().RPC("DecreaseLùth", PhotonTargets.AllViaServer, maxluth);
+
                 _pullMesh.enabled = false;
 
                 _pullColl.enabled = true;

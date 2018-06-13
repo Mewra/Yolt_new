@@ -9,7 +9,8 @@ public class EnemyManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        speed = 100;
+        //speed = 100;
+        speed = this.gameObject.GetComponent<MovementGhost>().speed;
 		
 	}
 	
@@ -18,6 +19,7 @@ public class EnemyManager : MonoBehaviour {
 		
 	}
 
+    [PunRPC]
     public void Slow(float slow)
     {
         speed -= slow;
@@ -26,6 +28,7 @@ public class EnemyManager : MonoBehaviour {
         StartCoroutine(DebuffDuration(5.0f));
     }
 
+    [PunRPC]
     //oltre a non poter muoversi non possono neanche attaccare (da implementare dopo)
     public void Stun() {
         speed = 0;
@@ -35,7 +38,7 @@ public class EnemyManager : MonoBehaviour {
     public IEnumerator DebuffDuration(float dur)
     {
         yield return new WaitForSeconds(dur);
-        speed = 100;
+        speed = 5;
 
     }
 }

@@ -21,6 +21,7 @@ public class HealthPlayer : MonoBehaviour
         }
     }
 
+    [PunRPC]
     public void AreaHeal(float heal)
     {
         _health += heal;
@@ -35,6 +36,7 @@ public class HealthPlayer : MonoBehaviour
             _healthBar.fillAmount = CalculateHealth();
         }
     }
+
     float CalculateHealth()
     {
         return _health / 100f;

@@ -9,12 +9,9 @@ public class DestroyOnCollision : MonoBehaviour
 
     private void OnCollisionEnter(Collision other) 
     {
-        Debug.Log("ciao");
-        Debug.Log(other.gameObject.name);
         Destroy(this.gameObject);
         if(other.gameObject.tag == "Enemy")
         {
-            Debug.Log("Sto colpendo un enemy");
             if(PhotonNetwork.isMasterClient)
             {
                 other.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, _damage);
