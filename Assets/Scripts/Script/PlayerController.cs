@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     private Camera cam;
     public float _lùth;
     private float _maxlùth;
-    private bool lùthfinito;
+    public bool lùthfinito;
     private AnimatorManager myAniManager;
     public float hp;
 
@@ -239,21 +239,7 @@ public class PlayerController : MonoBehaviour
         return atk;
     }
 
-
-    public void DecreaseLùth(float i)
-    {
-        if (state == CLASSES.assassin || state == CLASSES.support || state == CLASSES.tank)
-        {
-            _lùth -= i;
-
-            if (_lùth < 0)
-            {
-                _lùth = 0;
-
-                lùthfinito = true;
-            }
-        }
-    }
+    
 
     [PunRPC]
     public void ChangeState(int _state)
@@ -339,6 +325,22 @@ public class PlayerController : MonoBehaviour
                 {
                     transformable = true;
                 }
+            }
+        }
+    }
+
+    [PunRPC]
+    public void DecreaseLùth(float i)
+    {
+        if (state == CLASSES.assassin || state == CLASSES.support || state == CLASSES.tank)
+        {
+            _lùth -= i;
+
+            if (_lùth < 0)
+            {
+                _lùth = 0;
+
+                lùthfinito = true;
             }
         }
     }

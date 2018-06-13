@@ -142,8 +142,8 @@ public class Assassin : MonoBehaviour
                 _psQ.Play();
 
                 ///////////////////////////RPC/////////////////////////
-                GetComponentInParent<PlayerController>().DecreaseLùth(Qcost);
-
+                //GetComponentInParent<PlayerController>().DecreaseLùth(Qcost);
+                gameObject.GetComponentInParent<PhotonView>().RPC("DecreaseLùth", PhotonTargets.AllViaServer, Qcost);
 
                 usableQ = false;
                 _sferaColl.enabled = true;
@@ -181,7 +181,8 @@ public class Assassin : MonoBehaviour
 
 
                 ////////////////////////////////////////////RPC/////////////////
-                GetComponentInParent<PlayerController>().DecreaseLùth(Wcost);
+                gameObject.GetComponentInParent<PhotonView>().RPC("DecreaseLùth", PhotonTargets.AllViaServer, Wcost);
+                //GetComponentInParent<PlayerController>().DecreaseLùth(Wcost);
 
                 coroutineW = FieldDamageDuration();
                 StartCoroutine(coroutineW);
@@ -206,8 +207,9 @@ public class Assassin : MonoBehaviour
             if (usableR)
             {
 
-                //////////////////////////////RPC///////////////////////
-                GetComponentInParent<PlayerController>().DecreaseLùth(maxluth);
+
+                //GetComponentInParent<PlayerController>().DecreaseLùth(maxluth);
+                gameObject.GetComponentInParent<PhotonView>().RPC("DecreaseLùth", PhotonTargets.AllViaServer, maxluth);
 
                 _laseroneColl.enabled = true;
 

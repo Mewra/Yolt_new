@@ -20,8 +20,11 @@ public class Slow : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Enemy") {
-            other.GetComponent<Health>().TakeDamage(_damage);
-            other.gameObject.GetComponent<EnemyManager>().Slow(_slow);
+            //other.GetComponent<Health>().TakeDamage(_damage);
+            other.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, _damage);
+            //other.gameObject.GetComponent<EnemyManager>().Slow(_slow);
+            other.gameObject.GetComponent<PhotonView>().RPC("Slow", PhotonTargets.AllViaServer, _slow);
+            // DA CREARE IL METODO PUN RPC DI SLOW IN ENEMY MANAGER O ENEMY CONTROLLER
         }
     }
 }

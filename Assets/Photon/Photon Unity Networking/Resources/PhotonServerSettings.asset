@@ -50,4 +50,8 @@ MonoBehaviour:
   - SetParentOnCircleMove
   - TakeDamage
   - TakeDamageOnPlayer
+  - "DecreaseL\xF9th"
+  - AreaHeal
+  - Slow
+  - Stun
   DisableAutoOpenWizard: 1

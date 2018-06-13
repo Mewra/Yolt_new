@@ -29,7 +29,8 @@ public class Cono : MonoBehaviour
             //Debug.Log("Sono dentro enemy");
             if (t > 0.5)
             {
-                coll.gameObject.GetComponent<Health>().TakeDamage(2);
+                coll.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 2.0f);
+                //coll.gameObject.GetComponent<Health>().TakeDamage(2);
                 //Debug.Log("Sto facendo 2 danni");
                 t = 0;
             }
