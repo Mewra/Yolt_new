@@ -13,7 +13,8 @@ public class PlayerController : MonoBehaviour
     private float _maxlùth;
     public bool lùthfinito;
     private AnimatorManager myAniManager;
-    public float hp;
+    public float hp, speed, atk;
+    
 
     public Button _asbtn, _tankbtn, _supbtn;
     private bool alive, resurrection, transformable, clickingPlayer;
@@ -30,7 +31,6 @@ public class PlayerController : MonoBehaviour
 
     private HealthPlayer _playerHealth;
     private GameManager _gameManager;
-    private float atk;//messa da Alfio
     public CLASSES state;
 
     private void Awake()
@@ -54,7 +54,9 @@ public class PlayerController : MonoBehaviour
         resurrection = false;
         lùthfinito = false;
         _lùth = 0;
-        atk = 3;
+        atk = 10;
+        speed = 5;
+        hp = 100;
         _maxlùth = 100;
         hp = 100;
         _playerHealth = GetComponent<HealthPlayer>();
@@ -237,6 +239,23 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Ho alzato l'attacco di"+ a);
         Debug.Log("Il mio attacco è:"+ atk);
         return atk;
+    }
+    public float raiseSpeed(float a)
+    {
+        speed = speed + a;
+        return speed;
+    }
+    public float raiseHealth(float a)
+    {
+        hp = hp + a;
+        return hp;
+    }
+    public void Revive()
+    {
+        if (hp <= 0)
+        {
+            hp = 100;
+        }
     }
 
     
