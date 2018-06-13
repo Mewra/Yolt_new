@@ -10,7 +10,7 @@ Material:
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _EMISSION
   m_LightmapFlags: 1
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -72,5 +72,5 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.7158454, g: 0.7647059, b: 0.25865054, a: 1}
-    - _EmissionColor: {r: 0.8308824, g: 0.81537706, b: 0.2688149, a: 1}
+    - _Color: {r: 0.2936866, g: 0.8602941, b: 0.5853228, a: 0.815}
+    - _EmissionColor: {r: 0.22123694, g: 0.5817824, b: 0.6838235, a: 1}
