@@ -1654,6 +1654,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nav: {fileID: 195952068348908008}
   Target: {x: 0, y: 0, z: 0}
+  playerTarget: {fileID: 0}
 --- !u!114 &114613918282212960
 MonoBehaviour:
   m_ObjectHideFlags: 1

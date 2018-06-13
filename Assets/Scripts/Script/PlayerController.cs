@@ -98,11 +98,13 @@ public class PlayerController : MonoBehaviour
                 case 0:
                     {
                         myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.player);
-                        myAniManager.RestoreAnimatorView(0);
+                        myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)(0f));
+                        // myAniManager.RestoreAnimatorView(0);
                         if (_playerHealth._health <= 0 && myPV.isMine)
                         {
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
-                            myAniManager.RestoreAnimatorView(1);
+                            myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
+                            // myAniManager.RestoreAnimatorView(1);
                             // state = CLASSES.ghost;
                         }
                         break;
@@ -113,8 +115,10 @@ public class PlayerController : MonoBehaviour
                         if (resurrection)
                         {
                             // state = CLASSES.player;
+                            gameObject.GetComponent<MovementGhost>().enabled = true;
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.player);
-                            myAniManager.RestoreAnimatorView(0);
+                            myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)0f);
+                            // myAniManager.RestoreAnimatorView(0);
                             _playerHealth._health = 100; //maxhealth
                             resurrection = false;
                         }
@@ -169,14 +173,16 @@ public class PlayerController : MonoBehaviour
                         if (lùthfinito)
                         {
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
-                            myAniManager.RestoreAnimatorView(1);
+                            myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
+                            // myAniManager.RestoreAnimatorView(1);
                             // state = CLASSES.ghost;
                         }
 
                         if(other.GetActive() == false)
                         {
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
-                            myAniManager.RestoreAnimatorView(1);
+                            myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
+                            // myAniManager.RestoreAnimatorView(1);
                             // state = CLASSES.ghost;
                         }
                         break;
@@ -190,14 +196,16 @@ public class PlayerController : MonoBehaviour
                         if (lùthfinito)
                         {
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
-                            myAniManager.RestoreAnimatorView(1);
+                            myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
+                            // myAniManager.RestoreAnimatorView(1);
                             // state = CLASSES.ghost;
                         }
 
                         if (other.GetActive() == false)
                         {
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
-                            myAniManager.RestoreAnimatorView(1);
+                            myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
+                            // myAniManager.RestoreAnimatorView(1);
                             // state = CLASSES.ghost;
                         }
                         break;
@@ -211,14 +219,16 @@ public class PlayerController : MonoBehaviour
                         {
                             // state = CLASSES.ghost;
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
-                            myAniManager.RestoreAnimatorView(1);
+                            myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
+                            // myAniManager.RestoreAnimatorView(1);
                         }
 
                         if (other.GetActive() == false)
                         {
                             // state = CLASSES.ghost;
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
-                            myAniManager.RestoreAnimatorView(1);
+                            myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
+                            // myAniManager.RestoreAnimatorView(1);
                         }
                         break;
                     }

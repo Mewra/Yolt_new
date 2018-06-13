@@ -50,4 +50,5 @@ MonoBehaviour:
   - SetParentOnCircleMove
   - TakeDamage
   - TakeDamageOnPlayer
+  - RestoreAnimatorView
   DisableAutoOpenWizard: 1

@@ -13,6 +13,7 @@ public class AnimatorManager : MonoBehaviour
         myPV.ObservedComponents.Add(child[0].GetComponent<PhotonAnimatorView>());
     }
 
+    [PunRPC]
     public void RestoreAnimatorView(int index)
     {
         myPV.ObservedComponents.RemoveAt(1);
