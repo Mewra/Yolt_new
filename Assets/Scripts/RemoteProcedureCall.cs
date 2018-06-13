@@ -5,9 +5,12 @@ using UnityEngine;
 public class RemoteProcedureCall : MonoBehaviour
 {
     private Animator anim;
+    public GameObject parent;
+    private PlayerController pc; 
     private void Start()
     {
         anim = GetComponentInChildren<Animator>();
+        pc = parent.GetComponent<PlayerController>();
     }
 
     #region PunRPC
@@ -17,6 +20,22 @@ public class RemoteProcedureCall : MonoBehaviour
         anim.SetTrigger("shoot");
         GameObject newBullet = Instantiate(Resources.Load("Bullet"), pos, dir) as GameObject;
         newBullet.GetComponent<Rigidbody>().velocity = newBullet.transform.forward * speed;
+    }
+
+    [PunRPC]
+    public void DecreaseLùth(float i)
+    {
+        if (pc.state == PlayerController.CLASSES.assassin || pc.state == PlayerController.CLASSES.support || pc.state == PlayerController.CLASSES.tank)
+        {
+            pc._lùth -= i;
+
+            if (pc._lùth < 0)
+            {
+                pc._lùth = 0;
+
+                pc.lùthfinito = true;
+            }
+        }
     }
     #endregion
 }

@@ -50,5 +50,12 @@ MonoBehaviour:
   - SetParentOnCircleMove
   - TakeDamage
   - TakeDamageOnPlayer
+<<<<<<< HEAD
   - RestoreAnimatorView
+=======
+  - "DecreaseL\xF9th"
+  - AreaHeal
+  - Slow
+  - Stun
+>>>>>>> master
   DisableAutoOpenWizard: 1

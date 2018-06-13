@@ -19,7 +19,10 @@ public class Redemption : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player") {
-            other.GetComponent<Health>().AreaHeal(_heal);
+
+            other.gameObject.GetComponentInParent<PhotonView>().RPC("AreaHeal", PhotonTargets.AllViaServer, _heal);
+
+            //other.GetComponent<Health>().AreaHeal(_heal);
         }
     }
 }

@@ -124,7 +124,8 @@ public class Support : MonoBehaviour
                 usableQ = false;
 
                 //////////////////////////RPC////////////////////
-                GetComponentInParent<PlayerController>().DecreaseLùth(Qcost);
+                //GetComponentInParent<PlayerController>().DecreaseLùth(Qcost);
+                gameObject.GetComponentInParent<PhotonView>().RPC("DecreaseLùth", PhotonTargets.AllViaServer, Qcost);
 
                 _slowColl.enabled = true;
 
@@ -153,7 +154,8 @@ public class Support : MonoBehaviour
                 usableW = false;
 
                 /////////////////RPC//////////////////
-                GetComponentInParent<PlayerController>().DecreaseLùth(Wcost);
+                //GetComponentInParent<PlayerController>().DecreaseLùth(Wcost);
+                gameObject.GetComponentInParent<PhotonView>().RPC("DecreaseLùth", PhotonTargets.AllViaServer, Wcost);
 
                 _TransformPsW.transform.position = new Vector3(_redemption.transform.position.x, 0.5f, _redemption.transform.position.z);
                 _psW.Clear();
@@ -187,7 +189,9 @@ public class Support : MonoBehaviour
             if (Input.GetKeyUp(KeyCode.R))
             {
                 ////////////////////RPC///////////////////////
-                GetComponentInParent<PlayerController>().DecreaseLùth(maxluth);
+                //GetComponentInParent<PlayerController>().DecreaseLùth(maxluth);
+                gameObject.GetComponentInParent<PhotonView>().RPC("DecreaseLùth", PhotonTargets.AllViaServer, maxluth);
+
                 _taricMesh.enabled = false;
 
                 _taricColl.enabled = true;

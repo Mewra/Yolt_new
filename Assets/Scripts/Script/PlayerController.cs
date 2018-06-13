@@ -11,9 +11,10 @@ public class PlayerController : MonoBehaviour
     private Camera cam;
     public float _lùth;
     private float _maxlùth;
-    private bool lùthfinito;
+    public bool lùthfinito;
     private AnimatorManager myAniManager;
-    public float hp;
+    public float hp, speed, atk;
+    
 
     public Button _asbtn, _tankbtn, _supbtn;
     private bool alive, resurrection, transformable, clickingPlayer;
@@ -30,7 +31,6 @@ public class PlayerController : MonoBehaviour
 
     private HealthPlayer _playerHealth;
     private GameManager _gameManager;
-    private float atk;//messa da Alfio
     public CLASSES state;
 
     private void Awake()
@@ -54,7 +54,9 @@ public class PlayerController : MonoBehaviour
         resurrection = false;
         lùthfinito = false;
         _lùth = 0;
-        atk = 3;
+        atk = 10;
+        speed = 5;
+        hp = 100;
         _maxlùth = 100;
         hp = 100;
         _playerHealth = GetComponent<HealthPlayer>();
@@ -248,22 +250,25 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Il mio attacco è:"+ atk);
         return atk;
     }
-
-
-    public void DecreaseLùth(float i)
+    public float raiseSpeed(float a)
     {
-        if (state == CLASSES.assassin || state == CLASSES.support || state == CLASSES.tank)
+        speed = speed + a;
+        return speed;
+    }
+    public float raiseHealth(float a)
+    {
+        hp = hp + a;
+        return hp;
+    }
+    public void Revive()
+    {
+        if (hp <= 0)
         {
-            _lùth -= i;
-
-            if (_lùth < 0)
-            {
-                _lùth = 0;
-
-                lùthfinito = true;
-            }
+            hp = 100;
         }
     }
+
+    
 
     [PunRPC]
     public void ChangeState(int _state)
@@ -349,6 +354,22 @@ public class PlayerController : MonoBehaviour
                 {
                     transformable = true;
                 }
+            }
+        }
+    }
+
+    [PunRPC]
+    public void DecreaseLùth(float i)
+    {
+        if (state == CLASSES.assassin || state == CLASSES.support || state == CLASSES.tank)
+        {
+            _lùth -= i;
+
+            if (_lùth < 0)
+            {
+                _lùth = 0;
+
+                lùthfinito = true;
             }
         }
     }

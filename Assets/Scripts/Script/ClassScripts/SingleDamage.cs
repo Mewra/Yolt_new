@@ -21,7 +21,8 @@ public class SingleDamage : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Enemy") {
-            other.GetComponent<Health>().TakeDamage(damage);
+            other.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, damage);
+            //other.GetComponent<Health>().TakeDamage(damage);
         }
     }
 }
