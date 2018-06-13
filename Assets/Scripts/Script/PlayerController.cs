@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     //player = 0, ghost = 1, assassin = 2; tank = 3; support = 4;
     public enum CLASSES {player, ghost, assassin, tank, support};
 
-    private Health _playerHealth;
+    private HealthPlayer _playerHealth;
     private GameManager _gameManager;
     private float atk;//messa da Alfio
     public CLASSES state;
@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
         atk = 3;
         _maxlùth = 100;
         hp = 100;
-        _playerHealth = GetComponent<Health>();
+        _playerHealth = GetComponent<HealthPlayer>();
         myAniManager = GetComponent<AnimatorManager>();
         if (myPV.isMine)
         {
@@ -81,8 +81,10 @@ public class PlayerController : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(pos, out hit))
             {
+
                 if (hit.collider.gameObject.tag == "Player")
                 {
+                    Debug.Log(hit.collider.name);
                     other = hit.collider.gameObject;
                     clickingPlayer = true;
                 }
@@ -97,7 +99,7 @@ public class PlayerController : MonoBehaviour
                     {
                         myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.player);
                         myAniManager.RestoreAnimatorView(0);
-                        if (_playerHealth._health == 0 && myPV.isMine)
+                        if (_playerHealth._health <= 0 && myPV.isMine)
                         {
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
                             myAniManager.RestoreAnimatorView(1);
@@ -351,7 +353,7 @@ public class PlayerController : MonoBehaviour
             actual.GetComponent<CircleMov>().SetTargetTransform(other);
         }
     }
-    public float returnHp()
+    public float ReturnHp()
     {
         return hp;
 

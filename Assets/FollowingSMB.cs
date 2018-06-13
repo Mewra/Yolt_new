@@ -10,6 +10,7 @@ public class FollowingSMB : StateMachineBehaviour {
     //}
     public override void OnStateEnter(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
     {
+        // animator.gameObject.GetComponent<EnemyController>().StopCoroutine("AttackControl");
         animator.gameObject.GetComponent<EnemyController>().StartCoroutine("Patrol");
     }
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

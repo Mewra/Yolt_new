@@ -41,7 +41,8 @@ public class MovementGhost : MonoBehaviour
             {
                 smoothedSpeed = speed * 0.7f;
             }
-    
+
+            parent.position = Vector3.Lerp(transform.position, transform.position + new Vector3(m_vertical, 0f, m_vertical), smoothedSpeed * Time.deltaTime);
 
         }
         if (m_horizontal != 0)
@@ -51,7 +52,7 @@ public class MovementGhost : MonoBehaviour
             {
                 smoothedSpeed = speed * 0.7f;
             }
-            parent.position = Vector3.Lerp(transform.position, transform.position + new Vector3(m_horizontal, 0f, -m_horizontal), smoothedSpeed * Time.deltaTime);
+            parent.position = Vector3.Lerp(transform.position, transform.position + new Vector3(m_horizontal, 0f, -m_horizontal ), smoothedSpeed * Time.deltaTime);
         }
     }
 }

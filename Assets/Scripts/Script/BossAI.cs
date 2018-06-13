@@ -31,9 +31,9 @@ public class BossAI : MonoBehaviour {
             float hpPLayer = 0;
             foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
             {
-                if (hpPLayer < player.transform.GetComponent<PlayerController>().returnHp())
+                if (hpPLayer < player.transform.GetComponent<PlayerController>().ReturnHp())
                 {
-                    hpPLayer = player.transform.GetComponent<PlayerController>().returnHp();
+                    hpPLayer = player.transform.GetComponent<PlayerController>().ReturnHp();
                     playerTarget = player;
                 }
             }

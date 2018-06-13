@@ -48,4 +48,6 @@ MonoBehaviour:
   - TaggedPlayer
   - "IncreaseL\xF9th"
   - SetParentOnCircleMove
+  - TakeDamage
+  - TakeDamageOnPlayer
   DisableAutoOpenWizard: 1

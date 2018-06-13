@@ -13,6 +13,8 @@ TagManager:
   - Door
   - Choose
   - Canvas
+  - SF_Door
+  - Health Bar
   layers:
   - Default
   - TransparentFX

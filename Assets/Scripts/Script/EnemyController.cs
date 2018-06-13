@@ -13,11 +13,11 @@ public class EnemyController : MonoBehaviour
     public Vector3 Target;
     private Animator animator;
     private bool GetFound=false;
+    public GameObject playerTarget;
    
 
     void Start()
     {
-        
         animator = GetComponent<Animator>();
         DTDecision d1 = new DTDecision(Nearest);
         DTDecision d2 = new DTDecision(AttackDecision);
@@ -37,7 +37,6 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
         animator.SetFloat("speed" , nav.velocity.magnitude);
-        Debug.Log(nav.remainingDistance);
         animator.SetFloat("Distance", nav.remainingDistance);
         //nav.SetDestination(TargetPlayer.transform.position);
     }
@@ -54,7 +53,7 @@ public class EnemyController : MonoBehaviour
         while (true)
         {
             float targetdistance = Mathf.Infinity;
-            GameObject playerTarget = null;
+            playerTarget = null;
             foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
             {
                 float tmpDistance = Vector3.Distance(player.transform.position, transform.position);
@@ -101,7 +100,7 @@ public class EnemyController : MonoBehaviour
 
     IEnumerator Attack()
     {
-        while(nav.remainingDistance <= 1)
+        while(nav.remainingDistance <= nav.stoppingDistance)
         {
             yield return new WaitForSeconds(1f);
         }
@@ -149,7 +148,13 @@ public class EnemyController : MonoBehaviour
         while (true)
         {
             dtAttack.walk();
-            yield return new WaitForSeconds(0.3f);
+            if (PhotonNetwork.isMasterClient)
+            {
+                Debug.Log(playerTarget.name);
+                playerTarget.GetComponentInParent<PhotonView>().RPC("TakeDamageOnPlayer", PhotonTargets.AllViaServer, 10f);
+            }
+            yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length * 3f);
         }
     }
+
 }

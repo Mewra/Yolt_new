@@ -9,33 +9,36 @@ public class Health : MonoBehaviour
     public float _health;
     public float currentHealth;
 
+
+    private void Awake()
+    {
+        currentHealth = 100f;
+    }
     // Use this for initialization
     void Start()
     {
         _health = 100;
         currentHealth = _health;
-        healthBar.fillAmount = calculateHealt();
+        // healthBar.fillAmount = calculateHealt();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKey(KeyCode.X))
-        {
-            TakeDamage(6f);
-        }
-    }
 
     public void AreaHeal(float heal)
     {
         _health += heal;
     }
 
-
+    [PunRPC]
     public void TakeDamage(float dam)
     {
         currentHealth -= dam;
-        healthBar.fillAmount = calculateHealt();
+        // healthBar.fillAmount = calculateHealt();
+        if(currentHealth <= 0)
+        {
+            PhotonNetwork.InstantiateSceneObject(GameManager.Instance.luth.name, this.gameObject.transform.position, Quaternion.identity, 0, null);
+
+            PhotonNetwork.Destroy(gameObject);
+        }
     }
     float calculateHealt()
     {
