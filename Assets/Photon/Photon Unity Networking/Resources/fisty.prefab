@@ -1442,7 +1442,7 @@ Animation:
   m_GameObject: {fileID: 1414508309048784}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 7400006, guid: cc4eae6c3fc22ce48b67dfd2697f3f3c, type: 3}
+  m_Animation: {fileID: 7400006, guid: 45f41b9a5a678bb4cb8aceb5b5a030f6, type: 3}
   m_Animations: []
   m_WrapMode: 0
   m_PlayAutomatically: 1
@@ -1655,6 +1655,7 @@ MonoBehaviour:
   nav: {fileID: 195952068348908008}
   Target: {x: 0, y: 0, z: 0}
   playerTarget: {fileID: 0}
+  targetInRange: 0
 --- !u!114 &114613918282212960
 MonoBehaviour:
   m_ObjectHideFlags: 1

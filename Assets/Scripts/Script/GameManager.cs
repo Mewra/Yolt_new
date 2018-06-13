@@ -8,10 +8,15 @@ public class GameManager : MonoBehaviour
     private static GameManager instance = null;
     public GameObject SE;
     private SpawnEnemies _SE;
+    public GameObject SM;
+    private SpawnMerchant _SM;
     public byte currentWave;
     public int numberOfEnemiesToSpawn;
     public int numberOfEnemiesAlives;
     public GameObject luth;
+    public bool pause;
+    public bool noSpawn;
+
     public static GameManager Instance
     {
         get { return instance; }
@@ -34,17 +39,50 @@ public class GameManager : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
+        pause = false;
+        noSpawn = true;
         _SE = SE.GetComponent<SpawnEnemies>();
-        currentWave = 0;
+        _SM = SM.GetComponent<SpawnMerchant>();
+        currentWave = 1;
         numberOfEnemiesToSpawn = 20; // mettere qui la funzione matematica in futuro
         numberOfEnemiesAlives = numberOfEnemiesToSpawn;
-        // _SE.Spawn(numberOfEnemiesToSpawn);
-        _SE.Spawn(1);
+        _SE.Spawn(numberOfEnemiesToSpawn);
+        // _SE.Spawn(1);
     }
 
     // Update is called once per frame
-    void Update ()
+    void Update()
     {
+      
 		
 	}
+
+    public void enemyKilled() {
+        numberOfEnemiesAlives--;
+        if (numberOfEnemiesAlives == 0) {
+            currentWave++;
+            noSpawn = true;
+            pause = true;
+            StartCoroutine("PauseTime");
+
+        }
+    }
+
+    public IEnumerator PauseTime()
+    {
+        _SM.Spawn();
+        yield return new WaitForSeconds(15.0f);
+        _SM.Despawn();
+        pause = false;
+        SpawnWave(currentWave);
+
+    }
+
+    public void SpawnWave(int numwave) {
+
+        numberOfEnemiesToSpawn = numwave * 10 + 10;
+        numberOfEnemiesAlives = numberOfEnemiesToSpawn;
+        _SE.Spawn(numberOfEnemiesToSpawn);
+
+    }
 }

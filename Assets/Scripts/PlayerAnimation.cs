@@ -16,6 +16,9 @@ public class PlayerAnimation : MonoBehaviour
 
     private void Update()
     {
+        //if (!myPhotonView.isMine)
+        //    return;
+
         m_horizontal = Input.GetAxis("Horizontal");
         m_vertical = Input.GetAxis("Vertical");
         if (m_horizontal == 0 && m_vertical == 0)

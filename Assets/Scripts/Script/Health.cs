@@ -36,8 +36,9 @@ public class Health : MonoBehaviour
         if(currentHealth <= 0)
         {
             PhotonNetwork.InstantiateSceneObject(GameManager.Instance.luth.name, this.gameObject.transform.position, Quaternion.identity, 0, null);
-
+            GameManager.Instance.enemyKilled();
             PhotonNetwork.Destroy(gameObject);
+            
         }
     }
     float calculateHealt()
