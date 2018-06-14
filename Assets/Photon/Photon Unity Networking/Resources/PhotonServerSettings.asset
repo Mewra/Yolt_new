@@ -27,15 +27,18 @@ MonoBehaviour:
   NetworkLogging: 1
   RunInBackground: 1
   RpcList:
+  - AreaHeal
   - ChangeState
   - Chat
   - ColorRpc
+  - "DecreaseL\xF9th"
   - DestroyRpc
   - DoJump
   - Fire
   - Flash
   - FreeTheSlots
   - GetReady
+  - "IncreaseL\xF9th"
   - InstantiateRpc
   - Marco
   - PickupItemInit
@@ -45,17 +48,11 @@ MonoBehaviour:
   - PunRespawn
   - RequestForPickupItems
   - RequestForPickupTimes
-  - TaggedPlayer
-  - "IncreaseL\xF9th"
-  - SetParentOnCircleMove
-  - TakeDamage
-  - TakeDamageOnPlayer
-<<<<<<< HEAD
   - RestoreAnimatorView
-=======
-  - "DecreaseL\xF9th"
-  - AreaHeal
+  - SetParentOnCircleMove
   - Slow
   - Stun
->>>>>>> master
+  - TaggedPlayer
+  - TakeDamage
+  - TakeDamageOnPlayer
   DisableAutoOpenWizard: 1
