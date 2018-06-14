@@ -7599,7 +7599,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1357809608692244}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -38.9}
   m_LocalScale: {x: 1.9507706, y: 1.9507715, z: 1.9507715}
   m_Children:
   - {fileID: 4069233504946142}
@@ -10124,11 +10124,11 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1357809608692244}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 100
   m_Drag: 0
   m_AngularDrag: 0
   m_UseGravity: 0
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 0
@@ -10373,6 +10373,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a24d80045d997a438aef23dbf6ef3cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parent: {fileID: 1357809608692244}
 --- !u!114 &114271273859406058
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10547,7 +10548,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletSpeed: 12
-  timeBetweenShots: 0.5
+  timeBetweenShots: 0.25
   myView: {fileID: 0}
   firepoint: {fileID: 4649109178172184}
 --- !u!114 &114624338193746060
@@ -10573,7 +10574,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   "_l\xF9th": 0
+  "l\xF9thfinito": 0
   hp: 0
+  speed: 0
+  atk: 0
   _asbtn: {fileID: 0}
   _tankbtn: {fileID: 0}
   _supbtn: {fileID: 0}

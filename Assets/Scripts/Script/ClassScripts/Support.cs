@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Support : MonoBehaviour
 {
+    private PhotonView myPhotonView;
     private Camera cam;
     private IEnumerator coroutineQ;
     private IEnumerator coroutineW;
@@ -53,6 +54,9 @@ public class Support : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        myPhotonView = GetComponentInParent<PhotonView>();
+        if (!myPhotonView.isMine)
+            return;
         bas = new Vector3(0, 0, 0);
 
         cam = Camera.main;
@@ -90,6 +94,8 @@ public class Support : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!myPhotonView.isMine)
+            return;
         Ray pos = cam.ScreenPointToRay(Input.mousePosition);
         Debug.DrawRay(pos.origin, pos.direction * 30, Color.yellow, 1);
         RaycastHit hit;

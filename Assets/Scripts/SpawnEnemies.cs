@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class SpawnEnemies : MonoBehaviour
 {
-    public GameObject prefab;
+    public GameObject prefabVeloce;
+    public GameObject prefabLento;
     public Transform[] spawnPoints;
 
 	void Start ()
@@ -18,7 +19,10 @@ public class SpawnEnemies : MonoBehaviour
         {
             for (int i = 0; i < n; i++)
             {
-                GameObject go = PhotonNetwork.InstantiateSceneObject(prefab.name, spawnPoints[Random.Range(0, 3)].position, Quaternion.identity, 0, null);
+                GameObject go = PhotonNetwork.InstantiateSceneObject(prefabVeloce.name, spawnPoints[Random.Range(0, 3)].position, Quaternion.identity, 0, null);
+            }
+            for (int i = 0; i < 4; i++) {
+                GameObject go = PhotonNetwork.InstantiateSceneObject(prefabLento.name, spawnPoints[i].position, Quaternion.identity, 0, null);
             }
         }
     }

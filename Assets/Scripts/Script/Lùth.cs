@@ -20,8 +20,8 @@ public class Lùth : MonoBehaviour {
     {
 
         if (coll.gameObject.tag == "Ghost")
-        {   
-
+        {
+            _lùth = Random.Range(10, 21);
             ////////////////RPC/////////////////
             coll.gameObject.GetComponentInParent<PlayerController>().IncreaseLùth(_lùth);
             // coll.GetComponentInParent<PhotonView>().RPC("IncreaseLùth", )

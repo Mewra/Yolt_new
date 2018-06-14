@@ -27,6 +27,7 @@ public class Merchant : MonoBehaviour {
         
         if (other.gameObject.CompareTag("Player"))
         {
+            Debug.Log("Mi sta toccando un player");
             player = other.gameObject;
             shopText.gameObject.SetActive(true);
         }
@@ -34,6 +35,8 @@ public class Merchant : MonoBehaviour {
 
     private void OnTriggerStay(Collider other)
     {
+        //if (!myPhotonView.isMine)
+        //    return;
         if (other.gameObject.CompareTag("Player"))
         {
             if (Input.GetKey(KeyCode.V))
@@ -47,12 +50,15 @@ public class Merchant : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
+        //if (!myPhotonView.isMine)
+        //    return;
         shopText.gameObject.SetActive(false);
     }
 
     public void RaiseAtk()
     {
-
+        //if (!myPhotonView.isMine)
+        //    return;
         if (player.transform.parent.GetComponent<CoinSystem>().ReturnCoin() >= 600)
         {
             player.transform.parent.GetComponent<PlayerController>().raiseAtk(10f);
@@ -69,6 +75,8 @@ public class Merchant : MonoBehaviour {
 
     public void RaiseSpeed()
     {
+        //if (!myPhotonView.isMine)
+        //    return;
         if (player.transform.parent.GetComponent<CoinSystem>().ReturnCoin() >= 600)
         {
             player.transform.parent.GetComponent<PlayerController>().raiseSpeed(5f);
@@ -84,6 +92,8 @@ public class Merchant : MonoBehaviour {
     }
     public void RaiseHealth()
     {
+        //if (!myPhotonView.isMine)
+        //    return;
         if (player.transform.parent.GetComponent<CoinSystem>().ReturnCoin() >= 600)
         {
             player.transform.parent.GetComponent<PlayerController>().raiseHealth(100f);
@@ -99,6 +109,8 @@ public class Merchant : MonoBehaviour {
     }
     public void Revive()
     {
+        //if (!myPhotonView.isMine)
+        //    return;
         if (player.transform.parent.GetComponent<CoinSystem>().ReturnCoin() >= 300)
         {
             player.transform.parent.GetComponent<PlayerController>().Revive();
@@ -113,6 +125,8 @@ public class Merchant : MonoBehaviour {
     }
     IEnumerator DisappearText()
     {   //La coroutine serve solo ad attivare e disattivare i testi
+        //if (!myPhotonView.isMine)
+        //    return;
         yield return new WaitForSeconds(2f);
         noMoneyText.gameObject.SetActive(false);
         transform.GetChild(0).gameObject.SetActive(true);

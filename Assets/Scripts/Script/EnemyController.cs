@@ -15,6 +15,7 @@ public class EnemyController : MonoBehaviour
     private bool GetFound=false;
     public GameObject playerTarget;
     public bool targetInRange = false;
+    public float danno;
     //public AnimationClip clip;
    
 
@@ -122,7 +123,7 @@ public class EnemyController : MonoBehaviour
 
     object AttackDecision(object o)
     {
-        if (nav.remainingDistance <= 4)
+        if (nav.remainingDistance <= nav.stoppingDistance)
         {
             animator.SetBool("TargetInRange", true);
             return true;
@@ -178,11 +179,12 @@ public class EnemyController : MonoBehaviour
 
     public void DoDamage()
     {
-        if (PhotonNetwork.isMasterClient || true)
+        if (PhotonNetwork.isMasterClient)
         {
-            Debug.Log(animator.GetCurrentAnimatorStateInfo(0).length);
-            playerTarget.GetComponentInParent<PhotonView>().RPC("TakeDamageOnPlayer", PhotonTargets.AllViaServer, 10f);
-            playerTarget.GetComponentInParent<HealthPlayer>().TakeDamageOnPlayer(10f);
+            if(playerTarget!=null)
+            //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).length);
+                playerTarget.GetComponentInParent<PhotonView>().RPC("TakeDamageOnPlayer", PhotonTargets.AllViaServer, danno);
+            //playerTarget.GetComponentInParent<HealthPlayer>().TakeDamageOnPlayer(10f);
         }
     }
 

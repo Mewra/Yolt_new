@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DestroyOnCollision : MonoBehaviour
 {   
-    public float _damage = 10;
+    public float _damage = 50;
 
 
     private void OnCollisionEnter(Collision other) 

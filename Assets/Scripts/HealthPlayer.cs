@@ -12,6 +12,7 @@ public class HealthPlayer : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        
         healthBar = GameObject.FindGameObjectWithTag("Health Bar");
         _healthBar = healthBar.GetComponent<Image>();
         _health = 100f;
