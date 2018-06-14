@@ -87,6 +87,7 @@ public class PlayerController : MonoBehaviour
                 if (hit.collider.gameObject.tag == "Player")
                 {
                     Debug.Log(hit.collider.name);
+                    Debug.Log("Luth: " + _lùth + " Transformable: " + transformable);
                     other = hit.collider.gameObject;
                     clickingPlayer = true;
                 }
@@ -95,6 +96,7 @@ public class PlayerController : MonoBehaviour
                     clickingPlayer = false;
                 }
             }
+
             switch ((int)state)
             {
                 case 0:
@@ -124,8 +126,9 @@ public class PlayerController : MonoBehaviour
                             _playerHealth._health = 100; //maxhealth
                             resurrection = false;
                         }
+
                         lùthfinito = false;
-                        if (_lùth != _maxlùth)
+                        if (_lùth < _maxlùth)
                         {
                             transformable = false;
                         }
@@ -260,6 +263,7 @@ public class PlayerController : MonoBehaviour
         hp = hp + a;
         return hp;
     }
+
     public void Revive()
     {
         if (hp <= 0)
@@ -277,6 +281,8 @@ public class PlayerController : MonoBehaviour
         {
             case 0:
                 // player
+                //Debug.Log(actual);
+                //Debug.Log(player);
                 if(actual != player)
                 {
                     state = CLASSES.player;
@@ -350,9 +356,10 @@ public class PlayerController : MonoBehaviour
             if (transformable != true)
             {
                 _lùth += i;
-                if (_lùth == _maxlùth)
+                if (_lùth >= _maxlùth)
                 {
                     transformable = true;
+                    _lùth = _maxlùth;
                 }
             }
         }
@@ -381,6 +388,8 @@ public class PlayerController : MonoBehaviour
         if (view != null)
         {
             this.other = view.gameObject;
+            //Debug.Log("Other: " + other.transform.position);
+            
             actual.GetComponent<CircleMov>().SetTargetTransform(other);
         }
     }

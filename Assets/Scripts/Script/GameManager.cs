@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
         _SE = SE.GetComponent<SpawnEnemies>();
         _SM = SM.GetComponent<SpawnMerchant>();
         currentWave = 1;
-        numberOfEnemiesToSpawn = 20; // mettere qui la funzione matematica in futuro
+        numberOfEnemiesToSpawn = 10; // mettere qui la funzione matematica in futuro
         numberOfEnemiesAlives = numberOfEnemiesToSpawn;
         _SE.Spawn(numberOfEnemiesToSpawn);
         // _SE.Spawn(1);
@@ -58,7 +58,9 @@ public class GameManager : MonoBehaviour
 	}
 
     public void enemyKilled() {
+        
         numberOfEnemiesAlives--;
+        Debug.Log("WAVE: " + numberOfEnemiesAlives + "/" + numberOfEnemiesToSpawn);
         if (numberOfEnemiesAlives == 0) {
             currentWave++;
             noSpawn = true;
@@ -71,10 +73,12 @@ public class GameManager : MonoBehaviour
     public IEnumerator PauseTime()
     {
         _SM.Spawn();
+        Debug.Log("Pause time");
         yield return new WaitForSeconds(15.0f);
-        _SM.Despawn();
-        pause = false;
-        SpawnWave(currentWave);
+        Debug.Log("Fine Pausa");
+        //_SM.Despawn();
+        //pause = false;
+        //SpawnWave(currentWave);
 
     }
 

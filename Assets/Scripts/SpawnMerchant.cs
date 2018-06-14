@@ -17,8 +17,10 @@ public class SpawnMerchant : MonoBehaviour
     {
         if (PhotonNetwork.isMasterClient)
         {
+            Quaternion quat = new Quaternion(0, -90, -90, 1);
             go = PhotonNetwork.InstantiateSceneObject(prefab.name, spawnPoints[0].position, Quaternion.identity, 0, null);
-            
+            //go.transform.rotation = quat;
+            go.transform.Rotate(new Vector3(-90, -90, -180));
         }
     }
 
