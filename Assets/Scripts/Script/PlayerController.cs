@@ -289,6 +289,8 @@ public class PlayerController : MonoBehaviour
                     actual.SetActive(false);
                     player.SetActive(true);
                     actual = player;
+                    myPV.ObservedComponents.RemoveAt(1);
+                    myPV.ObservedComponents.Add(player.GetComponent<PhotonAnimatorView>());
                 }
                 break;
 
@@ -301,6 +303,8 @@ public class PlayerController : MonoBehaviour
                     ghost.SetActive(true);
                     actual = ghost;
                     FreeTheSlots();
+                    myPV.ObservedComponents.RemoveAt(1);
+                    myPV.ObservedComponents.Add(ghost.GetComponent<PhotonAnimatorView>());
                 }
                 break;
 
@@ -312,6 +316,8 @@ public class PlayerController : MonoBehaviour
                     actual.SetActive(false);
                     assassin.SetActive(true);
                     actual = assassin;
+                    myPV.ObservedComponents.RemoveAt(1);
+                    myPV.ObservedComponents.Add(assassin.GetComponent<PhotonAnimatorView>());
                 }
                 break;
 
@@ -323,6 +329,8 @@ public class PlayerController : MonoBehaviour
                     actual.SetActive(false);
                     tank.SetActive(true);
                     actual = tank;
+                    myPV.ObservedComponents.RemoveAt(1);
+                    myPV.ObservedComponents.Add(tank.GetComponent<PhotonAnimatorView>());
                 }
                 break;
 
@@ -334,6 +342,8 @@ public class PlayerController : MonoBehaviour
                     actual.SetActive(false);
                     support.SetActive(true);
                     actual = support;
+                    myPV.ObservedComponents.RemoveAt(1);
+                    myPV.ObservedComponents.Add(support.GetComponent<PhotonAnimatorView>());
                 }
                 break;
         }

@@ -8,6 +8,8 @@ public class RoomManager : Photon.PunBehaviour
     public GameObject LobbyManager;
     public Text roomText;
     public GameObject[] station;
+    public GameObject[] place;
+    public GameObject[] readyLabel;
     public Material unReadyMaterial, readyMaterial;
     public GameObject playerModel;
     public Material[] materials;
@@ -55,18 +57,19 @@ public class RoomManager : Photon.PunBehaviour
                 myIndex = index;
             }
             GameObject go = Instantiate(playerModel,
-                            station[index].transform.position + (Vector3.up * 0.5f),
+                            place[index].transform.position,  // + (Vector3.up * 0.5f),
                             new Quaternion(0f, 90f, 0f, 0f),
-                            station[index].transform); 
-            go.GetComponent<MovementGhost>().enabled = false;
-            go.GetComponent<RotatePlayer>().enabled = false;
-            Material[] tmpBody = go.GetComponentInChildren<SkinnedMeshRenderer>().materials;
-            tmpBody[3] = materials[index];
-            go.GetComponentInChildren<SkinnedMeshRenderer>().materials = tmpBody;
-            Material[] tmpHip = go.transform.Find("Cube.003").GetComponent<SkinnedMeshRenderer>().materials;
-            tmpHip[0] = materials[index];
-            go.transform.Find("Cube.003").GetComponent<SkinnedMeshRenderer>().materials = tmpHip;
-            station[index].GetComponentInChildren<Text>().text = player.NickName;
+                            place[index].transform);
+            go.transform.parent = place[index].transform;
+            // go.GetComponent<MovementGhost>().enabled = false;
+            // go.GetComponent<RotatePlayer>().enabled = false;
+            // Material[] tmpBody = go.GetComponentInChildren<SkinnedMeshRenderer>().materials;
+            // tmpBody[3] = materials[myIndex];
+            // go.GetComponentInChildren<SkinnedMeshRenderer>().materials = tmpBody;
+            // Material[] tmpHip = go.transform.Find("Cube.003").GetComponent<SkinnedMeshRenderer>().materials;
+            // tmpHip[0] = materials[myIndex];
+            // go.transform.Find("Cube.003").GetComponent<SkinnedMeshRenderer>().materials = tmpHip;
+            // station[index].GetComponentInChildren<Text>().text = player.NickName;
             index++;
         }
     }
@@ -96,16 +99,20 @@ public class RoomManager : Photon.PunBehaviour
         if(b)
         {
             readyPlayer++;
-            station[index].GetComponent<MeshRenderer>().material.color = readyMaterial.color;
+            readyLabel[index].gameObject.SetActive(true);
+            // station[index].GetComponent<MeshRenderer>().material.color = readyMaterial.color;
         }
         else
         {
             readyPlayer--;
-            station[index].GetComponent<MeshRenderer>().material.color = unReadyMaterial.color;
+            readyLabel[index].gameObject.SetActive(false);
+            // station[index].GetComponent<MeshRenderer>().material.color = unReadyMaterial.color;
         }
         if(readyPlayer == PhotonNetwork.playerList.Length && PhotonNetwork.playerList.Length > 1)
         {
             PhotonNetwork.LoadLevel(1);
+            // find a way to close the room (invisible)
+            // .room.c
         }
     }
     #endregion
