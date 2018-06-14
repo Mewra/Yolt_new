@@ -121,6 +121,7 @@ public class RoomManager : Photon.PunBehaviour
     public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
     {
         base.OnPhotonPlayerConnected(newPlayer);
+        Debug.Log(newPlayer.NickName);
         DestroyObjectOnStation();
         Populate();
     }
