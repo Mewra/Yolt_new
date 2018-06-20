@@ -33,7 +33,7 @@ public class Health : MonoBehaviour
     {
         currentHealth -= dam;
         // healthBar.fillAmount = calculateHealt();
-        if(currentHealth <= 0)
+        if(currentHealth <= 0 && PhotonNetwork.isMasterClient)
         {
             PhotonNetwork.InstantiateSceneObject(GameManager.Instance.luth.name, this.gameObject.transform.position, Quaternion.identity, 0, null);
             GameManager.Instance.enemyKilled();
@@ -44,9 +44,10 @@ public class Health : MonoBehaviour
     float calculateHealt()
     {
         return currentHealth / _health;
-    } 
-    
+    }
 
-
-
+    public void OnTriggerEnter(Collider other)
+    {
+        
+    }
 }

@@ -21,6 +21,7 @@ public class SpawnPlayer : MonoBehaviour
             i++;
         }
         GameObject go = PhotonNetwork.Instantiate(prefab.name, spawnTransform[i].position, Quaternion.identity, 0);
+        GameManager.Instance.players.Add(go);
         if (go.GetComponent<PhotonView>().isMine)
         {
             go.GetComponentInChildren<MovementGhost>().enabled = true;
@@ -29,13 +30,14 @@ public class SpawnPlayer : MonoBehaviour
                 if(!go.transform.GetChild(j).gameObject.GetActive())
                 {
                     go.transform.GetChild(j).gameObject.SetActive(true);
-                    if(go.transform.GetChild(j).gameObject.GetComponent<MovementGhost>() != null
+                    if (go.transform.GetChild(j).gameObject.GetComponent<MovementGhost>() != null
                                                 && go.transform.GetChild(j).gameObject.GetComponent<PlayerAnimation>() != null
-                                                && go.transform.GetChild(j).gameObject.GetComponent<RotatePlayer>() != null)
+                                                && go.transform.GetChild(j).gameObject.GetComponent<RotatePlayer>() != null
+)
                     {
-                        go.transform.GetChild(j).gameObject.GetComponent<RotatePlayer>().enabled = true;
                         go.transform.GetChild(j).gameObject.GetComponent<PlayerAnimation>().enabled = true;
                         go.transform.GetChild(j).gameObject.GetComponent<MovementGhost>().enabled = true;
+                        go.transform.GetChild(j).gameObject.GetComponent<RotatePlayer>().enabled = true;
                     }
                     go.transform.GetChild(j).gameObject.SetActive(false);
                 }

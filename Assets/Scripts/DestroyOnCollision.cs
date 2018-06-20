@@ -7,12 +7,12 @@ public class DestroyOnCollision : MonoBehaviour
     public float _damage = 50;
 
 
-    private void OnCollisionEnter(Collision other) 
+    private void OnTriggerEnter(Collider other) 
     {
-        Destroy(this.gameObject);
-        if(other.gameObject.tag == "Enemy")
+        Destroy(gameObject);
+        if (other.gameObject.CompareTag("Enemy"))
         {
-            if(PhotonNetwork.isMasterClient)
+            if(PhotonNetwork.isMasterClient && other.gameObject.GetComponent<PhotonView>() != null)
             {
                 other.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, _damage);
             }

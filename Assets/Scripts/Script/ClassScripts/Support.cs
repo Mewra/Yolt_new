@@ -55,8 +55,8 @@ public class Support : MonoBehaviour
     void Start()
     {
         myPhotonView = GetComponentInParent<PhotonView>();
-        if (!myPhotonView.isMine)
-            return;
+        // if (!myPhotonView.isMine)
+        //     return;
         bas = new Vector3(0, 0, 0);
 
         cam = Camera.main;
@@ -94,8 +94,8 @@ public class Support : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!myPhotonView.isMine)
-            return;
+        // if (!myPhotonView.isMine)
+        //     return;
         Ray pos = cam.ScreenPointToRay(Input.mousePosition);
         Debug.DrawRay(pos.origin, pos.direction * 30, Color.yellow, 1);
         RaycastHit hit;
@@ -145,13 +145,13 @@ public class Support : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.T))
         {
             _redemptionMesh.enabled = true;
         }
 
         
-        if (Input.GetKeyUp(KeyCode.W))
+        if (Input.GetKeyUp(KeyCode.T))
         {
             _redemptionMesh.enabled = false;
 

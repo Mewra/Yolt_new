@@ -29,6 +29,7 @@ public class Btn : MonoBehaviour {
         if (name.Equals("asBtn")){
             // _pcPlayer.state = PlayerController.CLASSES.assassin;
             _pcPlayer.GetComponent<PhotonView>().RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)PlayerController.CLASSES.assassin);
+
             _pcTarget._Slots[0] = false;
         }
 

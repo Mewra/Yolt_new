@@ -7,7 +7,6 @@ public class RoomManager : Photon.PunBehaviour
 {
     public GameObject LobbyManager;
     public Text roomText;
-    public GameObject[] station;
     public GameObject[] place;
     public GameObject[] readyLabel;
     public Material unReadyMaterial, readyMaterial;
@@ -21,7 +20,6 @@ public class RoomManager : Photon.PunBehaviour
     public void ExitRoom()
     {
         DestroyObjectOnStation();
-        ResetMaterial();
         PhotonNetwork.LeaveRoom();
     }
 
@@ -30,14 +28,6 @@ public class RoomManager : Photon.PunBehaviour
         if(amIready) { amIready = false; }
         else { amIready = true; }
         photonView.RPC("GetReady", PhotonTargets.AllBufferedViaServer, amIready, myIndex);
-    }
-
-    public void ResetMaterial()
-    {
-        foreach (GameObject st in station)
-        {
-            st.GetComponent<MeshRenderer>().material.color = unReadyMaterial.color;
-        }
     }
 
     public void CreateRoom()
@@ -57,19 +47,17 @@ public class RoomManager : Photon.PunBehaviour
                 myIndex = index;
             }
             GameObject go = Instantiate(playerModel,
-                            place[index].transform.position,  // + (Vector3.up * 0.5f),
+                            place[index].transform.position,
                             new Quaternion(0f, 90f, 0f, 0f),
                             place[index].transform);
             go.transform.parent = place[index].transform;
-            // go.GetComponent<MovementGhost>().enabled = false;
-            // go.GetComponent<RotatePlayer>().enabled = false;
-            // Material[] tmpBody = go.GetComponentInChildren<SkinnedMeshRenderer>().materials;
-            // tmpBody[3] = materials[myIndex];
-            // go.GetComponentInChildren<SkinnedMeshRenderer>().materials = tmpBody;
-            // Material[] tmpHip = go.transform.Find("Cube.003").GetComponent<SkinnedMeshRenderer>().materials;
-            // tmpHip[0] = materials[myIndex];
-            // go.transform.Find("Cube.003").GetComponent<SkinnedMeshRenderer>().materials = tmpHip;
-            // station[index].GetComponentInChildren<Text>().text = player.NickName;
+            place[index].transform.parent.GetChild(5).GetComponentInChildren<Text>().text = player.NickName;
+            Material[] tmpBody = go.GetComponentInChildren<SkinnedMeshRenderer>().materials;
+            tmpBody[3] = materials[index];
+            go.GetComponentInChildren<SkinnedMeshRenderer>().materials = tmpBody;
+            Material[] tmpHip = go.transform.GetChild(0).Find("Cube.003").GetComponent<SkinnedMeshRenderer>().materials;
+            tmpHip[0] = materials[index];
+            go.transform.GetChild(0).Find("Cube.003").GetComponent<SkinnedMeshRenderer>().materials = tmpHip;
             index++;
         }
     }
@@ -79,17 +67,19 @@ public class RoomManager : Photon.PunBehaviour
         return a.ID.CompareTo(b.ID);
     }
 
+    
     public void DestroyObjectOnStation()
     {
-        foreach (GameObject player in station)
+        foreach (GameObject player in place)
         {
-            if(player.transform.childCount == 2)
+            if(player.transform.childCount == 1)
             {
-                Destroy(player.transform.GetChild(1).gameObject);
-                player.GetComponentInChildren<Text>().text = "";
+                player.transform.parent.GetComponentInChildren<Text>().text = "";
+                Destroy(player.transform.GetChild(0).gameObject);
             }
         }
     }
+    
     #endregion
 
     #region PunRPC
@@ -100,19 +90,17 @@ public class RoomManager : Photon.PunBehaviour
         {
             readyPlayer++;
             readyLabel[index].gameObject.SetActive(true);
-            // station[index].GetComponent<MeshRenderer>().material.color = readyMaterial.color;
         }
         else
         {
             readyPlayer--;
             readyLabel[index].gameObject.SetActive(false);
-            // station[index].GetComponent<MeshRenderer>().material.color = unReadyMaterial.color;
         }
         if(readyPlayer == PhotonNetwork.playerList.Length && PhotonNetwork.playerList.Length > 1)
         {
+            // Debug this
+            // PhotonNetwork.room.IsVisible = false;
             PhotonNetwork.LoadLevel(1);
-            // find a way to close the room (invisible)
-            // .room.c
         }
     }
     #endregion
@@ -121,7 +109,6 @@ public class RoomManager : Photon.PunBehaviour
     public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
     {
         base.OnPhotonPlayerConnected(newPlayer);
-        Debug.Log(newPlayer.NickName);
         DestroyObjectOnStation();
         Populate();
     }

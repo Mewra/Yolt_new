@@ -37,5 +37,15 @@ public class RemoteProcedureCall : MonoBehaviour
             }
         }
     }
+
+    [PunRPC]
+    public void DestroyObject(int ID)
+    {
+        PhotonView view = PhotonView.Find(ID);
+        if (view != null)
+        {
+            PhotonNetwork.Destroy(view.gameObject);
+        }
+    }
     #endregion
 }

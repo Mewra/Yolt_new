@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
 {
     private const int MAX_WAVE = 13;
     private static GameManager instance = null;
+    public List<GameObject> players = new List<GameObject>();
+    public Material[] materials;
     public GameObject SE;
     private SpawnEnemies _SE;
     public GameObject SM;
@@ -34,10 +36,10 @@ public class GameManager : MonoBehaviour
             instance = this;
         }
     }
-    #endregion
+
 
     // Use this for initialization
-    void Start ()
+    private void Start ()
     {
         pause = false;
         noSpawn = true;
@@ -46,28 +48,29 @@ public class GameManager : MonoBehaviour
         currentWave = 1;
         numberOfEnemiesToSpawn = 10; // mettere qui la funzione matematica in futuro
         numberOfEnemiesAlives = numberOfEnemiesToSpawn;
-        _SE.Spawn(numberOfEnemiesToSpawn);
-        // _SE.Spawn(1);
+        StartCoroutine("CallSpawn");
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-      
-		
-	}
+    #endregion
 
     public void enemyKilled() {
         
         numberOfEnemiesAlives--;
-        Debug.Log("WAVE: " + numberOfEnemiesAlives + "/" + numberOfEnemiesToSpawn);
-        if (numberOfEnemiesAlives == 0) {
+        // Debug.Log("WAVE: " + numberOfEnemiesAlives + "/" + numberOfEnemiesToSpawn);
+        if (numberOfEnemiesAlives == 0)
+        {
             currentWave++;
             noSpawn = true;
             pause = true;
             StartCoroutine("PauseTime");
 
         }
+    }
+
+    public IEnumerator CallSpawn()
+    {
+        Debug.Log(players.Count);
+        _SE.Spawn(numberOfEnemiesToSpawn);
+        yield return new WaitForSeconds(5f);
     }
 
     public IEnumerator PauseTime()
@@ -87,6 +90,5 @@ public class GameManager : MonoBehaviour
         numberOfEnemiesToSpawn = numwave * 10 + 10;
         numberOfEnemiesAlives = numberOfEnemiesToSpawn;
         _SE.Spawn(numberOfEnemiesToSpawn);
-
     }
 }

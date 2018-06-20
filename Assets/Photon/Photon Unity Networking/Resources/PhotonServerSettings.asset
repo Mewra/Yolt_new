@@ -18,7 +18,7 @@ MonoBehaviour:
   PreferredRegion: 0
   EnabledRegions: -1
   Protocol: 0
-  ServerAddress: 159.149.142.19
+  ServerAddress: 127.0.0.1
   ServerPort: 5055
   VoiceServerPort: 5055
   JoinLobby: 0
@@ -32,6 +32,7 @@ MonoBehaviour:
   - Chat
   - ColorRpc
   - "DecreaseL\xF9th"
+  - DestroyObject
   - DestroyRpc
   - DoJump
   - Fire
@@ -55,4 +56,5 @@ MonoBehaviour:
   - TaggedPlayer
   - TakeDamage
   - TakeDamageOnPlayer
+  - ChangeMaterials
   DisableAutoOpenWizard: 1

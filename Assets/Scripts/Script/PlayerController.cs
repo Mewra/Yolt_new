@@ -14,7 +14,6 @@ public class PlayerController : MonoBehaviour
     public bool lùthfinito;
     private AnimatorManager myAniManager;
     public float hp, speed, atk;
-    
 
     public Button _asbtn, _tankbtn, _supbtn;
     private bool alive, resurrection, transformable, clickingPlayer;
@@ -103,13 +102,10 @@ public class PlayerController : MonoBehaviour
                     {
                         myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.player);
                         myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)(0f));
-                        // myAniManager.RestoreAnimatorView(0);
                         if (_playerHealth._health <= 0 && myPV.isMine)
                         {
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
                             myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
-                            // myAniManager.RestoreAnimatorView(1);
-                            // state = CLASSES.ghost;
                         }
                         break;
                     }
@@ -118,11 +114,9 @@ public class PlayerController : MonoBehaviour
                     {
                         if (resurrection)
                         {
-                            // state = CLASSES.player;
                             gameObject.GetComponent<MovementGhost>().enabled = true;
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.player);
                             myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)0f);
-                            // myAniManager.RestoreAnimatorView(0);
                             _playerHealth._health = 100; //maxhealth
                             resurrection = false;
                         }
@@ -162,78 +156,48 @@ public class PlayerController : MonoBehaviour
 
                 case 2:
                     {
-                        /*
-                        if (actual != assassin)
-                        {
-                            actual.SetActive(false);
-                            assassin.SetActive(true);
-                            actual = assassin;
-                        }
-                        */
-                        Debug.Log("Sono un assassino");
-
-                        myPV.RPC("SetParentOnCircleMove", PhotonTargets.AllBufferedViaServer, other.GetComponentInParent<PhotonView>().viewID);
-                        // assassin.GetComponent<CircleMov>()._player = other; //oppure other.GetComponentInParent<Transform>()
-
                         if (lùthfinito)
                         {
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
                             myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
-                            // myAniManager.RestoreAnimatorView(1);
-                            // state = CLASSES.ghost;
                         }
 
                         if(other.GetActive() == false)
                         {
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
                             myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
-                            // myAniManager.RestoreAnimatorView(1);
-                            // state = CLASSES.ghost;
                         }
                         break;
                     }
 
                 case 3:
                     {
-                        myPV.RPC("SetParentOnCircleMove", PhotonTargets.AllBufferedViaServer, other.GetComponentInParent<PhotonView>().viewID);
-                        // tank.GetComponent<CircleMov>()._player = other;
-
                         if (lùthfinito)
                         {
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
                             myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
-                            // myAniManager.RestoreAnimatorView(1);
-                            // state = CLASSES.ghost;
                         }
 
                         if (other.GetActive() == false)
                         {
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
                             myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
-                            // myAniManager.RestoreAnimatorView(1);
-                            // state = CLASSES.ghost;
                         }
                         break;
                     }
 
                 case 4:
                     {
-                        myPV.RPC("SetParentOnCircleMove", PhotonTargets.AllBufferedViaServer, other.GetComponentInParent<PhotonView>().viewID);
-                        // support.GetComponent<CircleMov>()._player = other;
                         if (lùthfinito)
                         {
-                            // state = CLASSES.ghost;
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
                             myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
-                            // myAniManager.RestoreAnimatorView(1);
                         }
 
                         if (other.GetActive() == false)
                         {
-                            // state = CLASSES.ghost;
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
                             myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
-                            // myAniManager.RestoreAnimatorView(1);
                         }
                         break;
                     }
@@ -273,7 +237,6 @@ public class PlayerController : MonoBehaviour
     }
 
     
-
     [PunRPC]
     public void ChangeState(int _state)
     {
@@ -281,12 +244,10 @@ public class PlayerController : MonoBehaviour
         {
             case 0:
                 // player
-                //Debug.Log(actual);
-                //Debug.Log(player);
                 if(actual != player)
                 {
                     state = CLASSES.player;
-                    actual.SetActive(false);
+                    actual.SetActive(false); // non ho la più pallida idea del perché dia nullreference
                     player.SetActive(true);
                     actual = player;
                     myPV.ObservedComponents.RemoveAt(1);
@@ -316,6 +277,7 @@ public class PlayerController : MonoBehaviour
                     actual.SetActive(false);
                     assassin.SetActive(true);
                     actual = assassin;
+                    actual.GetComponent<CircleMov>().SetTargetTransform(other.transform.parent.gameObject);
                     myPV.ObservedComponents.RemoveAt(1);
                     myPV.ObservedComponents.Add(assassin.GetComponent<PhotonAnimatorView>());
                 }
@@ -329,6 +291,7 @@ public class PlayerController : MonoBehaviour
                     actual.SetActive(false);
                     tank.SetActive(true);
                     actual = tank;
+                    actual.GetComponent<CircleMov>().SetTargetTransform(other.transform.parent.gameObject);
                     myPV.ObservedComponents.RemoveAt(1);
                     myPV.ObservedComponents.Add(tank.GetComponent<PhotonAnimatorView>());
                 }
@@ -342,6 +305,7 @@ public class PlayerController : MonoBehaviour
                     actual.SetActive(false);
                     support.SetActive(true);
                     actual = support;
+                    actual.GetComponent<CircleMov>().SetTargetTransform(other.transform.parent.gameObject);
                     myPV.ObservedComponents.RemoveAt(1);
                     myPV.ObservedComponents.Add(support.GetComponent<PhotonAnimatorView>());
                 }
@@ -375,6 +339,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /*
     [PunRPC]
     public void DecreaseLùth(float i)
     {
@@ -389,7 +354,7 @@ public class PlayerController : MonoBehaviour
                 lùthfinito = true;
             }
         }
-    }
+    }*/
 
     [PunRPC]
     public void SetParentOnCircleMove(int ID)
@@ -397,10 +362,11 @@ public class PlayerController : MonoBehaviour
         PhotonView view = PhotonView.Find(ID);
         if (view != null)
         {
-            this.other = view.gameObject;
-            //Debug.Log("Other: " + other.transform.position);
-            
-            actual.GetComponent<CircleMov>().SetTargetTransform(other);
+            Debug.Log(view.gameObject);
+
+            other = view.gameObject;
+            actual.GetComponent<CircleMov>().SetTargetTransform(view.gameObject);
+            cam.GetComponent<IsometricCamera>().SetTarget(view.transform);
         }
     }
     public float ReturnHp()

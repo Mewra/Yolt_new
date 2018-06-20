@@ -75,7 +75,7 @@ public class EnemyController : MonoBehaviour
                 if (tmpDistance < targetdistance)
                 {
                     targetdistance = tmpDistance;                  
-                    playerTarget = player;
+                    playerTarget = player.transform.parent.gameObject;
                 }
             }
             if (playerTarget != null)
@@ -183,7 +183,7 @@ public class EnemyController : MonoBehaviour
         {
             if(playerTarget!=null)
             //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).length);
-                playerTarget.GetComponentInParent<PhotonView>().RPC("TakeDamageOnPlayer", PhotonTargets.AllViaServer, danno);
+            playerTarget.GetComponentInParent<PhotonView>().RPC("TakeDamageOnPlayer", PhotonTargets.AllViaServer, danno);
             //playerTarget.GetComponentInParent<HealthPlayer>().TakeDamageOnPlayer(10f);
         }
     }
