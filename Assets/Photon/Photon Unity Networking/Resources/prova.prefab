@@ -10349,6 +10349,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3978d72de5b7fe44bb8e5a534824dd35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  body:
+  - {fileID: 2100000, guid: 77eb4730a280f8d42aaf34fbb2911c24, type: 2}
+  - {fileID: 2100000, guid: af18a2448fe0f014abf3c92aef75cec3, type: 2}
+  - {fileID: 2100000, guid: e19d5a7604fde9041a516ac3ada04e2b, type: 2}
+  - {fileID: 0}
+  hip:
+  - {fileID: 0}
+  - {fileID: 2100000, guid: af18a2448fe0f014abf3c92aef75cec3, type: 2}
+  bodyGhost:
+  - {fileID: 2100000, guid: 2783a1fe3f46bda4d9df0d77c1de99f2, type: 2}
+  - {fileID: 2100000, guid: 2783a1fe3f46bda4d9df0d77c1de99f2, type: 2}
+  - {fileID: 2100000, guid: 2783a1fe3f46bda4d9df0d77c1de99f2, type: 2}
+  - {fileID: 0}
+  hipGhost:
+  - {fileID: 2100000, guid: af18a2448fe0f014abf3c92aef75cec3, type: 2}
+  - {fileID: 2100000, guid: af18a2448fe0f014abf3c92aef75cec3, type: 2}
 --- !u!114 &114232965036590860
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10492,6 +10508,8 @@ MonoBehaviour:
   _sfera: {fileID: 1220467409315616}
   _cono: {fileID: 1290911863725788}
   _laserone: {fileID: 1019985155940058}
+  _psQ: {fileID: 0}
+  _psW: {fileID: 0}
 --- !u!114 &114448333935963968
 MonoBehaviour:
   m_ObjectHideFlags: 1

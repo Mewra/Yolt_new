@@ -61,7 +61,7 @@ public class Merchant : MonoBehaviour {
         //    return;
         if (player.transform.parent.GetComponent<CoinSystem>().ReturnCoin() >= 600)
         {
-            player.transform.parent.GetComponent<PlayerController>().raiseAtk(10f);
+            player.transform.parent.GetComponent<PlayerController>().RaiseAtk(10f);
             player.transform.parent.GetComponent<CoinSystem>().RaiseAtk();
             gameObject.SetActive(false);
         }
@@ -79,7 +79,7 @@ public class Merchant : MonoBehaviour {
         //    return;
         if (player.transform.parent.GetComponent<CoinSystem>().ReturnCoin() >= 600)
         {
-            player.transform.parent.GetComponent<PlayerController>().raiseSpeed(5f);
+            player.transform.parent.GetComponent<PlayerController>().RaiseSpeed(5f);
             player.transform.parent.GetComponent<CoinSystem>().RaiseSpeed();
             gameObject.SetActive(false);
         }
@@ -96,7 +96,7 @@ public class Merchant : MonoBehaviour {
         //    return;
         if (player.transform.parent.GetComponent<CoinSystem>().ReturnCoin() >= 600)
         {
-            player.transform.parent.GetComponent<PlayerController>().raiseHealth(100f);
+            player.transform.parent.GetComponent<PlayerController>().RaiseHealth(100f);
             player.transform.parent.GetComponent<CoinSystem>().RaiseHealth();
             gameObject.SetActive(false);
         }

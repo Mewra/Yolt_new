@@ -51,6 +51,7 @@ public class RoomManager : Photon.PunBehaviour
                             new Quaternion(0f, 90f, 0f, 0f),
                             place[index].transform);
             go.transform.parent = place[index].transform;
+            // refactor here
             place[index].transform.parent.GetChild(5).GetComponentInChildren<Text>().text = player.NickName;
             Material[] tmpBody = go.GetComponentInChildren<SkinnedMeshRenderer>().materials;
             tmpBody[3] = materials[index];

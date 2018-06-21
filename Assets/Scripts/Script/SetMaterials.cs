@@ -5,6 +5,11 @@ using UnityEngine;
 public class SetMaterials : MonoBehaviour
 {
 
+    public Material[] body;
+    public Material[] hip;
+    public Material[] bodyGhost;
+    public Material[] hipGhost;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -20,7 +25,7 @@ public class SetMaterials : MonoBehaviour
                 {
                     myIndex = index;
                 }
-                gameObject.GetPhotonView().RPC("ChangeMaterials", PhotonTargets.AllBufferedViaServer, gameObject.GetPhotonView().viewID, index, myIndex);
+                gameObject.GetPhotonView().RPC("ChangeMaterials", PhotonTargets.AllBufferedViaServer, gameObject.GetPhotonView().viewID, myIndex);
                 index++;
             }
         }
@@ -32,17 +37,25 @@ public class SetMaterials : MonoBehaviour
     }
 
     [PunRPC]
-    public void ChangeMaterials(int ID, int index, int myIndex)
+    public void ChangeMaterials(int ID, int myIndex)
     {
         PhotonView view = PhotonView.Find(ID);
         if(view != null)
         {
-            Material[] tmpBody = view.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().materials;
-            Material[] tmpHip = view.gameObject.transform.GetChild(0).Find("Cube.003").GetComponent<SkinnedMeshRenderer>().materials;
-            tmpBody[3] = GameManager.Instance.materials[(view.gameObject.GetComponent<PhotonView>().isMine) ? myIndex : index];
-            tmpHip[0] = GameManager.Instance.materials[(gameObject.GetComponent<PhotonView>().isMine) ? myIndex : index];
+            Material[] tmpBody = body; // view.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().materials;
+            Material[] tmpHip = hip; // view.gameObject.transform.GetChild(0).Find("Cube.003").GetComponent<SkinnedMeshRenderer>().materials;
+            Material[] tmpBodyGhost = bodyGhost;
+            Material[] tmpHipGhost = hipGhost;
+            // set materials for player
+            tmpBody[3] = GameManager.Instance.materials[myIndex];
+            tmpHip[0] = GameManager.Instance.materials[myIndex];
             view.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().materials = tmpBody;
             view.gameObject.transform.GetChild(0).Find("Cube.003").GetComponent<SkinnedMeshRenderer>().materials = tmpHip;
+            // set materials for ghost
+            tmpBodyGhost[3] = GameManager.Instance.materials[myIndex];
+            tmpHipGhost[0] = GameManager.Instance.materials[myIndex];
+            view.gameObject.transform.GetChild(4).GetChild(1).GetComponent<SkinnedMeshRenderer>().materials = tmpBodyGhost;
+            view.gameObject.transform.GetChild(4).GetChild(2).GetComponent<SkinnedMeshRenderer>().materials = tmpHipGhost;
         }
     }
 }

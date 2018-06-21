@@ -7,7 +7,6 @@ public class PlayerController : MonoBehaviour
 {
 
     private GameObject GameManager;
-
     private Camera cam;
     public float _lùth;
     private float _maxlùth;
@@ -60,6 +59,7 @@ public class PlayerController : MonoBehaviour
         hp = 100;
         _playerHealth = GetComponent<HealthPlayer>();
         myAniManager = GetComponent<AnimatorManager>();
+
         if (myPV.isMine)
         {
             cam = Camera.main;
@@ -82,11 +82,8 @@ public class PlayerController : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(pos, out hit))
             {
-
                 if (hit.collider.gameObject.tag == "Player")
                 {
-                    Debug.Log(hit.collider.name);
-                    Debug.Log("Luth: " + _lùth + " Transformable: " + transformable);
                     other = hit.collider.gameObject;
                     clickingPlayer = true;
                 }
@@ -209,20 +206,23 @@ public class PlayerController : MonoBehaviour
     {
         return _lùth;
     }
+
     //metodo fatto da Alfio
-    public float raiseAtk(float a)
+    public float RaiseAtk(float a)
     {
         atk = atk + a;
         Debug.Log("Ho alzato l'attacco di"+ a);
         Debug.Log("Il mio attacco è:"+ atk);
         return atk;
     }
-    public float raiseSpeed(float a)
+
+    public float RaiseSpeed(float a)
     {
         speed = speed + a;
         return speed;
     }
-    public float raiseHealth(float a)
+
+    public float RaiseHealth(float a)
     {
         hp = hp + a;
         return hp;
@@ -246,6 +246,7 @@ public class PlayerController : MonoBehaviour
                 // player
                 if(actual != player)
                 {
+                    transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
                     state = CLASSES.player;
                     actual.SetActive(false); // non ho la più pallida idea del perché dia nullreference
                     player.SetActive(true);
@@ -259,6 +260,7 @@ public class PlayerController : MonoBehaviour
                 // ghost
                 if (actual != ghost)
                 {
+                    transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
                     state = CLASSES.ghost;
                     actual.SetActive(false);
                     ghost.SetActive(true);
@@ -339,39 +341,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    /*
-    [PunRPC]
-    public void DecreaseLùth(float i)
-    {
-        if (state == CLASSES.assassin || state == CLASSES.support || state == CLASSES.tank)
-        {
-            _lùth -= i;
-
-            if (_lùth < 0)
-            {
-                _lùth = 0;
-
-                lùthfinito = true;
-            }
-        }
-    }*/
-
     [PunRPC]
     public void SetParentOnCircleMove(int ID)
     {
         PhotonView view = PhotonView.Find(ID);
         if (view != null)
         {
-            Debug.Log(view.gameObject);
-
             other = view.gameObject;
             actual.GetComponent<CircleMov>().SetTargetTransform(view.gameObject);
             cam.GetComponent<IsometricCamera>().SetTarget(view.transform);
         }
     }
+
     public float ReturnHp()
     {
         return hp;
-
     }
 }

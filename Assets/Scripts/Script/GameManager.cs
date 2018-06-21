@@ -68,7 +68,6 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator CallSpawn()
     {
-        Debug.Log(players.Count);
         _SE.Spawn(numberOfEnemiesToSpawn);
         yield return new WaitForSeconds(5f);
     }

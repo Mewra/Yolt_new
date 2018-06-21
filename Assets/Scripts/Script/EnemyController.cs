@@ -46,6 +46,7 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // animator.SetBool("TargetInRange", (nav.remainingDistance <= nav.stoppingDistance && GetFound) ? true : false);
         if(nav.remainingDistance<=nav.stoppingDistance && GetFound)
         {
             animator.SetBool("TargetInRange", true);
@@ -95,10 +96,10 @@ public class EnemyController : MonoBehaviour
     }
     object  FollowNearest(object o)
     {        
-    StopCoroutine("UpdateNearest");
-    StartCoroutine("UpdateNearest");
-    StartCoroutine("Follow");
-    return null; 
+        StopCoroutine("UpdateNearest");
+        StartCoroutine("UpdateNearest");
+        StartCoroutine("Follow");
+        return null; 
     }
    
     IEnumerator Follow()
@@ -181,10 +182,10 @@ public class EnemyController : MonoBehaviour
     {
         if (PhotonNetwork.isMasterClient)
         {
-            if(playerTarget!=null)
-            //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).length);
-            playerTarget.GetComponentInParent<PhotonView>().RPC("TakeDamageOnPlayer", PhotonTargets.AllViaServer, danno);
-            //playerTarget.GetComponentInParent<HealthPlayer>().TakeDamageOnPlayer(10f);
+            if(playerTarget != null && playerTarget.GetComponent<HealthPlayer>()._health > 0)
+            {
+                playerTarget.GetComponentInParent<PhotonView>().RPC("TakeDamageOnPlayer", PhotonTargets.AllViaServer, danno);
+            }
         }
     }
 
