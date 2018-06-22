@@ -10,7 +10,7 @@ public class EnemyManager : MonoBehaviour {
 	void Start () {
 
         //speed = 100;
-        speed = this.gameObject.GetComponent<MovementGhost>().speed;
+        speed = 100;
 		
 	}
 	

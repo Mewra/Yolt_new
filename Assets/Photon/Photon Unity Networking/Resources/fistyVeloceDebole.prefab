@@ -1655,7 +1655,7 @@ MonoBehaviour:
   Target: {x: 0, y: 0, z: 0}
   playerTarget: {fileID: 0}
   targetInRange: 0
-  danno: 10
+  danno: 1
 --- !u!114 &114843527824343744
 MonoBehaviour:
   m_ObjectHideFlags: 1

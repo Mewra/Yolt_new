@@ -28,8 +28,16 @@ public class PlayerAnimation : MonoBehaviour
         }
         else
         {
-            anim.SetFloat("speed_y", m_vertical * (rt.PointToLook - transform.position).normalized.z);
-            anim.SetFloat("speed_x", m_horizontal * (rt.PointToLook - transform.position).normalized.x);
+            if (Mathf.Abs(rt.PointToLook.z) >= Mathf.Abs(rt.PointToLook.x))
+            {
+                anim.SetFloat("speed_y", m_vertical * (rt.PointToLook - transform.position).normalized.z);
+                anim.SetFloat("speed_x", m_horizontal * (rt.PointToLook - transform.position).normalized.x);
+            }
+            else
+            {
+                anim.SetFloat("speed_x", m_vertical * (rt.PointToLook - transform.position).normalized.z);
+                anim.SetFloat("speed_y", m_horizontal * (rt.PointToLook - transform.position).normalized.x);
+            }
         }
     }
 }

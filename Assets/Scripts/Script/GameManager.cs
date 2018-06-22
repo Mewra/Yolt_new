@@ -68,7 +68,6 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator CallSpawn()
     {
-        Debug.Log(players.Count);
         _SE.Spawn(numberOfEnemiesToSpawn);
         yield return new WaitForSeconds(5f);
     }
@@ -77,10 +76,10 @@ public class GameManager : MonoBehaviour
     {
         _SM.Spawn();
         Debug.Log("Pause time");
-        yield return new WaitForSeconds(15.0f);
+        yield return new WaitForSeconds(35.0f);
         Debug.Log("Fine Pausa");
-        //_SM.Despawn();
-        //pause = false;
+        _SM.Despawn();
+        pause = false;
         //SpawnWave(currentWave);
 
     }

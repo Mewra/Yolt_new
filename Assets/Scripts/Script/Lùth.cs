@@ -5,7 +5,7 @@ using UnityEngine;
 public class Lùth : MonoBehaviour
 {
 
-    public float _lùth;
+    private float _lùth;
     private PhotonView myPV;
 
     private void Start()
@@ -17,11 +17,11 @@ public class Lùth : MonoBehaviour
     {
         if (coll.gameObject.tag == "Ghost")
         {
-            _lùth = Random.Range(10, 21);
-            coll.gameObject.GetComponentInParent<PlayerController>().IncreaseLùth(_lùth);
-            // build an rpc here to destroy the object
+            _lùth = Random.Range(80, 90);
+            coll.gameObject.GetComponentInParent<PhotonView>().RPC("IncreaseLùth", PhotonTargets.AllViaServer, _lùth);
+            //coll.gameObject.GetComponentInParent<PlayerController>().IncreaseLùth(_lùth);
             coll.GetComponentInParent<PhotonView>().RPC("DestroyObject", PhotonTargets.MasterClient, myPV.viewID);
-            // Destroy(gameObject);
+            
         }
     }
 }

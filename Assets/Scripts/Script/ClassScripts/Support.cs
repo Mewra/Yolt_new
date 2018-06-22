@@ -16,6 +16,10 @@ public class Support : MonoBehaviour
     private IEnumerator coroutineCDW;
     private IEnumerator coroutineCDR;
 
+    private Ray cameraRay;
+    private Plane groundPlane;
+    private float rayLength;
+
     public GameObject _slow;
     public GameObject _redemption;
     public GameObject _taric;
@@ -39,6 +43,8 @@ public class Support : MonoBehaviour
     private bool visibileTaric = false;
 
     private Material _materialslow;
+    public Material _blutrasparente;
+    public Material _effectslow;
 
     private Vector3 bas;
 
@@ -85,34 +91,26 @@ public class Support : MonoBehaviour
         usableW = true;
         usableR = true;
 
-
-
-
-        //_materialslow = _slow.GetComponent<Renderer>().material;
+        _materialslow = _slow.GetComponent<Renderer>().material;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // if (!myPhotonView.isMine)
-        //     return;
-        Ray pos = cam.ScreenPointToRay(Input.mousePosition);
-        Debug.DrawRay(pos.origin, pos.direction * 30, Color.yellow, 1);
-        RaycastHit hit;
-
-        if (Physics.Raycast(pos, out hit))
+        if (!myPhotonView.isMine)
+             return;
+        groundPlane = new Plane(Vector3.up, transform.position);
+        cameraRay = cam.ScreenPointToRay(Input.mousePosition);
+        if (groundPlane.Raycast(cameraRay, out rayLength))
         {
-            bas = hit.point;
-            bas.y = 0;
+            bas = cameraRay.GetPoint(rayLength);
+            bas.y = 0f;
             _redemption.transform.position = bas;
             _taric.transform.position = bas;
         }
 
-        if (_pc.getLuth() < 20)
-        {
-            enoughluth = false;
-        }
-        else { enoughluth = true; }
+
+        enoughluth = (_pc.getLuth() < 20) ? false : true;
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -128,17 +126,16 @@ public class Support : MonoBehaviour
             if (usableQ && enoughluth)
             {
                 usableQ = false;
-
-                //////////////////////////RPC////////////////////
-                //GetComponentInParent<PlayerController>().DecreaseLùth(Qcost);
+                
                 gameObject.GetComponentInParent<PhotonView>().RPC("DecreaseLùth", PhotonTargets.AllViaServer, Qcost);
 
                 _slowColl.enabled = true;
+                _materialslow = _effectslow;
 
-                coroutineQ = FieldSlowDuration(_slowColl);
+                coroutineQ = FieldSlowDuration();
                 StartCoroutine(coroutineQ);
 
-                coroutineCDQ = CooldownQ(10.0f);
+                coroutineCDQ = CooldownQ(1.0f);
                 StartCoroutine(coroutineCDQ);
 
             }
@@ -158,9 +155,7 @@ public class Support : MonoBehaviour
             if (usableW && enoughluth)
             {
                 usableW = false;
-
-                /////////////////RPC//////////////////
-                //GetComponentInParent<PlayerController>().DecreaseLùth(Wcost);
+                
                 gameObject.GetComponentInParent<PhotonView>().RPC("DecreaseLùth", PhotonTargets.AllViaServer, Wcost);
 
                 _TransformPsW.transform.position = new Vector3(_redemption.transform.position.x, 0.5f, _redemption.transform.position.z);
@@ -177,12 +172,6 @@ public class Support : MonoBehaviour
             }
         }
 
-        /*if (visibileRedemption)
-        {
-            coroutineW = Instant(_redemptionColl, visibileRedemption);
-            StartCoroutine(coroutineW);
-        }*/
-
 
 
         if (Input.GetKeyDown(KeyCode.R))
@@ -194,8 +183,6 @@ public class Support : MonoBehaviour
 
             if (Input.GetKeyUp(KeyCode.R))
             {
-                ////////////////////RPC///////////////////////
-                //GetComponentInParent<PlayerController>().DecreaseLùth(maxluth);
                 gameObject.GetComponentInParent<PhotonView>().RPC("DecreaseLùth", PhotonTargets.AllViaServer, maxluth);
 
                 _taricMesh.enabled = false;
@@ -206,21 +193,18 @@ public class Support : MonoBehaviour
                 StartCoroutine(coroutineCasting1);
             }
         }
-
-        /*if (visibileTaric)
-        {
-            coroutineR = Instant(_taricColl, visibileTaric);
-            StartCoroutine(coroutineR);
-        }*/
-
-
+        
     }
 
-    public IEnumerator FieldSlowDuration(Collider slow)
-    {   
+    public IEnumerator FieldSlowDuration()
+    {
+        
+        //_slow.transform.parent = null;
         //per quanto tempo resta per terra lo slow
         yield return new WaitForSeconds(5.0f);
-        slow.enabled = false;
+        _materialslow = _blutrasparente;
+        //_slow.transform.parent = this.gameObject.transform;
+        _slowColl.enabled = false;
 
     }
 
@@ -263,88 +247,3 @@ public class Support : MonoBehaviour
 
 
 }
-
-
-
-    /*// Use this for initialization
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-        if (Input.GetMouseButtonDown(0))
-        {
-
-            Ray pos = cam.ScreenPointToRay(Input.mousePosition);
-            Debug.DrawRay(pos.origin, pos.direction * 30, Color.yellow, 100);
-            RaycastHit hit;
-
-            if (Physics.Raycast(pos, out hit))
-            {
-                Vector3 bas = hit.collider.bounds.center;
-                bas.y = 0;
-
-                if (hit.collider.gameObject.tag == "Floor")
-                {
-                    bas = hit.point;
-                }
-
-                DebugExtension.DebugWireSphere(bas, 2.5f, 100, true);
-                Collider[] Arround = Physics.OverlapSphere(bas, 2.5f);
-                foreach (Collider intoExp in Arround)
-                {
-                    if (intoExp.transform.tag == "Enemy") // non dovrebbe essere il tag del giocatore?
-                    {
-                        intoExp.GetComponent<Health>().AreaHeal(10);
-                    }
-                }
-
-            }
-
-
-
-
-        }
-
-
-        //redemption
-        if (Input.GetMouseButtonDown(1))
-        {
-            Ray pos = cam.ScreenPointToRay(Input.mousePosition);
-            Debug.DrawRay(pos.origin, pos.direction * 30, Color.yellow, 100);
-            RaycastHit hit;
-
-            if (Physics.Raycast(pos, out hit))
-            {
-                Vector3 bas = hit.collider.bounds.center;
-                bas.y = 0;
-
-                if (hit.collider.gameObject.tag == "Floor")
-                {
-                    bas = hit.point;
-                }
-
-                DebugExtension.DebugWireSphere(bas, 2.5f, 100, true);
-                Collider[] Arround = Physics.OverlapSphere(bas, 2.5f);
-                
-                foreach (Collider intoExp in Arround)
-                {   
-                    if (intoExp.transform.tag == "Enemy")
-                    {   
-                        intoExp.GetComponent<EnemyManager>().Slow(10);
-                    }
-                }
-
-            }
-
-        }
-
-    }
-
-    
-
-    */

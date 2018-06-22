@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
+    //ENEMY
     public Image healthBar;
     public float _health;
     public float currentHealth;

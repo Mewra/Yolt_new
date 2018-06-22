@@ -7,13 +7,15 @@ public class PlayerController : MonoBehaviour
 {
 
     private GameObject GameManager;
-
     private Camera cam;
     public float _lùth;
     private float _maxlùth;
     public bool lùthfinito;
     private AnimatorManager myAniManager;
     public float hp, speed, atk;
+
+    public GameObject luthbar;
+    public Image imgluth;
 
     public Button _asbtn, _tankbtn, _supbtn;
     private bool alive, resurrection, transformable, clickingPlayer;
@@ -42,7 +44,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void Start ()
+    void Start()
     {
         myPV = GetComponent<PhotonView>();
         state = CLASSES.player;
@@ -53,6 +55,16 @@ public class PlayerController : MonoBehaviour
         resurrection = false;
         lùthfinito = false;
         _lùth = 0;
+        luthbar = GameObject.FindGameObjectWithTag("LuthBar");
+        imgluth = luthbar.GetComponent<Image>();
+
+        if (myPV.isMine) { 
+            if (imgluth != null)
+            {
+                imgluth.fillAmount = _lùth / 100;
+            }
+        }
+
         atk = 10;
         speed = 5;
         hp = 100;
@@ -60,8 +72,10 @@ public class PlayerController : MonoBehaviour
         hp = 100;
         _playerHealth = GetComponent<HealthPlayer>();
         myAniManager = GetComponent<AnimatorManager>();
+
         if (myPV.isMine)
         {
+            
             cam = Camera.main;
             transfPanel = GameObject.FindGameObjectWithTag("Choose");
             _asbtn = transfPanel.transform.GetChild(0).GetComponent<Button>();
@@ -82,11 +96,8 @@ public class PlayerController : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(pos, out hit))
             {
-
                 if (hit.collider.gameObject.tag == "Player")
                 {
-                    Debug.Log(hit.collider.name);
-                    Debug.Log("Luth: " + _lùth + " Transformable: " + transformable);
                     other = hit.collider.gameObject;
                     clickingPlayer = true;
                 }
@@ -158,8 +169,10 @@ public class PlayerController : MonoBehaviour
                     {
                         if (lùthfinito)
                         {
+                            other.GetComponent<PlayerController>()._Slots[0] = true;
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
                             myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
+                           
                         }
 
                         if(other.GetActive() == false)
@@ -174,6 +187,7 @@ public class PlayerController : MonoBehaviour
                     {
                         if (lùthfinito)
                         {
+                            other.GetComponent<PlayerController>()._Slots[1] = true;
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
                             myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
                         }
@@ -190,6 +204,7 @@ public class PlayerController : MonoBehaviour
                     {
                         if (lùthfinito)
                         {
+                            other.GetComponent<PlayerController>()._Slots[2] = true;
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
                             myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
                         }
@@ -209,20 +224,23 @@ public class PlayerController : MonoBehaviour
     {
         return _lùth;
     }
+
     //metodo fatto da Alfio
-    public float raiseAtk(float a)
+    public float RaiseAtk(float a)
     {
         atk = atk + a;
         Debug.Log("Ho alzato l'attacco di"+ a);
         Debug.Log("Il mio attacco è:"+ atk);
         return atk;
     }
-    public float raiseSpeed(float a)
+
+    public float RaiseSpeed(float a)
     {
         speed = speed + a;
         return speed;
     }
-    public float raiseHealth(float a)
+
+    public float RaiseHealth(float a)
     {
         hp = hp + a;
         return hp;
@@ -246,12 +264,18 @@ public class PlayerController : MonoBehaviour
                 // player
                 if(actual != player)
                 {
+                    transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
                     state = CLASSES.player;
                     actual.SetActive(false); // non ho la più pallida idea del perché dia nullreference
                     player.SetActive(true);
                     actual = player;
-                    myPV.ObservedComponents.RemoveAt(1);
+
+                    if (myPV.isMine)
+                        gameObject.transform.GetChild(5).gameObject.SetActive(true);
+
+                        myPV.ObservedComponents.RemoveAt(1);
                     myPV.ObservedComponents.Add(player.GetComponent<PhotonAnimatorView>());
+                    //AkSoundEngine.SetSwitch("Class_Choice", "Alive", gameObject);
                 }
                 break;
 
@@ -259,13 +283,20 @@ public class PlayerController : MonoBehaviour
                 // ghost
                 if (actual != ghost)
                 {
+                    transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
                     state = CLASSES.ghost;
                     actual.SetActive(false);
                     ghost.SetActive(true);
                     actual = ghost;
+
+                    if (myPV.isMine)
+                        gameObject.transform.GetChild(5).gameObject.SetActive(true);
+
                     FreeTheSlots();
                     myPV.ObservedComponents.RemoveAt(1);
                     myPV.ObservedComponents.Add(ghost.GetComponent<PhotonAnimatorView>());
+                    AkSoundEngine.SetSwitch("Class_Choice", "Alive", gameObject);
+                    //AkSoundEngine.SetSwitch("Class_Choice", "Ghost", gameObject);
                 }
                 break;
 
@@ -277,9 +308,14 @@ public class PlayerController : MonoBehaviour
                     actual.SetActive(false);
                     assassin.SetActive(true);
                     actual = assassin;
+
+                    if (myPV.isMine)
+                        gameObject.transform.GetChild(5).gameObject.SetActive(false);
+
                     actual.GetComponent<CircleMov>().SetTargetTransform(other.transform.parent.gameObject);
                     myPV.ObservedComponents.RemoveAt(1);
                     myPV.ObservedComponents.Add(assassin.GetComponent<PhotonAnimatorView>());
+                    //AkSoundEngine.SetSwitch("Class_Choice", "Assassin", gameObject);
                 }
                 break;
 
@@ -291,9 +327,14 @@ public class PlayerController : MonoBehaviour
                     actual.SetActive(false);
                     tank.SetActive(true);
                     actual = tank;
+
+                    if (myPV.isMine)
+                        gameObject.transform.GetChild(5).gameObject.SetActive(false);
+
                     actual.GetComponent<CircleMov>().SetTargetTransform(other.transform.parent.gameObject);
                     myPV.ObservedComponents.RemoveAt(1);
                     myPV.ObservedComponents.Add(tank.GetComponent<PhotonAnimatorView>());
+                    //AkSoundEngine.SetSwitch("Class_Choice", "Tank", gameObject);
                 }
                 break;
 
@@ -305,9 +346,14 @@ public class PlayerController : MonoBehaviour
                     actual.SetActive(false);
                     support.SetActive(true);
                     actual = support;
+
+                    if (myPV.isMine)
+                        gameObject.transform.GetChild(5).gameObject.SetActive(false);
+
                     actual.GetComponent<CircleMov>().SetTargetTransform(other.transform.parent.gameObject);
                     myPV.ObservedComponents.RemoveAt(1);
                     myPV.ObservedComponents.Add(support.GetComponent<PhotonAnimatorView>());
+                    //AkSoundEngine.SetSwitch("Class_Choice", "Support", gameObject);
                 }
                 break;
         }
@@ -330,6 +376,8 @@ public class PlayerController : MonoBehaviour
             if (transformable != true)
             {
                 _lùth += i;
+
+                imgluth.fillAmount = _lùth / 100;
                 if (_lùth >= _maxlùth)
                 {
                     transformable = true;
@@ -339,39 +387,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    /*
-    [PunRPC]
-    public void DecreaseLùth(float i)
-    {
-        if (state == CLASSES.assassin || state == CLASSES.support || state == CLASSES.tank)
-        {
-            _lùth -= i;
-
-            if (_lùth < 0)
-            {
-                _lùth = 0;
-
-                lùthfinito = true;
-            }
-        }
-    }*/
-
     [PunRPC]
     public void SetParentOnCircleMove(int ID)
     {
         PhotonView view = PhotonView.Find(ID);
         if (view != null)
         {
-            Debug.Log(view.gameObject);
-
             other = view.gameObject;
             actual.GetComponent<CircleMov>().SetTargetTransform(view.gameObject);
             cam.GetComponent<IsometricCamera>().SetTarget(view.transform);
         }
     }
+
     public float ReturnHp()
     {
         return hp;
-
     }
 }

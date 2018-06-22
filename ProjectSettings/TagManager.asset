@@ -15,6 +15,7 @@ TagManager:
   - Canvas
   - SF_Door
   - Health Bar
+  - LuthBar
   layers:
   - Default
   - TransparentFX

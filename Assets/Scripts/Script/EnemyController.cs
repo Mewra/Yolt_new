@@ -16,6 +16,7 @@ public class EnemyController : MonoBehaviour
     public GameObject playerTarget;
     public bool targetInRange = false;
     public float danno;
+    private float speed;
     //public AnimationClip clip;
    
 
@@ -33,19 +34,20 @@ public class EnemyController : MonoBehaviour
         dt = new DecisionTree(d1);
         dtAttack = new DecisionTree(d2);
         nav = gameObject.GetComponent<NavMeshAgent>();
+        speed = nav.speed;
         //AnimationEvent animationEvent = new AnimationEvent();
         //animationEvent.functionName = "DoDamage";
         //Debug.Log(clip.length*0.66);
         
         //animationEvent.time = (clip.length * 0.66f);
         //clip.AddEvent(animationEvent);
-
-
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        // animator.SetBool("TargetInRange", (nav.remainingDistance <= nav.stoppingDistance && GetFound) ? true : false);
         if(nav.remainingDistance<=nav.stoppingDistance && GetFound)
         {
             animator.SetBool("TargetInRange", true);
@@ -95,10 +97,10 @@ public class EnemyController : MonoBehaviour
     }
     object  FollowNearest(object o)
     {        
-    StopCoroutine("UpdateNearest");
-    StartCoroutine("UpdateNearest");
-    StartCoroutine("Follow");
-    return null; 
+        StopCoroutine("UpdateNearest");
+        StartCoroutine("UpdateNearest");
+        StartCoroutine("Follow");
+        return null; 
     }
    
     IEnumerator Follow()
@@ -181,11 +183,29 @@ public class EnemyController : MonoBehaviour
     {
         if (PhotonNetwork.isMasterClient)
         {
-            if(playerTarget!=null)
-            //Debug.Log(animator.GetCurrentAnimatorStateInfo(0).length);
-            playerTarget.GetComponentInParent<PhotonView>().RPC("TakeDamageOnPlayer", PhotonTargets.AllViaServer, danno);
-            //playerTarget.GetComponentInParent<HealthPlayer>().TakeDamageOnPlayer(10f);
+            if(playerTarget != null)
+            {
+                playerTarget.GetComponentInParent<PhotonView>().RPC("TakeDamageOnPlayer", PhotonTargets.AllViaServer, danno);
+            }
         }
     }
+
+    [PunRPC]
+    public void Slow()
+    {
+        speed*=0.5f;
+        //controlla se speed è nei bound, se è minore la porta a 0, maggiore a 100
+        speed = Mathf.Clamp(speed, 1, 10);
+        StartCoroutine(DebuffDuration(5.0f));
+    }
+
+    public IEnumerator DebuffDuration(float dur)
+    {
+        yield return new WaitForSeconds(dur);
+        speed*=2;
+
+    }
+
+
 
 }

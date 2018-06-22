@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
+    //QUELLA DELL'ENEMY
     Image healthBar;
     public GameObject fisting;
     public float health;

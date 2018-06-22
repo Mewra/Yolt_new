@@ -30,13 +30,6 @@ public class LobbyManager : Photon.PunBehaviour
         go.transform.GetChild(0).GetComponent<Text>().text = room.Name.Split('§')[0];
         go.transform.GetChild(1).GetComponent<Text>().text = room.PlayerCount.ToString() + go.transform.GetChild(1).GetComponent<Text>().text;
         go.transform.GetChild(2).GetComponent<Text>().text = room.Name.Split('§')[1];
-
-        /*
-            go.transform.GetChild(1).GetComponent<Text>().text = room.Name.Split('§')[0]; // room's name
-            go.transform.GetChild(3).GetComponent<Text>().text = room.Name.Split('§')[1]; // room's owner
-            go.transform.GetChild(5).GetComponent<Text>().text = room.PlayerCount.ToString() + " / 4"; // number of players
-            go.transform.GetChild(6).GetComponent<Button>().onClick.AddListener(() => JoinRoom(room.Name)); // Join's button 
-        */
     }
 
     public GameObject RestoreGridLayout()

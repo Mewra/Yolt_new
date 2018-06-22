@@ -5,7 +5,6 @@ using UnityEngine;
 public class Slow : MonoBehaviour {
 
     public float _damage;
-    public float _slow;
 
 	// Use this for initialization
 	void Start () {
@@ -20,11 +19,11 @@ public class Slow : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Enemy") {
-            //other.GetComponent<Health>().TakeDamage(_damage);
+            //si trova in health
             other.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, _damage);
-            //other.gameObject.GetComponent<EnemyManager>().Slow(_slow);
-            other.gameObject.GetComponent<PhotonView>().RPC("Slow", PhotonTargets.AllViaServer, _slow);
-            // DA CREARE IL METODO PUN RPC DI SLOW IN ENEMY MANAGER O ENEMY CONTROLLER
+            //si trova in enemy controller
+            other.gameObject.GetComponent<PhotonView>().RPC("Slow", PhotonTargets.AllViaServer);
+            
         }
     }
 }
