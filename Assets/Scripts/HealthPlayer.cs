@@ -8,21 +8,17 @@ public class HealthPlayer : MonoBehaviour
     public GameObject healthBar;
     private Image _healthBar;
     public float _health;
-    private PhotonView myPV;
+    public float totalHealth = 100;
 
     // Use this for initialization
     void Start()
     {
-        myPV = GetComponent<PhotonView>();
-        if(myPV.isMine)
+        healthBar = GameObject.FindGameObjectWithTag("Health Bar");
+        _healthBar = healthBar.GetComponent<Image>();
+        _health = 100f;
+        if(_healthBar != null)
         {
-            healthBar = GameObject.FindGameObjectWithTag("Health Bar");
-            _healthBar = healthBar.GetComponent<Image>();
-            _health = 100f;
-            if (_healthBar != null)
-            {
-                _healthBar.fillAmount = CalculateHealth();
-            }
+            _healthBar.fillAmount = CalculateHealth();
         }
     }
 

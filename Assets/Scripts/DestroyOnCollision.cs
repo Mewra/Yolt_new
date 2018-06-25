@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class DestroyOnCollision : MonoBehaviour
 {   
-    public float _damage = 50;
+    public float _damage = 10;
 
 
-    private void OnTriggerEnter(Collider other) 
+    private void OnCollisionEnter(Collision other) 
     {
-        Destroy(gameObject);
-        if (other.gameObject.CompareTag("Enemy"))
+        Destroy(this.gameObject);
+        if(other.gameObject.tag == "Enemy")
         {
-            if(PhotonNetwork.isMasterClient && other.gameObject.GetComponent<PhotonView>() != null)
+            if(PhotonNetwork.isMasterClient)
             {
                 other.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, _damage);
             }

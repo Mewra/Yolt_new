@@ -19,9 +19,6 @@ public class RotatePlayer : MonoBehaviour
 
     private void Update()
     {
-        //if (!myPhotonView.isMine)
-        //    return;
-
         groundPlane = new Plane(Vector3.up, transform.position);
         cameraRay = myCamera.ScreenPointToRay(Input.mousePosition);
 

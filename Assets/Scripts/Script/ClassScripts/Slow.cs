@@ -5,11 +5,11 @@ using UnityEngine;
 public class Slow : MonoBehaviour {
 
     public float _damage;
+    public float _slow;
 
 	// Use this for initialization
 	void Start () {
-        StartCoroutine("Duration");
-
+		
 	}
 	
 	// Update is called once per frame
@@ -20,20 +20,11 @@ public class Slow : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Enemy") {
-            //si trova in health
+            //other.GetComponent<Health>().TakeDamage(_damage);
             other.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, _damage);
-            //si trova in enemy controller
-            other.gameObject.GetComponent<PhotonView>().RPC("Slow", PhotonTargets.AllViaServer);
-            
+            //other.gameObject.GetComponent<EnemyManager>().Slow(_slow);
+            other.gameObject.GetComponent<PhotonView>().RPC("Slow", PhotonTargets.AllViaServer, _slow);
+            // DA CREARE IL METODO PUN RPC DI SLOW IN ENEMY MANAGER O ENEMY CONTROLLER
         }
-    }
-
-    public IEnumerator Duration() {
-
-        yield return new WaitForSeconds(5.0f);
-        if (PhotonNetwork.isMasterClient) {
-            PhotonNetwork.Destroy(gameObject);
-        }
-
     }
 }

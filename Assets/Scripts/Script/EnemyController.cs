@@ -15,8 +15,6 @@ public class EnemyController : MonoBehaviour
     private bool GetFound=false;
     public GameObject playerTarget;
     public bool targetInRange = false;
-    public float danno;
-    private float speed;
     //public AnimationClip clip;
    
 
@@ -34,20 +32,19 @@ public class EnemyController : MonoBehaviour
         dt = new DecisionTree(d1);
         dtAttack = new DecisionTree(d2);
         nav = gameObject.GetComponent<NavMeshAgent>();
-        speed = nav.speed;
         //AnimationEvent animationEvent = new AnimationEvent();
         //animationEvent.functionName = "DoDamage";
         //Debug.Log(clip.length*0.66);
         
         //animationEvent.time = (clip.length * 0.66f);
         //clip.AddEvent(animationEvent);
-        
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        // animator.SetBool("TargetInRange", (nav.remainingDistance <= nav.stoppingDistance && GetFound) ? true : false);
         if(nav.remainingDistance<=nav.stoppingDistance && GetFound)
         {
             animator.SetBool("TargetInRange", true);
@@ -71,16 +68,13 @@ public class EnemyController : MonoBehaviour
         {
             float targetdistance = Mathf.Infinity;
             playerTarget = null;
-            //Debug.Log("Find" + GameObject.FindGameObjectsWithTag("Player").Length);
-            
             foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-            //foreach (GameObject player in GameManager.Instance.players)
             {
                 float tmpDistance = Vector3.Distance(player.transform.position, transform.position);
                 if (tmpDistance < targetdistance)
                 {
                     targetdistance = tmpDistance;                  
-                    playerTarget = player.transform.parent.gameObject;
+                    playerTarget = player;
                 }
             }
             if (playerTarget != null)
@@ -100,10 +94,10 @@ public class EnemyController : MonoBehaviour
     }
     object  FollowNearest(object o)
     {        
-        StopCoroutine("UpdateNearest");
-        StartCoroutine("UpdateNearest");
-        StartCoroutine("Follow");
-        return null; 
+    StopCoroutine("UpdateNearest");
+    StartCoroutine("UpdateNearest");
+    StartCoroutine("Follow");
+    return null; 
     }
    
     IEnumerator Follow()
@@ -162,11 +156,7 @@ public class EnemyController : MonoBehaviour
             dt.walk();//comment
             yield return new WaitForSeconds(0.3f);
         }
-        //StartCoroutine(UpdateNearest()); //messa ora  
-        //StopCoroutine("UpdateNearest");
-        StartCoroutine("UpdateNearest");
-
-
+        StartCoroutine(UpdateNearest()); //messa ora  
     }
     
     public IEnumerator AttackControl()
@@ -188,38 +178,12 @@ public class EnemyController : MonoBehaviour
 
     public void DoDamage()
     {
-        if (PhotonNetwork.isMasterClient)
+        if (PhotonNetwork.isMasterClient || true)
         {
-            if(playerTarget != null && !playerTarget.GetComponent<PlayerController>().invulnerability)
-            {
-                playerTarget.GetComponentInParent<PhotonView>().RPC("TakeDamageOnPlayer", PhotonTargets.AllViaServer, danno);
-            }
+            Debug.Log(animator.GetCurrentAnimatorStateInfo(0).length);
+            playerTarget.GetComponentInParent<PhotonView>().RPC("TakeDamageOnPlayer", PhotonTargets.AllViaServer, 10f);
+            playerTarget.GetComponentInParent<HealthPlayer>().TakeDamageOnPlayer(10f);
         }
     }
-
-    [PunRPC]
-    public void Slow()
-    {
-        Debug.Log("Speed Prima: " +speed);
-
-
-        speed*=0.5f;
-        //float temp = speed;
-        //speed = 0;
-        Debug.Log("Speed Dopo: " + speed);
-        //speed = Mathf.Clamp(speed, 1, 10);
-        StartCoroutine(DebuffDuration(5.0f, 0));
-    }
-
-    public IEnumerator DebuffDuration(float dur, float temp)
-    {
-        yield return new WaitForSeconds(dur);
-        speed*=2;
-        //speed = temp;
-        Debug.Log("Speed Dopo Dopo: " + speed);
-
-    }
-
-
 
 }

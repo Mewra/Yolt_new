@@ -2,43 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SingleDamage : MonoBehaviour
-{
-    //Change How much damage to do from the inspector
-    public float damage;
-    private ParticleSystem _psQ;
+public class SingleDamage : MonoBehaviour {
 
-    // Use this for initialization
-    void Start ()
-    {
-        //damage = 10f;
-        _psQ = GetComponentInChildren<ParticleSystem>();
-        _psQ.Clear();
-        _psQ.Simulate(0.0f, true, true);
-        _psQ.Play();
-        StartCoroutine("Duration");
-    }
+    //Change How much damage to do from the inspector
+    public int damage;
+
+
+	// Use this for initialization
+	void Start () {
+		
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		
+	}
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Enemy")
-        {
-            Debug.Log("stasera tutti a casa di Giacomo");
+        if (other.gameObject.tag == "Enemy") {
             other.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, damage);
+            //other.GetComponent<Health>().TakeDamage(damage);
         }
     }
-
-    public IEnumerator Duration()
-    {
-
-        yield return new WaitForSeconds(0.5f);
-        if (PhotonNetwork.isMasterClient)
-        {
-            //Debug.Log("Distruggo Q");
-            PhotonNetwork.Destroy(gameObject);
-        }
-
-    }
-
-
 }

@@ -16,9 +16,6 @@ public class PlayerAnimation : MonoBehaviour
 
     private void Update()
     {
-        //if (!myPhotonView.isMine)
-        //    return;
-
         m_horizontal = Input.GetAxis("Horizontal");
         m_vertical = Input.GetAxis("Vertical");
         if (m_horizontal == 0 && m_vertical == 0)
@@ -28,16 +25,11 @@ public class PlayerAnimation : MonoBehaviour
         }
         else
         {
-            if (Mathf.Abs(rt.PointToLook.z) >= Mathf.Abs(rt.PointToLook.x))
-            {
-                anim.SetFloat("speed_y", m_vertical * (rt.PointToLook - transform.position).normalized.z);
-                anim.SetFloat("speed_x", m_horizontal * (rt.PointToLook - transform.position).normalized.x);
-            }
-            else
-            {
-                anim.SetFloat("speed_x", m_vertical * (rt.PointToLook - transform.position).normalized.z);
-                anim.SetFloat("speed_y", m_horizontal * (rt.PointToLook - transform.position).normalized.x);
-            }
+            anim.SetFloat("speed_y", m_vertical * (rt.PointToLook - transform.position).normalized.z);
+            anim.SetFloat("speed_x", m_horizontal * (rt.PointToLook - transform.position).normalized.x);
+
+
         }
+        
     }
 }

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Support : MonoBehaviour
 {
-    private PhotonView myPhotonView;
     private Camera cam;
     private IEnumerator coroutineQ;
     private IEnumerator coroutineW;
@@ -16,22 +15,14 @@ public class Support : MonoBehaviour
     private IEnumerator coroutineCDW;
     private IEnumerator coroutineCDR;
 
-    private Ray cameraRay;
-    private Plane groundPlane;
-    private float rayLength;
-
     public GameObject _slow;
     public GameObject _redemption;
     public GameObject _taric;
 
-    public GameObject prefabQ;
-    public GameObject prefabW;
-    public GameObject prefabR;
-
     //public GameObject _GOpc;
     private PlayerController _pc;
 
-    //public GameObject _TransformPsW;
+    public GameObject _TransformPsW;
     private ParticleSystem _psW;
 
 
@@ -46,9 +37,7 @@ public class Support : MonoBehaviour
     //private bool visibileRedemption = false;
     private bool visibileTaric = false;
 
-    //private Material _materialslow;
-    //public Material _blutrasparente;
-    //public Material _effectslow;
+    private Material _materialslow;
 
     private Vector3 bas;
 
@@ -64,9 +53,6 @@ public class Support : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        myPhotonView = GetComponentInParent<PhotonView>();
-        // if (!myPhotonView.isMine)
-        //     return;
         bas = new Vector3(0, 0, 0);
 
         cam = Camera.main;
@@ -85,7 +71,7 @@ public class Support : MonoBehaviour
         _taricColl = _taric.GetComponent<SphereCollider>();
         _slowColl = _slow.GetComponent<CapsuleCollider>();
 
-        //_psW = _TransformPsW.GetComponent<ParticleSystem>();
+        _psW = _TransformPsW.GetComponent<ParticleSystem>();
 
         _slowMesh.enabled = false;
         _redemptionMesh.enabled = false;
@@ -95,26 +81,32 @@ public class Support : MonoBehaviour
         usableW = true;
         usableR = true;
 
+
+
+
         //_materialslow = _slow.GetComponent<Renderer>().material;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!myPhotonView.isMine)
-             return;
-        groundPlane = new Plane(Vector3.up, transform.position);
-        cameraRay = cam.ScreenPointToRay(Input.mousePosition);
-        if (groundPlane.Raycast(cameraRay, out rayLength))
+        Ray pos = cam.ScreenPointToRay(Input.mousePosition);
+        Debug.DrawRay(pos.origin, pos.direction * 30, Color.yellow, 1);
+        RaycastHit hit;
+
+        if (Physics.Raycast(pos, out hit))
         {
-            bas = cameraRay.GetPoint(rayLength);
-            bas.y = 0f;
+            bas = hit.point;
+            bas.y = 0;
             _redemption.transform.position = bas;
             _taric.transform.position = bas;
         }
 
-
-        enoughluth = (_pc.getLuth() < 20) ? false : true;
+        if (_pc.getLuth() < 20)
+        {
+            enoughluth = false;
+        }
+        else { enoughluth = true; }
 
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -125,48 +117,44 @@ public class Support : MonoBehaviour
         
         if (Input.GetKeyUp(KeyCode.Q))
         {
-            _slowMesh.enabled = false; //se cambi i materiali commenta
+            _slowMesh.enabled = false;
 
             if (usableQ && enoughluth)
             {
                 usableQ = false;
-                
+
+                //////////////////////////RPC////////////////////
+                //GetComponentInParent<PlayerController>().DecreaseLùth(Qcost);
                 gameObject.GetComponentInParent<PhotonView>().RPC("DecreaseLùth", PhotonTargets.AllViaServer, Qcost);
 
-                /*if (PhotonNetwork.isMasterClient)
-                {
-                    GameObject go = PhotonNetwork.InstantiateSceneObject(prefabQ.name, _slow.transform.position, _slow.transform.rotation, 0, null);
-                }*/
+                _slowColl.enabled = true;
 
-                gameObject.GetComponentInParent<PhotonView>().RPC("InstanceQRAS", PhotonTargets.AllViaServer, "SupportQ", _slow.transform.position, _slow.transform.rotation);
-                //_slowColl.enabled = true;
+                coroutineQ = FieldSlowDuration(_slowColl);
+                StartCoroutine(coroutineQ);
 
-                //_materialslow.color = _effectslow.color;
-
-                /*coroutineQ = FieldSlowDuration();
-                StartCoroutine(coroutineQ);*/
-
-                coroutineCDQ = CooldownQ(1.0f);
+                coroutineCDQ = CooldownQ(10.0f);
                 StartCoroutine(coroutineCDQ);
 
             }
         }
 
 
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.W))
         {
             _redemptionMesh.enabled = true;
         }
 
         
-        if (Input.GetKeyUp(KeyCode.T))
+        if (Input.GetKeyUp(KeyCode.W))
         {
             _redemptionMesh.enabled = false;
 
             if (usableW && enoughluth)
             {
-                /*usableW = false;
-                
+                usableW = false;
+
+                /////////////////RPC//////////////////
+                //GetComponentInParent<PlayerController>().DecreaseLùth(Wcost);
                 gameObject.GetComponentInParent<PhotonView>().RPC("DecreaseLùth", PhotonTargets.AllViaServer, Wcost);
 
                 _TransformPsW.transform.position = new Vector3(_redemption.transform.position.x, 0.5f, _redemption.transform.position.z);
@@ -177,24 +165,17 @@ public class Support : MonoBehaviour
                 coroutineCasting = CastingDuration(3.0f);
                 StartCoroutine(coroutineCasting);
 
-                coroutineCDW = CooldownW(1.0f);
-                StartCoroutine(coroutineCDW);*/
-
-                usableW = false;
-
-                gameObject.GetComponentInParent<PhotonView>().RPC("DecreaseLùth", PhotonTargets.AllViaServer, Wcost);
-
-                /*if (PhotonNetwork.isMasterClient)
-                {
-                    GameObject go = PhotonNetwork.InstantiateSceneObject(prefabW.name, _redemption.transform.position, _redemption.transform.rotation, 0, null);
-                }*/
-
-                gameObject.GetComponentInParent<PhotonView>().RPC("InstanceQRAS", PhotonTargets.AllViaServer, "SupportW", _redemption.transform.position, _redemption.transform.rotation);
-
-                coroutineCDW = CooldownW(1.0f);
+                coroutineCDW = CooldownW(10.0f);
                 StartCoroutine(coroutineCDW);
+
             }
         }
+
+        /*if (visibileRedemption)
+        {
+            coroutineW = Instant(_redemptionColl, visibileRedemption);
+            StartCoroutine(coroutineW);
+        }*/
 
 
 
@@ -207,42 +188,43 @@ public class Support : MonoBehaviour
 
             if (Input.GetKeyUp(KeyCode.R))
             {
+                ////////////////////RPC///////////////////////
+                //GetComponentInParent<PlayerController>().DecreaseLùth(maxluth);
                 gameObject.GetComponentInParent<PhotonView>().RPC("DecreaseLùth", PhotonTargets.AllViaServer, maxluth);
 
                 _taricMesh.enabled = false;
 
                 _taricColl.enabled = true;
 
-                coroutineCasting1 = Invulnerability();
+                coroutineCasting1 = Instant(_taricColl, visibileTaric);
                 StartCoroutine(coroutineCasting1);
             }
         }
-        
+
+        /*if (visibileTaric)
+        {
+            coroutineR = Instant(_taricColl, visibileTaric);
+            StartCoroutine(coroutineR);
+        }*/
+
+
     }
 
-    /*public IEnumerator FieldSlowDuration()
-    {
-        
-        //_slow.transform.parent = null;
+    public IEnumerator FieldSlowDuration(Collider slow)
+    {   
         //per quanto tempo resta per terra lo slow
         yield return new WaitForSeconds(5.0f);
+        slow.enabled = false;
 
-        if (PhotonNetwork.isMasterClient)
-        {
-            GameObject go = PhotonNetwork.InstantiateSceneObject(_slow.name, _slow.transform.position, Quaternion.identity, 0, null);
-        }
+    }
 
-        //_materialslow.color = _blutrasparente.color;
-        //_slow.transform.parent = this.gameObject.transform;
-        //_slowColl.enabled = false;
-
-    }*/
-
-    public IEnumerator Invulnerability()
+    public IEnumerator Instant(Collider cast, bool vis)
     {
         
-        yield return new WaitForSeconds(3.0f);
-        _taricColl.enabled = false;
+        yield return new WaitForSeconds(0.5f);
+        cast.enabled = false;
+        vis = false;
+        
 
     }
 
@@ -275,3 +257,88 @@ public class Support : MonoBehaviour
 
 
 }
+
+
+
+    /*// Use this for initialization
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        if (Input.GetMouseButtonDown(0))
+        {
+
+            Ray pos = cam.ScreenPointToRay(Input.mousePosition);
+            Debug.DrawRay(pos.origin, pos.direction * 30, Color.yellow, 100);
+            RaycastHit hit;
+
+            if (Physics.Raycast(pos, out hit))
+            {
+                Vector3 bas = hit.collider.bounds.center;
+                bas.y = 0;
+
+                if (hit.collider.gameObject.tag == "Floor")
+                {
+                    bas = hit.point;
+                }
+
+                DebugExtension.DebugWireSphere(bas, 2.5f, 100, true);
+                Collider[] Arround = Physics.OverlapSphere(bas, 2.5f);
+                foreach (Collider intoExp in Arround)
+                {
+                    if (intoExp.transform.tag == "Enemy") // non dovrebbe essere il tag del giocatore?
+                    {
+                        intoExp.GetComponent<Health>().AreaHeal(10);
+                    }
+                }
+
+            }
+
+
+
+
+        }
+
+
+        //redemption
+        if (Input.GetMouseButtonDown(1))
+        {
+            Ray pos = cam.ScreenPointToRay(Input.mousePosition);
+            Debug.DrawRay(pos.origin, pos.direction * 30, Color.yellow, 100);
+            RaycastHit hit;
+
+            if (Physics.Raycast(pos, out hit))
+            {
+                Vector3 bas = hit.collider.bounds.center;
+                bas.y = 0;
+
+                if (hit.collider.gameObject.tag == "Floor")
+                {
+                    bas = hit.point;
+                }
+
+                DebugExtension.DebugWireSphere(bas, 2.5f, 100, true);
+                Collider[] Arround = Physics.OverlapSphere(bas, 2.5f);
+                
+                foreach (Collider intoExp in Arround)
+                {   
+                    if (intoExp.transform.tag == "Enemy")
+                    {   
+                        intoExp.GetComponent<EnemyManager>().Slow(10);
+                    }
+                }
+
+            }
+
+        }
+
+    }
+
+    
+
+    */

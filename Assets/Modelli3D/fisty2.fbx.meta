@@ -1,0 +1,190 @@
+fileFormatVersion: 2
+guid: 0173514f8ec06f045804012c6e939717
+timeCreated: 1528906942
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: Arm.Lower.L
+    100002: Arm.Lower.R
+    100004: Arm.Upper.L
+    100006: Arm.Upper.R
+    100008: Armature
+    100010: Camera
+    100012: Cube
+    100014: Elbow.L
+    100016: Elbow.L_end
+    100018: Elbow.R
+    100020: Elbow.R_end
+    100022: Finger.Middle.Lower.L
+    100024: Finger.Middle.Lower.L_end
+    100026: Finger.Middle.Lower.R
+    100028: Finger.Middle.Lower.R_end
+    100030: Finger.Middle.Upper.L
+    100032: Finger.Middle.Upper.R
+    100034: Finger.Pinkie.Lower.L
+    100036: Finger.Pinkie.Lower.L_end
+    100038: Finger.Pinkie.Lower.R
+    100040: Finger.Pinkie.Lower.R_end
+    100042: Finger.Pinkie.Upper.L
+    100044: Finger.Pinkie.Upper.R
+    100046: Finger.Pointer.Lower.L
+    100048: Finger.Pointer.Lower.L_end
+    100050: Finger.Pointer.Lower.R
+    100052: Finger.Pointer.Lower.R_end
+    100054: Finger.Pointer.Upper.L
+    100056: Finger.Pointer.Upper.R
+    100058: //RootNode
+    100060: HandHandle.L
+    100062: HandHandle.L_end
+    100064: HandHandle.R
+    100066: HandHandle.R_end
+    100068: Jaw
+    100070: Jaw_end
+    100072: Lamp
+    100074: Leg.Lower.L
+    100076: Leg.Lower.L_end
+    100078: Leg.Lower.R
+    100080: Leg.Lower.R_end
+    100082: Leg.Upper.L
+    100084: Leg.Upper.R
+    100086: Root
+    100088: Torso
+    400000: Arm.Lower.L
+    400002: Arm.Lower.R
+    400004: Arm.Upper.L
+    400006: Arm.Upper.R
+    400008: Armature
+    400010: Camera
+    400012: Cube
+    400014: Elbow.L
+    400016: Elbow.L_end
+    400018: Elbow.R
+    400020: Elbow.R_end
+    400022: Finger.Middle.Lower.L
+    400024: Finger.Middle.Lower.L_end
+    400026: Finger.Middle.Lower.R
+    400028: Finger.Middle.Lower.R_end
+    400030: Finger.Middle.Upper.L
+    400032: Finger.Middle.Upper.R
+    400034: Finger.Pinkie.Lower.L
+    400036: Finger.Pinkie.Lower.L_end
+    400038: Finger.Pinkie.Lower.R
+    400040: Finger.Pinkie.Lower.R_end
+    400042: Finger.Pinkie.Upper.L
+    400044: Finger.Pinkie.Upper.R
+    400046: Finger.Pointer.Lower.L
+    400048: Finger.Pointer.Lower.L_end
+    400050: Finger.Pointer.Lower.R
+    400052: Finger.Pointer.Lower.R_end
+    400054: Finger.Pointer.Upper.L
+    400056: Finger.Pointer.Upper.R
+    400058: //RootNode
+    400060: HandHandle.L
+    400062: HandHandle.L_end
+    400064: HandHandle.R
+    400066: HandHandle.R_end
+    400068: Jaw
+    400070: Jaw_end
+    400072: Lamp
+    400074: Leg.Lower.L
+    400076: Leg.Lower.L_end
+    400078: Leg.Lower.R
+    400080: Leg.Lower.R_end
+    400082: Leg.Upper.L
+    400084: Leg.Upper.R
+    400086: Root
+    400088: Torso
+    2000000: Camera
+    2100000: Material
+    2100002: Material.001
+    4300000: Cube
+    7400000: BasePose.001
+    7400002: RunSlow.001
+    7400004: Armature|AttackSlow
+    7400006: Armature|BasePose
+    7400008: Armature|PoseLib
+    7400010: Armature|RunSlow
+    9500000: //RootNode
+    10800000: Lamp
+    13700000: Cube
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

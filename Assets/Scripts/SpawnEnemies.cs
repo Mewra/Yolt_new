@@ -4,32 +4,22 @@ using UnityEngine;
 
 public class SpawnEnemies : MonoBehaviour
 {
-    public GameObject prefabVeloce;
-    public GameObject prefabLento;
+    public GameObject prefab;
     public Transform[] spawnPoints;
-   
 
 	void Start ()
     {
-       
+
 	}
 
-    public void Spawn()
+    public void Spawn(int n)
     {
-
         if (PhotonNetwork.isMasterClient)
         {
-            for (int i = 0; i < GameManager.Instance.numberOfEnemiesToSpawn / 2; i++)
+            for (int i = 0; i < n; i++)
             {
-                GameObject go = PhotonNetwork.InstantiateSceneObject(prefabVeloce.name, spawnPoints[Random.Range(0, 4)].position, Quaternion.identity, 0, null);
-                
+                GameObject go = PhotonNetwork.InstantiateSceneObject(prefab.name, spawnPoints[Random.Range(0, 3)].position, Quaternion.identity, 0, null);
             }
-            for (int i = 0; i < GameManager.Instance.numberOfEnemiesToSpawn / 2; i++)
-            {
-                GameObject go = PhotonNetwork.InstantiateSceneObject(prefabLento.name, spawnPoints[Random.Range(0, 4)].position, Quaternion.identity, 0, null);
-                
-            }
-
         }
     }
 }

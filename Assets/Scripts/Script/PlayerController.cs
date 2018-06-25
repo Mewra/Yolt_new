@@ -7,17 +7,14 @@ public class PlayerController : MonoBehaviour
 {
 
     private GameObject GameManager;
+    private int deadCount = 0;
     private Camera cam;
     public float _lùth;
     private float _maxlùth;
     public bool lùthfinito;
     private AnimatorManager myAniManager;
     public float hp, speed, atk;
-
-    public bool invulnerability;
-
-    //public GameObject luthbar;
-    //public Image imgluth;
+    
 
     public Button _asbtn, _tankbtn, _supbtn;
     private bool alive, resurrection, transformable, clickingPlayer;
@@ -46,9 +43,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void Start()
+    void Start ()
     {
-        invulnerability = false;
         myPV = GetComponent<PhotonView>();
         state = CLASSES.player;
         actual = player;
@@ -58,35 +54,21 @@ public class PlayerController : MonoBehaviour
         resurrection = false;
         lùthfinito = false;
         _lùth = 0;
-        //luthbar = GameObject.FindGameObjectWithTag("LuthBar");
-        //imgluth = luthbar.GetComponent<Image>();
-
-        //if (myPV.isMine) { 
-         //   if (imgluth != null)
-         //   {
-         //       imgluth.fillAmount = _lùth / 100;
-         //   }
-        //}
-
         atk = 10;
         speed = 5;
         hp = 100;
-
         _maxlùth = 100;
-        
         _playerHealth = GetComponent<HealthPlayer>();
         myAniManager = GetComponent<AnimatorManager>();
-
         if (myPV.isMine)
         {
-            
             cam = Camera.main;
             transfPanel = GameObject.FindGameObjectWithTag("Choose");
             _asbtn = transfPanel.transform.GetChild(0).GetComponent<Button>();
             _tankbtn = transfPanel.transform.GetChild(1).GetComponent<Button>();
             _supbtn = transfPanel.transform.GetChild(2).GetComponent<Button>();
             transfPanel.SetActive(false);
-            //_gameManager = GameManager.GetComponent<GameManager>();
+            _gameManager = GameManager.GetComponent<GameManager>();//decommentato
         }
 	}
 	
@@ -100,8 +82,10 @@ public class PlayerController : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(pos, out hit))
             {
+
                 if (hit.collider.gameObject.tag == "Player")
                 {
+                    Debug.Log(hit.collider.name);
                     other = hit.collider.gameObject;
                     clickingPlayer = true;
                 }
@@ -110,17 +94,20 @@ public class PlayerController : MonoBehaviour
                     clickingPlayer = false;
                 }
             }
-
             switch ((int)state)
             {
                 case 0:
                     {
                         myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.player);
                         myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)(0f));
+                        // myAniManager.RestoreAnimatorView(0);
                         if (_playerHealth._health <= 0 && myPV.isMine)
                         {
+                            _gameManager.GameOverController();//messo alfio
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
                             myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
+                            // myAniManager.RestoreAnimatorView(1);
+                            // state = CLASSES.ghost;
                         }
                         break;
                     }
@@ -129,15 +116,17 @@ public class PlayerController : MonoBehaviour
                     {
                         if (resurrection)
                         {
+                            // state = CLASSES.player;
+                            _gameManager.DecrementDeadCount();//messo alfio
                             gameObject.GetComponent<MovementGhost>().enabled = true;
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.player);
                             myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)0f);
+                            // myAniManager.RestoreAnimatorView(0);
                             _playerHealth._health = 100; //maxhealth
                             resurrection = false;
                         }
-
                         lùthfinito = false;
-                        if (_lùth < _maxlùth)
+                        if (_lùth != _maxlùth)
                         {
                             transformable = false;
                         }
@@ -171,52 +160,78 @@ public class PlayerController : MonoBehaviour
 
                 case 2:
                     {
+                        /*
+                        if (actual != assassin)
+                        {
+                            actual.SetActive(false);
+                            assassin.SetActive(true);
+                            actual = assassin;
+                        }
+                        */
+                        Debug.Log("Sono un assassino");
+
+                        myPV.RPC("SetParentOnCircleMove", PhotonTargets.AllBufferedViaServer, other.GetComponentInParent<PhotonView>().viewID);
+                        // assassin.GetComponent<CircleMov>()._player = other; //oppure other.GetComponentInParent<Transform>()
+
                         if (lùthfinito)
                         {
-                            //other.GetComponent<PlayerController>()._Slots[0] = true;
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
                             myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
-                           
+                            // myAniManager.RestoreAnimatorView(1);
+                            // state = CLASSES.ghost;
                         }
 
                         if(other.GetActive() == false)
                         {
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
                             myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
+                            // myAniManager.RestoreAnimatorView(1);
+                            // state = CLASSES.ghost;
                         }
                         break;
                     }
 
                 case 3:
                     {
+                        myPV.RPC("SetParentOnCircleMove", PhotonTargets.AllBufferedViaServer, other.GetComponentInParent<PhotonView>().viewID);
+                        // tank.GetComponent<CircleMov>()._player = other;
+
                         if (lùthfinito)
                         {
-                            //other.GetComponent<PlayerController>()._Slots[1] = true;
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
                             myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
+                            // myAniManager.RestoreAnimatorView(1);
+                            // state = CLASSES.ghost;
                         }
 
                         if (other.GetActive() == false)
                         {
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
                             myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
+                            // myAniManager.RestoreAnimatorView(1);
+                            // state = CLASSES.ghost;
                         }
                         break;
                     }
 
                 case 4:
                     {
+                        myPV.RPC("SetParentOnCircleMove", PhotonTargets.AllBufferedViaServer, other.GetComponentInParent<PhotonView>().viewID);
+                        // support.GetComponent<CircleMov>()._player = other;
                         if (lùthfinito)
                         {
-                            //other.GetComponent<PlayerController>()._Slots[2] = true;
+                            // state = CLASSES.ghost;
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
                             myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
+                            // myAniManager.RestoreAnimatorView(1);
                         }
 
                         if (other.GetActive() == false)
                         {
+                            // state = CLASSES.ghost;
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
                             myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
+                            // myAniManager.RestoreAnimatorView(1);
                         }
                         break;
                     }
@@ -228,28 +243,24 @@ public class PlayerController : MonoBehaviour
     {
         return _lùth;
     }
-
     //metodo fatto da Alfio
-    public float RaiseAtk(float a)
+    public float raiseAtk(float a)
     {
         atk = atk + a;
         Debug.Log("Ho alzato l'attacco di"+ a);
         Debug.Log("Il mio attacco è:"+ atk);
         return atk;
     }
-
-    public float RaiseSpeed(float a)
+    public float raiseSpeed(float a)
     {
         speed = speed + a;
         return speed;
     }
-
-    public float RaiseHealth(float a)
+    public float raiseHealth(float a)
     {
         hp = hp + a;
         return hp;
     }
-
     public void Revive()
     {
         if (hp <= 0)
@@ -259,6 +270,7 @@ public class PlayerController : MonoBehaviour
     }
 
     
+
     [PunRPC]
     public void ChangeState(int _state)
     {
@@ -268,20 +280,10 @@ public class PlayerController : MonoBehaviour
                 // player
                 if(actual != player)
                 {
-                    transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
                     state = CLASSES.player;
-                    actual.SetActive(false); // non ho la più pallida idea del perché dia nullreference
+                    actual.SetActive(false);
                     player.SetActive(true);
                     actual = player;
-
-                    if (myPV.isMine)
-                    {
-                        gameObject.transform.GetChild(5).gameObject.SetActive(true);
-                        AkSoundEngine.SetSwitch("Class_Choice", "Alive", gameObject);
-                    }
-
-                        myPV.ObservedComponents.RemoveAt(1);
-                    myPV.ObservedComponents.Add(player.GetComponent<PhotonAnimatorView>());
                 }
                 break;
 
@@ -289,21 +291,11 @@ public class PlayerController : MonoBehaviour
                 // ghost
                 if (actual != ghost)
                 {
-                    transform.position = new Vector3(transform.position.x, 0f, transform.position.z);
                     state = CLASSES.ghost;
                     actual.SetActive(false);
                     ghost.SetActive(true);
                     actual = ghost;
-
-                    if (myPV.isMine) {
-                        gameObject.transform.GetChild(5).gameObject.SetActive(true);
-                        AkSoundEngine.SetSwitch("Class_Choice", "Ghost", gameObject);
-                    }
-                        
-
                     FreeTheSlots();
-                    myPV.ObservedComponents.RemoveAt(1);
-                    myPV.ObservedComponents.Add(ghost.GetComponent<PhotonAnimatorView>());
                 }
                 break;
 
@@ -315,17 +307,6 @@ public class PlayerController : MonoBehaviour
                     actual.SetActive(false);
                     assassin.SetActive(true);
                     actual = assassin;
-
-                    if (myPV.isMine) {
-                        gameObject.transform.GetChild(5).gameObject.SetActive(false);
-                        AkSoundEngine.SetSwitch("Class_Choice", "Assassin", gameObject);
-                    }
-                        
-
-                    actual.GetComponent<CircleMov>().SetTargetTransform(other.transform.parent.gameObject);
-                    myPV.ObservedComponents.RemoveAt(1);
-                    myPV.ObservedComponents.Add(assassin.GetComponent<PhotonAnimatorView>());
-                    
                 }
                 break;
 
@@ -337,17 +318,6 @@ public class PlayerController : MonoBehaviour
                     actual.SetActive(false);
                     tank.SetActive(true);
                     actual = tank;
-
-                    if (myPV.isMine)
-                    {
-                        gameObject.transform.GetChild(5).gameObject.SetActive(false);
-                        AkSoundEngine.SetSwitch("Class_Choice", "Tank", gameObject);
-                    }
-
-                    actual.GetComponent<CircleMov>().SetTargetTransform(other.transform.parent.gameObject);
-                    myPV.ObservedComponents.RemoveAt(1);
-                    myPV.ObservedComponents.Add(tank.GetComponent<PhotonAnimatorView>());
-                    
                 }
                 break;
 
@@ -359,16 +329,6 @@ public class PlayerController : MonoBehaviour
                     actual.SetActive(false);
                     support.SetActive(true);
                     actual = support;
-
-                    if (myPV.isMine)
-                    {
-                        gameObject.transform.GetChild(5).gameObject.SetActive(false);
-                        AkSoundEngine.SetSwitch("Class_Choice", "Support", gameObject);
-                    }
-
-                    actual.GetComponent<CircleMov>().SetTargetTransform(other.transform.parent.gameObject);
-                    myPV.ObservedComponents.RemoveAt(1);
-                    myPV.ObservedComponents.Add(support.GetComponent<PhotonAnimatorView>());
                 }
                 break;
         }
@@ -391,21 +351,28 @@ public class PlayerController : MonoBehaviour
             if (transformable != true)
             {
                 _lùth += i;
-
-                //imgluth.fillAmount = _lùth / 100;
-
-                if (_lùth >= _maxlùth)
+                if (_lùth == _maxlùth)
                 {
                     transformable = true;
-                    _lùth = _maxlùth;
                 }
             }
         }
     }
 
     [PunRPC]
-    public void setInvulnerability(bool inv) {
-        invulnerability = inv;
+    public void DecreaseLùth(float i)
+    {
+        if (state == CLASSES.assassin || state == CLASSES.support || state == CLASSES.tank)
+        {
+            _lùth -= i;
+
+            if (_lùth < 0)
+            {
+                _lùth = 0;
+
+                lùthfinito = true;
+            }
+        }
     }
 
     [PunRPC]
@@ -414,14 +381,15 @@ public class PlayerController : MonoBehaviour
         PhotonView view = PhotonView.Find(ID);
         if (view != null)
         {
-            other = view.gameObject;
-            actual.GetComponent<CircleMov>().SetTargetTransform(view.gameObject);
-            cam.GetComponent<IsometricCamera>().SetTarget(view.transform);
+            this.other = view.gameObject;
+            actual.GetComponent<CircleMov>().SetTargetTransform(other);
         }
     }
-
     public float ReturnHp()
     {
         return hp;
+
     }
+
+    
 }

@@ -11,14 +11,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f3758f8f58fdef43803eb9be1df0608, type: 3}
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
-  AppID: 65f593ea-68ec-421e-a8d6-9a6f116a07ea
+  AppID: 
   VoiceAppID: 
   ChatAppID: 
-  HostType: 2
+  HostType: 0
   PreferredRegion: 0
   EnabledRegions: -1
   Protocol: 0
-  ServerAddress: 127.0.0.1
+  ServerAddress: 
   ServerPort: 5055
   VoiceServerPort: 5055
   JoinLobby: 0
@@ -32,7 +32,6 @@ MonoBehaviour:
   - Chat
   - ColorRpc
   - "DecreaseL\xF9th"
-  - DestroyObject
   - DestroyRpc
   - DoJump
   - Fire
@@ -56,10 +55,4 @@ MonoBehaviour:
   - TaggedPlayer
   - TakeDamage
   - TakeDamageOnPlayer
-  - ChangeMaterials
-  - StartParticleSystem
-  - setInvulnerability
-  - InstanceSpell
-  - InstanceQRAS
-  - InstanceWAS
   DisableAutoOpenWizard: 1

@@ -20,9 +20,6 @@ public class GunControler : MonoBehaviour
 
     private void Update()
     {
-        //if (!myPhotonView.isMine)
-        //    return;
-
         shotCounter -= Time.deltaTime;
         if (Input.GetMouseButton(0) && myView.isMine)
         {

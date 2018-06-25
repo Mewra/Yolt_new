@@ -2,27 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Lùth : MonoBehaviour
-{
+public class Lùth : MonoBehaviour {
 
-    private float _lùth;
-    private PhotonView myPV;
+    public float _lùth; 
 
-    private void Start()
-    {
-        myPV = GetComponent<PhotonView>();
-    }
+	// Use this for initialization
+	void Start () {
+		
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		
+	}
 
     void OnTriggerEnter(Collider coll)
     {
+
         if (coll.gameObject.tag == "Ghost")
-        {
-            //_lùth = Random.Range(80, 90);
-            _lùth = 50;
-            coll.gameObject.GetComponentInParent<PhotonView>().RPC("IncreaseLùth", PhotonTargets.AllViaServer, _lùth);
-            //coll.gameObject.GetComponentInParent<PlayerController>().IncreaseLùth(_lùth);
-            coll.GetComponentInParent<PhotonView>().RPC("DestroyObject", PhotonTargets.MasterClient, myPV.viewID);
-            
+        {   
+
+            ////////////////RPC/////////////////
+            coll.gameObject.GetComponentInParent<PlayerController>().IncreaseLùth(_lùth);
+            // coll.GetComponentInParent<PhotonView>().RPC("IncreaseLùth", )
+
+            Destroy(gameObject);
         }
     }
 }

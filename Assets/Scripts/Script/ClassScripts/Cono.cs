@@ -6,17 +6,11 @@ public class Cono : MonoBehaviour
 {
 
     float t = 0;
-    private ParticleSystem _psQ;
 
     // Use this for initialization
     void Start()
     {
-        _psQ = GetComponentInChildren<ParticleSystem>();
-        Debug.Log(_psQ.name);
-        _psQ.Clear();
-        _psQ.Simulate(0.0f, true, true);
-        _psQ.Play();
-        StartCoroutine("Duration");
+
     }
 
     // Update is called once per frame
@@ -27,32 +21,20 @@ public class Cono : MonoBehaviour
 
     void OnTriggerStay(Collider coll)
     {
+        //Debug.Log("t: " + t);
         t += Time.deltaTime;
+
         if (coll.gameObject.tag == "Enemy")
         {
+            //Debug.Log("Sono dentro enemy");
             if (t > 0.5)
             {
-                coll.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 5.0f);
+                coll.gameObject.GetComponent<PhotonView>().RPC("TakeDamage", PhotonTargets.AllViaServer, 2.0f);
+                //coll.gameObject.GetComponent<Health>().TakeDamage(2);
+                //Debug.Log("Sto facendo 2 danni");
                 t = 0;
             }
         }
 
     }
-
-    public IEnumerator Duration()
-    {
-
-        yield return new WaitForSeconds(5.0f);
-        if (PhotonNetwork.isMasterClient)
-        {
-            Debug.Log("Distruggo W");
-            _psQ.Clear();
-            _psQ.Simulate(0.0f, true, true);
-            _psQ.Stop();
-            PhotonNetwork.Destroy(gameObject);
-        }
-
-    }
-
-
 }
