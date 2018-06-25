@@ -7,23 +7,29 @@ public class SpawnEnemies : MonoBehaviour
     public GameObject prefabVeloce;
     public GameObject prefabLento;
     public Transform[] spawnPoints;
+   
 
 	void Start ()
     {
-
+       
 	}
 
-    public void Spawn(int n)
+    public void Spawn()
     {
+
         if (PhotonNetwork.isMasterClient)
         {
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < GameManager.Instance.numberOfEnemiesToSpawn / 2; i++)
             {
-                GameObject go = PhotonNetwork.InstantiateSceneObject(prefabVeloce.name, spawnPoints[Random.Range(0, 3)].position, Quaternion.identity, 0, null);
+                GameObject go = PhotonNetwork.InstantiateSceneObject(prefabVeloce.name, spawnPoints[Random.Range(0, 4)].position, Quaternion.identity, 0, null);
+                
             }
-            for (int i = 0; i < 4; i++) {
-                GameObject go = PhotonNetwork.InstantiateSceneObject(prefabLento.name, spawnPoints[i].position, Quaternion.identity, 0, null);
+            for (int i = 0; i < GameManager.Instance.numberOfEnemiesToSpawn / 2; i++)
+            {
+                GameObject go = PhotonNetwork.InstantiateSceneObject(prefabLento.name, spawnPoints[Random.Range(0, 4)].position, Quaternion.identity, 0, null);
+                
             }
+
         }
     }
 }

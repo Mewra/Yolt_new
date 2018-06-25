@@ -71,7 +71,10 @@ public class EnemyController : MonoBehaviour
         {
             float targetdistance = Mathf.Infinity;
             playerTarget = null;
+            //Debug.Log("Find" + GameObject.FindGameObjectsWithTag("Player").Length);
+            
             foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+            //foreach (GameObject player in GameManager.Instance.players)
             {
                 float tmpDistance = Vector3.Distance(player.transform.position, transform.position);
                 if (tmpDistance < targetdistance)
@@ -159,7 +162,11 @@ public class EnemyController : MonoBehaviour
             dt.walk();//comment
             yield return new WaitForSeconds(0.3f);
         }
-        StartCoroutine(UpdateNearest()); //messa ora  
+        //StartCoroutine(UpdateNearest()); //messa ora  
+        //StopCoroutine("UpdateNearest");
+        StartCoroutine("UpdateNearest");
+
+
     }
     
     public IEnumerator AttackControl()
@@ -183,7 +190,7 @@ public class EnemyController : MonoBehaviour
     {
         if (PhotonNetwork.isMasterClient)
         {
-            if(playerTarget != null)
+            if(playerTarget != null && !playerTarget.GetComponent<PlayerController>().invulnerability)
             {
                 playerTarget.GetComponentInParent<PhotonView>().RPC("TakeDamageOnPlayer", PhotonTargets.AllViaServer, danno);
             }
@@ -193,16 +200,23 @@ public class EnemyController : MonoBehaviour
     [PunRPC]
     public void Slow()
     {
+        Debug.Log("Speed Prima: " +speed);
+
+
         speed*=0.5f;
-        //controlla se speed è nei bound, se è minore la porta a 0, maggiore a 100
-        speed = Mathf.Clamp(speed, 1, 10);
-        StartCoroutine(DebuffDuration(5.0f));
+        //float temp = speed;
+        //speed = 0;
+        Debug.Log("Speed Dopo: " + speed);
+        //speed = Mathf.Clamp(speed, 1, 10);
+        StartCoroutine(DebuffDuration(5.0f, 0));
     }
 
-    public IEnumerator DebuffDuration(float dur)
+    public IEnumerator DebuffDuration(float dur, float temp)
     {
         yield return new WaitForSeconds(dur);
         speed*=2;
+        //speed = temp;
+        Debug.Log("Speed Dopo Dopo: " + speed);
 
     }
 

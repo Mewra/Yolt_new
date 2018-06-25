@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SingleDamage : MonoBehaviour
+public class Laserone : MonoBehaviour
 {
     //Change How much damage to do from the inspector
     public float damage;
     private ParticleSystem _psQ;
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         //damage = 10f;
         _psQ = GetComponentInChildren<ParticleSystem>();
@@ -34,7 +34,7 @@ public class SingleDamage : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         if (PhotonNetwork.isMasterClient)
         {
-            //Debug.Log("Distruggo Q");
+            Debug.Log("Distruggo R");
             PhotonNetwork.Destroy(gameObject);
         }
 

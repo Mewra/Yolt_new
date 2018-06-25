@@ -24,10 +24,14 @@ public class Support : MonoBehaviour
     public GameObject _redemption;
     public GameObject _taric;
 
+    public GameObject prefabQ;
+    public GameObject prefabW;
+    public GameObject prefabR;
+
     //public GameObject _GOpc;
     private PlayerController _pc;
 
-    public GameObject _TransformPsW;
+    //public GameObject _TransformPsW;
     private ParticleSystem _psW;
 
 
@@ -42,9 +46,9 @@ public class Support : MonoBehaviour
     //private bool visibileRedemption = false;
     private bool visibileTaric = false;
 
-    private Material _materialslow;
-    public Material _blutrasparente;
-    public Material _effectslow;
+    //private Material _materialslow;
+    //public Material _blutrasparente;
+    //public Material _effectslow;
 
     private Vector3 bas;
 
@@ -81,7 +85,7 @@ public class Support : MonoBehaviour
         _taricColl = _taric.GetComponent<SphereCollider>();
         _slowColl = _slow.GetComponent<CapsuleCollider>();
 
-        _psW = _TransformPsW.GetComponent<ParticleSystem>();
+        //_psW = _TransformPsW.GetComponent<ParticleSystem>();
 
         _slowMesh.enabled = false;
         _redemptionMesh.enabled = false;
@@ -91,7 +95,7 @@ public class Support : MonoBehaviour
         usableW = true;
         usableR = true;
 
-        _materialslow = _slow.GetComponent<Renderer>().material;
+        //_materialslow = _slow.GetComponent<Renderer>().material;
     }
 
     // Update is called once per frame
@@ -121,7 +125,7 @@ public class Support : MonoBehaviour
         
         if (Input.GetKeyUp(KeyCode.Q))
         {
-            _slowMesh.enabled = false;
+            _slowMesh.enabled = false; //se cambi i materiali commenta
 
             if (usableQ && enoughluth)
             {
@@ -129,11 +133,18 @@ public class Support : MonoBehaviour
                 
                 gameObject.GetComponentInParent<PhotonView>().RPC("DecreaseLùth", PhotonTargets.AllViaServer, Qcost);
 
-                _slowColl.enabled = true;
-                _materialslow = _effectslow;
+                /*if (PhotonNetwork.isMasterClient)
+                {
+                    GameObject go = PhotonNetwork.InstantiateSceneObject(prefabQ.name, _slow.transform.position, _slow.transform.rotation, 0, null);
+                }*/
 
-                coroutineQ = FieldSlowDuration();
-                StartCoroutine(coroutineQ);
+                gameObject.GetComponentInParent<PhotonView>().RPC("InstanceQRAS", PhotonTargets.AllViaServer, "SupportQ", _slow.transform.position, _slow.transform.rotation);
+                //_slowColl.enabled = true;
+
+                //_materialslow.color = _effectslow.color;
+
+                /*coroutineQ = FieldSlowDuration();
+                StartCoroutine(coroutineQ);*/
 
                 coroutineCDQ = CooldownQ(1.0f);
                 StartCoroutine(coroutineCDQ);
@@ -154,7 +165,7 @@ public class Support : MonoBehaviour
 
             if (usableW && enoughluth)
             {
-                usableW = false;
+                /*usableW = false;
                 
                 gameObject.GetComponentInParent<PhotonView>().RPC("DecreaseLùth", PhotonTargets.AllViaServer, Wcost);
 
@@ -166,9 +177,22 @@ public class Support : MonoBehaviour
                 coroutineCasting = CastingDuration(3.0f);
                 StartCoroutine(coroutineCasting);
 
-                coroutineCDW = CooldownW(10.0f);
-                StartCoroutine(coroutineCDW);
+                coroutineCDW = CooldownW(1.0f);
+                StartCoroutine(coroutineCDW);*/
 
+                usableW = false;
+
+                gameObject.GetComponentInParent<PhotonView>().RPC("DecreaseLùth", PhotonTargets.AllViaServer, Wcost);
+
+                /*if (PhotonNetwork.isMasterClient)
+                {
+                    GameObject go = PhotonNetwork.InstantiateSceneObject(prefabW.name, _redemption.transform.position, _redemption.transform.rotation, 0, null);
+                }*/
+
+                gameObject.GetComponentInParent<PhotonView>().RPC("InstanceQRAS", PhotonTargets.AllViaServer, "SupportW", _redemption.transform.position, _redemption.transform.rotation);
+
+                coroutineCDW = CooldownW(1.0f);
+                StartCoroutine(coroutineCDW);
             }
         }
 
@@ -189,32 +213,36 @@ public class Support : MonoBehaviour
 
                 _taricColl.enabled = true;
 
-                coroutineCasting1 = Instant(_taricColl, visibileTaric);
+                coroutineCasting1 = Invulnerability();
                 StartCoroutine(coroutineCasting1);
             }
         }
         
     }
 
-    public IEnumerator FieldSlowDuration()
+    /*public IEnumerator FieldSlowDuration()
     {
         
         //_slow.transform.parent = null;
         //per quanto tempo resta per terra lo slow
         yield return new WaitForSeconds(5.0f);
-        _materialslow = _blutrasparente;
+
+        if (PhotonNetwork.isMasterClient)
+        {
+            GameObject go = PhotonNetwork.InstantiateSceneObject(_slow.name, _slow.transform.position, Quaternion.identity, 0, null);
+        }
+
+        //_materialslow.color = _blutrasparente.color;
         //_slow.transform.parent = this.gameObject.transform;
-        _slowColl.enabled = false;
+        //_slowColl.enabled = false;
 
-    }
+    }*/
 
-    public IEnumerator Instant(Collider cast, bool vis)
+    public IEnumerator Invulnerability()
     {
         
-        yield return new WaitForSeconds(0.5f);
-        cast.enabled = false;
-        vis = false;
-        
+        yield return new WaitForSeconds(3.0f);
+        _taricColl.enabled = false;
 
     }
 

@@ -42,7 +42,7 @@ MonoBehaviour:
         ObjectType: 12
       - ElementName: Main
         ObjectType: 7
-  basePath: Audio/GeneratedSoundBanks/Windows/Main.bnk
+  basePath: Audio/GeneratedSoundBanks/
   callbackManagerBufferSize: 4
   CurrentPluginConfig: 
   defaultPoolSize: 4096
@@ -81,6 +81,8 @@ MonoBehaviour:
   - /YOLT Music Test
   - /YOLT Music Test/Events
   - /YOLT Music Test/Events/Default Work Unit
+  - /YOLT Music Test/SoundBanks
+  - /YOLT Music Test/SoundBanks/Default Work Unit
   language: English(US)
   lowerPoolSize: 2048
   m_lastPopulateTimePart2: 0

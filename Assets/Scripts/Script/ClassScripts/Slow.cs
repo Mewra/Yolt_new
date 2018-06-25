@@ -8,7 +8,8 @@ public class Slow : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+        StartCoroutine("Duration");
+
 	}
 	
 	// Update is called once per frame
@@ -25,5 +26,14 @@ public class Slow : MonoBehaviour {
             other.gameObject.GetComponent<PhotonView>().RPC("Slow", PhotonTargets.AllViaServer);
             
         }
+    }
+
+    public IEnumerator Duration() {
+
+        yield return new WaitForSeconds(5.0f);
+        if (PhotonNetwork.isMasterClient) {
+            PhotonNetwork.Destroy(gameObject);
+        }
+
     }
 }

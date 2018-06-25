@@ -17,7 +17,8 @@ public class Lùth : MonoBehaviour
     {
         if (coll.gameObject.tag == "Ghost")
         {
-            _lùth = Random.Range(80, 90);
+            //_lùth = Random.Range(80, 90);
+            _lùth = 50;
             coll.gameObject.GetComponentInParent<PhotonView>().RPC("IncreaseLùth", PhotonTargets.AllViaServer, _lùth);
             //coll.gameObject.GetComponentInParent<PlayerController>().IncreaseLùth(_lùth);
             coll.GetComponentInParent<PhotonView>().RPC("DestroyObject", PhotonTargets.MasterClient, myPV.viewID);

@@ -21,7 +21,10 @@ public class SpawnPlayer : MonoBehaviour
             i++;
         }
         GameObject go = PhotonNetwork.Instantiate(prefab.name, spawnTransform[i].position, Quaternion.identity, 0);
+
         GameManager.Instance.players.Add(go);
+
+
         if (go.GetComponent<PhotonView>().isMine)
         {
             go.GetComponentInChildren<MovementGhost>().enabled = true;

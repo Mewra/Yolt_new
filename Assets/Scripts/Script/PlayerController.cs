@@ -14,8 +14,10 @@ public class PlayerController : MonoBehaviour
     private AnimatorManager myAniManager;
     public float hp, speed, atk;
 
-    public GameObject luthbar;
-    public Image imgluth;
+    public bool invulnerability;
+
+    //public GameObject luthbar;
+    //public Image imgluth;
 
     public Button _asbtn, _tankbtn, _supbtn;
     private bool alive, resurrection, transformable, clickingPlayer;
@@ -46,6 +48,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        invulnerability = false;
         myPV = GetComponent<PhotonView>();
         state = CLASSES.player;
         actual = player;
@@ -55,21 +58,22 @@ public class PlayerController : MonoBehaviour
         resurrection = false;
         lùthfinito = false;
         _lùth = 0;
-        luthbar = GameObject.FindGameObjectWithTag("LuthBar");
-        imgluth = luthbar.GetComponent<Image>();
+        //luthbar = GameObject.FindGameObjectWithTag("LuthBar");
+        //imgluth = luthbar.GetComponent<Image>();
 
-        if (myPV.isMine) { 
-            if (imgluth != null)
-            {
-                imgluth.fillAmount = _lùth / 100;
-            }
-        }
+        //if (myPV.isMine) { 
+         //   if (imgluth != null)
+         //   {
+         //       imgluth.fillAmount = _lùth / 100;
+         //   }
+        //}
 
         atk = 10;
         speed = 5;
         hp = 100;
+
         _maxlùth = 100;
-        hp = 100;
+        
         _playerHealth = GetComponent<HealthPlayer>();
         myAniManager = GetComponent<AnimatorManager>();
 
@@ -169,7 +173,7 @@ public class PlayerController : MonoBehaviour
                     {
                         if (lùthfinito)
                         {
-                            other.GetComponent<PlayerController>()._Slots[0] = true;
+                            //other.GetComponent<PlayerController>()._Slots[0] = true;
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
                             myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
                            
@@ -187,7 +191,7 @@ public class PlayerController : MonoBehaviour
                     {
                         if (lùthfinito)
                         {
-                            other.GetComponent<PlayerController>()._Slots[1] = true;
+                            //other.GetComponent<PlayerController>()._Slots[1] = true;
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
                             myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
                         }
@@ -204,7 +208,7 @@ public class PlayerController : MonoBehaviour
                     {
                         if (lùthfinito)
                         {
-                            other.GetComponent<PlayerController>()._Slots[2] = true;
+                            //other.GetComponent<PlayerController>()._Slots[2] = true;
                             myPV.RPC("ChangeState", PhotonTargets.AllBufferedViaServer, (int)CLASSES.ghost);
                             myPV.RPC("RestoreAnimatorView", PhotonTargets.AllBufferedViaServer, (int)1f);
                         }
@@ -271,11 +275,13 @@ public class PlayerController : MonoBehaviour
                     actual = player;
 
                     if (myPV.isMine)
+                    {
                         gameObject.transform.GetChild(5).gameObject.SetActive(true);
+                        AkSoundEngine.SetSwitch("Class_Choice", "Alive", gameObject);
+                    }
 
                         myPV.ObservedComponents.RemoveAt(1);
                     myPV.ObservedComponents.Add(player.GetComponent<PhotonAnimatorView>());
-                    //AkSoundEngine.SetSwitch("Class_Choice", "Alive", gameObject);
                 }
                 break;
 
@@ -289,14 +295,15 @@ public class PlayerController : MonoBehaviour
                     ghost.SetActive(true);
                     actual = ghost;
 
-                    if (myPV.isMine)
+                    if (myPV.isMine) {
                         gameObject.transform.GetChild(5).gameObject.SetActive(true);
+                        AkSoundEngine.SetSwitch("Class_Choice", "Ghost", gameObject);
+                    }
+                        
 
                     FreeTheSlots();
                     myPV.ObservedComponents.RemoveAt(1);
                     myPV.ObservedComponents.Add(ghost.GetComponent<PhotonAnimatorView>());
-                    AkSoundEngine.SetSwitch("Class_Choice", "Alive", gameObject);
-                    //AkSoundEngine.SetSwitch("Class_Choice", "Ghost", gameObject);
                 }
                 break;
 
@@ -309,13 +316,16 @@ public class PlayerController : MonoBehaviour
                     assassin.SetActive(true);
                     actual = assassin;
 
-                    if (myPV.isMine)
+                    if (myPV.isMine) {
                         gameObject.transform.GetChild(5).gameObject.SetActive(false);
+                        AkSoundEngine.SetSwitch("Class_Choice", "Assassin", gameObject);
+                    }
+                        
 
                     actual.GetComponent<CircleMov>().SetTargetTransform(other.transform.parent.gameObject);
                     myPV.ObservedComponents.RemoveAt(1);
                     myPV.ObservedComponents.Add(assassin.GetComponent<PhotonAnimatorView>());
-                    //AkSoundEngine.SetSwitch("Class_Choice", "Assassin", gameObject);
+                    
                 }
                 break;
 
@@ -329,12 +339,15 @@ public class PlayerController : MonoBehaviour
                     actual = tank;
 
                     if (myPV.isMine)
+                    {
                         gameObject.transform.GetChild(5).gameObject.SetActive(false);
+                        AkSoundEngine.SetSwitch("Class_Choice", "Tank", gameObject);
+                    }
 
                     actual.GetComponent<CircleMov>().SetTargetTransform(other.transform.parent.gameObject);
                     myPV.ObservedComponents.RemoveAt(1);
                     myPV.ObservedComponents.Add(tank.GetComponent<PhotonAnimatorView>());
-                    //AkSoundEngine.SetSwitch("Class_Choice", "Tank", gameObject);
+                    
                 }
                 break;
 
@@ -348,12 +361,14 @@ public class PlayerController : MonoBehaviour
                     actual = support;
 
                     if (myPV.isMine)
+                    {
                         gameObject.transform.GetChild(5).gameObject.SetActive(false);
+                        AkSoundEngine.SetSwitch("Class_Choice", "Support", gameObject);
+                    }
 
                     actual.GetComponent<CircleMov>().SetTargetTransform(other.transform.parent.gameObject);
                     myPV.ObservedComponents.RemoveAt(1);
                     myPV.ObservedComponents.Add(support.GetComponent<PhotonAnimatorView>());
-                    //AkSoundEngine.SetSwitch("Class_Choice", "Support", gameObject);
                 }
                 break;
         }
@@ -377,7 +392,8 @@ public class PlayerController : MonoBehaviour
             {
                 _lùth += i;
 
-                imgluth.fillAmount = _lùth / 100;
+                //imgluth.fillAmount = _lùth / 100;
+
                 if (_lùth >= _maxlùth)
                 {
                     transformable = true;
@@ -385,6 +401,11 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
+    }
+
+    [PunRPC]
+    public void setInvulnerability(bool inv) {
+        invulnerability = inv;
     }
 
     [PunRPC]

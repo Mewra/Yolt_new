@@ -58,4 +58,8 @@ MonoBehaviour:
   - TakeDamageOnPlayer
   - ChangeMaterials
   - StartParticleSystem
+  - setInvulnerability
+  - InstanceSpell
+  - InstanceQRAS
+  - InstanceWAS
   DisableAutoOpenWizard: 1

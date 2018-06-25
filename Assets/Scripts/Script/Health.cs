@@ -9,6 +9,7 @@ public class Health : MonoBehaviour
     public Image healthBar;
     public float _health;
     public float currentHealth;
+    //Lista dei player connessi
 
 
     private void Awake()
@@ -36,6 +37,7 @@ public class Health : MonoBehaviour
         // healthBar.fillAmount = calculateHealt();
         if(currentHealth <= 0 && PhotonNetwork.isMasterClient)
         {
+            //if player.state==CLASSES.GHOST
             PhotonNetwork.InstantiateSceneObject(GameManager.Instance.luth.name, this.gameObject.transform.position, Quaternion.identity, 0, null);
             GameManager.Instance.enemyKilled();
             PhotonNetwork.Destroy(gameObject);

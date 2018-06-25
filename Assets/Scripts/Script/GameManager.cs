@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private const int MAX_WAVE = 13;
+    private const int MAX_WAVE = 3;
     private static GameManager instance = null;
     public List<GameObject> players = new List<GameObject>();
+    //public GameObject[] players = null;
     public Material[] materials;
     public GameObject SE;
     private SpawnEnemies _SE;
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour
     public GameObject luth;
     public bool pause;
     public bool noSpawn;
+    public bool pronto;
 
     public static GameManager Instance
     {
@@ -41,21 +43,26 @@ public class GameManager : MonoBehaviour
     // Use this for initialization
     private void Start ()
     {
+        
         pause = false;
         noSpawn = true;
+        pronto = false;
         _SE = SE.GetComponent<SpawnEnemies>();
         _SM = SM.GetComponent<SpawnMerchant>();
         currentWave = 1;
-        numberOfEnemiesToSpawn = 10; // mettere qui la funzione matematica in futuro
+        numberOfEnemiesToSpawn = currentWave * 10 + 10;
         numberOfEnemiesAlives = numberOfEnemiesToSpawn;
-        StartCoroutine("CallSpawn");
+        //StartCoroutine("Aspetta5Sec");
+        //_SE.Invoke("Spawn", 5.0f);
+        LocSpawn();
+        //StartCoroutine("SpawnFirstWave");
     }
     #endregion
 
     public void enemyKilled() {
         
         numberOfEnemiesAlives--;
-        // Debug.Log("WAVE: " + numberOfEnemiesAlives + "/" + numberOfEnemiesToSpawn);
+        //Debug.Log("WAVE: " + numberOfEnemiesAlives + "/" + numberOfEnemiesToSpawn);
         if (numberOfEnemiesAlives == 0)
         {
             currentWave++;
@@ -66,28 +73,34 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public IEnumerator CallSpawn()
-    {
-        _SE.Spawn(numberOfEnemiesToSpawn);
-        yield return new WaitForSeconds(5f);
-    }
-
     public IEnumerator PauseTime()
     {
         _SM.Spawn();
-        Debug.Log("Pause time");
-        yield return new WaitForSeconds(35.0f);
-        Debug.Log("Fine Pausa");
+        Debug.Log("Hai 35 secondi per prepararti alla prossima wave");
+        yield return new WaitForSeconds(30.0f);
+        Debug.Log("La Pausa è finita");
         _SM.Despawn();
-        pause = false;
-        //SpawnWave(currentWave);
-
-    }
-
-    public void SpawnWave(int numwave) {
-
-        numberOfEnemiesToSpawn = numwave * 10 + 10;
+        numberOfEnemiesToSpawn = currentWave * 10 + 10;
         numberOfEnemiesAlives = numberOfEnemiesToSpawn;
-        _SE.Spawn(numberOfEnemiesToSpawn);
+        LocSpawn();
+        pause = false;
+
     }
+
+    public IEnumerator SpawnFirstWave()
+    {
+        _SE.Spawn();
+        yield return new WaitForSeconds(5.0f);
+    
+    }
+
+
+
+
+
+    public void LocSpawn() {
+        //_SE.Invoke("Spawn", 5.0f);
+        _SE.Spawn();
+    }
+
 }

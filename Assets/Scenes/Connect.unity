@@ -310,7 +310,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d75f99911b989f46b5ea55f128633cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  basePath: udio/GeneratedSoundBanks/Windows/Main.bnkk
+  basePath: Audio/GeneratedSoundBanks/
   language: English(US)
   defaultPoolSize: 4096
   lowerPoolSize: 2048

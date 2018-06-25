@@ -31,7 +31,7 @@ public class RemoteProcedureCall : MonoBehaviour
         if (pc.state == PlayerController.CLASSES.assassin || pc.state == PlayerController.CLASSES.support || pc.state == PlayerController.CLASSES.tank)
         {
             pc._lùth -= i;
-            pc.imgluth.fillAmount = pc._lùth / 100;
+            //pc.imgluth.fillAmount = pc._lùth / 100;
 
             if (pc._lùth <= 0)
             {
@@ -51,7 +51,7 @@ public class RemoteProcedureCall : MonoBehaviour
         }
     }
 
-    [PunRPC]
+    /*[PunRPC]
     public void StartParticleSystem(int classes, int spell)
     {
         switch(classes)
@@ -74,6 +74,27 @@ public class RemoteProcedureCall : MonoBehaviour
                 gameObject.GetComponentInChildren<Support>().Invoke(name, 0f);
                 break;
         }
-    }
+    }*/
     #endregion
+
+    [PunRPC]
+    public void InstanceQRAS(string prefab, Vector3 pos, Quaternion rot) {
+
+        //Debug.Log("Instanzio Q");
+        GameObject go = Instantiate(Resources.Load(prefab), pos, rot) as GameObject;
+    }
+
+    [PunRPC]
+    public void InstanceWAS(string prefab, Vector3 pos, Quaternion rot)
+    {
+        //Debug.Log("Instanzio Q");
+        GameObject go = Instantiate(Resources.Load(prefab), pos, rot) as GameObject;
+        go.transform.parent = gameObject.GetComponentInChildren<Assassin>()._cono.transform;
+    }
+
+
+
+
+
+
 }

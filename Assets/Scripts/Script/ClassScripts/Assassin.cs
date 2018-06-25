@@ -23,19 +23,23 @@ public class Assassin : MonoBehaviour
     public GameObject _cono;
     public GameObject _laserone;
 
+    public GameObject prefabQ;
+    public GameObject prefabW;
+    public GameObject prefabR;
+
     private PlayerController _pc;
     
-    public ParticleSystem _psQ;
-    public ParticleSystem _psW;
+    //public ParticleSystem _psQ;
+    //public ParticleSystem _psW;
 
 
     private MeshRenderer _sferaMesh;
     private MeshRenderer _conoMesh;
     private MeshRenderer _laseroneMesh;
 
-    private MeshCollider _conoColl;
+    //private MeshCollider _conoColl;
     private CapsuleCollider _laseroneColl;
-    private SphereCollider _sferaColl;
+    //private SphereCollider _sferaColl;
 
     private Material _materialSfera;
     private Vector3 bas;
@@ -72,12 +76,12 @@ public class Assassin : MonoBehaviour
         _conoMesh = _cono.GetComponent<MeshRenderer>();
         _laseroneMesh = _laserone.GetComponent<MeshRenderer>();
 
-        _conoColl = _cono.GetComponent<MeshCollider>();
+        //_conoColl = _cono.GetComponent<MeshCollider>();
         _laseroneColl = _laserone.GetComponent<CapsuleCollider>();
-        _sferaColl = _sfera.GetComponent<SphereCollider>();
+        //_sferaColl = _sfera.GetComponent<SphereCollider>();
 
-        _psQ = _sfera.GetComponentInChildren<ParticleSystem>();
-        _psW = _cono.GetComponentInChildren<ParticleSystem>();
+        //_psQ = _sfera.GetComponentInChildren<ParticleSystem>();
+        //_psW = _cono.GetComponentInChildren<ParticleSystem>();
 
         _sferaMesh.enabled = false;
         _conoMesh.enabled = false;
@@ -93,10 +97,9 @@ public class Assassin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if (!myPhotonView.isMine)
-        // {
-           //  return;
-        // }
+        if (!myPhotonView.isMine){
+            return;
+        }
         groundPlane = new Plane(Vector3.up, transform.position);
         cameraRay = cam.ScreenPointToRay(Input.mousePosition);
         if (groundPlane.Raycast(cameraRay, out rayLength))
@@ -115,10 +118,36 @@ public class Assassin : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Q))
         {
             _sferaMesh.enabled = false;
+
             if (usableQ && enoughluth)
             {
-                Debug.Log("sto chiamando l'RPC");
-                gameObject.GetComponentInParent<PhotonView>().RPC("StartParticleSystem", PhotonTargets.AllViaServer, 0, 0);
+
+
+                /*_psQ.Clear();
+                _psQ.Simulate(0.0f, true, true);
+                _psQ.Play();
+                gameObject.GetComponentInParent<PhotonView>().RPC("DecreaseLùth", PhotonTargets.AllViaServer, Qcost);
+
+                usableQ = false;*/
+                //_sferaColl.enabled = true;
+
+                //coroutineQ = InstantDamage(_sferaColl);
+                //StartCoroutine(coroutineQ);
+
+                usableQ = false;
+
+                gameObject.GetComponentInParent<PhotonView>().RPC("InstanceQRAS", PhotonTargets.AllViaServer, "AssassinQ", _sfera.transform.position, _sfera.transform.rotation);
+
+                /*if (PhotonNetwork.isMasterClient)
+                {
+                    Debug.Log("Instanzio Q");
+                    GameObject go = PhotonNetwork.InstantiateSceneObject(prefabQ.name, _sfera.transform.position, _sfera.transform.rotation, 0, null);
+                }*/
+                coroutineCDQ = CooldownQ(1.0f);
+                StartCoroutine(coroutineCDQ);
+
+                //Debug.Log("sto chiamando l'RPC");
+                //gameObject.GetComponentInParent<PhotonView>().RPC("StartParticleSystem", PhotonTargets.AllViaServer, 0, 0);
             }
         }
 
@@ -129,15 +158,15 @@ public class Assassin : MonoBehaviour
             _conoMesh.enabled = true;
         }
 
-            if (Input.GetKeyUp(KeyCode.W))
-            {
-                _psW.Play();
-                //quando il mouse viene alzato disabilita la mesh renderer e abilita il collider
-                _conoMesh.enabled = false;
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            //_psW.Play();
+            //quando il tasto viene alzato disabilita la mesh renderer e abilita il collider
+            _conoMesh.enabled = false;
 
             if (usableW && enoughluth)
             {
-                usableW = false;
+                /*usableW = false;
                 _conoColl.enabled = true;
                 gameObject.GetComponentInParent<PhotonView>().RPC("DecreaseLùth", PhotonTargets.AllViaServer, Wcost);
 
@@ -145,6 +174,22 @@ public class Assassin : MonoBehaviour
                 coroutineW = FieldDamageDuration();
                 StartCoroutine(coroutineW);
                 coroutineCDW = CooldownW(1.0f);
+                StartCoroutine(coroutineCDW);*/
+
+                usableW = false;
+
+                gameObject.GetComponentInParent<PhotonView>().RPC("DecreaseLùth", PhotonTargets.AllViaServer, Wcost);
+
+                /*if (PhotonNetwork.isMasterClient)
+                {
+                    Debug.Log("Istanzio W");
+                    GameObject go = PhotonNetwork.InstantiateSceneObject(prefabW.name, _cono.transform.position, _cono.transform.rotation, 0, null);
+                    go.transform.parent = _cono.transform;
+                }*/
+
+                gameObject.GetComponentInParent<PhotonView>().RPC("InstanceWAS", PhotonTargets.AllViaServer, "AssassinW", _cono.transform.position, _cono.transform.rotation);
+
+                coroutineCDW = CooldownQ(1.0f);
                 StartCoroutine(coroutineCDW);
             }
         }
@@ -158,18 +203,29 @@ public class Assassin : MonoBehaviour
         {
             _laseroneMesh.enabled = false;
 
-            if (usableR)
-            {
+            //if (usableR)
+            //{
                 //GetComponentInParent<PlayerController>().DecreaseLùth(maxluth);
-                gameObject.GetComponentInParent<PhotonView>().RPC("DecreaseLùth", PhotonTargets.AllViaServer, maxluth);
+                /*gameObject.GetComponentInParent<PhotonView>().RPC("DecreaseLùth", PhotonTargets.AllViaServer, maxluth);
                 _laseroneColl.enabled = true;
                 coroutineR = InstantDamage(_laseroneColl);
-                StartCoroutine(coroutineR);
-            }
+                StartCoroutine(coroutineR);*/
+
+                gameObject.GetComponentInParent<PhotonView>().RPC("DecreaseLùth", PhotonTargets.AllViaServer, maxluth);
+
+                /*if (PhotonNetwork.isMasterClient)
+                {
+                    GameObject go = PhotonNetwork.InstantiateSceneObject(prefabR.name, _laserone.transform.position, _laserone.transform.rotation, 0, null);
+                }*/
+
+                gameObject.GetComponentInParent<PhotonView>().RPC("InstanceQRAS", PhotonTargets.AllViaServer, "AssassinR", _laserone.transform.position, _laserone.transform.rotation);
+
+
+            //}
         }
     }
 
-    public void QAbility()
+    /*public void QAbility()
     {
         Debug.Log("sono dentro QAbility");
         _psQ.Clear();
@@ -185,7 +241,7 @@ public class Assassin : MonoBehaviour
 
         coroutineCDQ = CooldownQ(1.0f);
         StartCoroutine(coroutineCDQ);
-    }
+    }*/
 
     private IEnumerator CooldownQ(float dur) {
         yield return new WaitForSeconds(dur);
@@ -198,11 +254,11 @@ public class Assassin : MonoBehaviour
         usableW = true;
     }
 
-    public IEnumerator FieldDamageDuration(){
+    /*public IEnumerator FieldDamageDuration(){
         yield return new WaitForSeconds(5.0f);
         _conoColl.enabled = false;
         _psW.Stop();
-    }
+    }*/
     
     public IEnumerator InstantDamage(Collider cast)
     {
